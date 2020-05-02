@@ -190,7 +190,6 @@ public class VerificationActivity extends AppCompatActivity {
                 editor.putString("gender", StringHelper.getFieldFromJson(jsonResponse,"gender"));
                 editor.putString("department", StringHelper.getFieldFromJson(jsonResponse,"department"));
                 editor.apply();
-
                 return getString(R.string.VerificationActivity_FetchTokenSuccess);
             } catch (IOException e) {
                 return getString(R.string.Api_Error);
