@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Space contains text -->
+    <item android:state_focused="true" android:state_checked="true">
+        <shape android:shape="rectangle" >
+            <corners android:radius="24dp"/>
+            <solid android:color="#f6f6f7"/>
+            <size android:width="48dp"/>
+        </shape>
+    </item>
+    <!--Space is the next space for character input -->
+    <item android:state_focused="true" android:state_selected="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="24dp"/>
+            <solid android:color="#f6f6f7"/>
+            <size android:width="48dp"/>
+        </shape>
+    </item>
+    <!-- PinEntryEditText is focused -->
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="24dp"/>
+            <solid android:color="#f6f6f7"/>
+            <size android:width="48dp"/>
+        </shape>
+    </item>
+    <!-- PinEntryEditText is not focused -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="24dp"/>
+            <solid android:color="#f6f6f7"/>
+            <size android:width="48dp"/>
+        </shape>
+    </item>
+</selector>

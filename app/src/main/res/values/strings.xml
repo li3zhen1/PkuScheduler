@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">PKU Scheduler</string>
+    <string name="LoginActivity_TitleName">登录到\n北京大学教学网</string>
+    <string name="LoginActivity_Hint_Id">学号 Student ID</string>
+    <string name="LoginActivity_Hint_Password">密码 Password</string>
+    <string name="LoginActivity_SignIn">Sign in</string>
+    <string name="LoginActivity_PrivatePolicy"><u>隐私政策</u></string>
+    <string name="LoginActivity_ForgotPassword"><u>忘记密码</u></string>
+    <string name="VerificationActivity_SendVerificationCode">发送验证码至手机</string>
+    <string name="VerificationActivity_Continue">跳过</string>
+    <string name="VerificationActivity_InputHint">_</string>
+    <string name="VerificationActivity_AskPinSuccess">验证码已成功发送至你的手机</string>
+    <string name="VerificationActivity_FetchTokenSuccess">获取 PKU Helper Token 成功</string>
+    <string name="Network_Error">网络错误</string>
+    <string name="Api_Error">接口异常</string>
+    <string name="DrawerText_PrivacyPolicy">隐私政策</string>
+</resources>
+
