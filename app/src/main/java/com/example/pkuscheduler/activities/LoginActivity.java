@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.utilities.LoginClient;
 
@@ -29,6 +29,9 @@ public class LoginActivity extends AppCompatActivity {
     private TextView LoginStudentIdView;
     private EditText LoginPasswordView;
     private ImageButton LoginSubmitButton;
+    private LottieAnimationView LottieButton;
+
+    private LottieAnimationView LottieButtonLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         LoginStudentIdView = findViewById(R.id.Login_input_id);
         LoginPasswordView = findViewById(R.id.Login_input_password);
         LoginSubmitButton = findViewById(R.id.login_button);
+        LottieButton = findViewById(R.id.login_button_lottie);
+        LottieButtonLoading = findViewById(R.id.login_button_loading);
     }
 
     public void setUpActionBar(){
@@ -171,6 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                     break;
                 default:
                     Toast.makeText(getApplicationContext(),"Something went wrong...",Toast.LENGTH_LONG).show();
+                    ResetLottieButton();
             }
         }
 
@@ -185,10 +191,21 @@ public class LoginActivity extends AppCompatActivity {
                 LoginStudentIdView.getText().toString(),
                 LoginPasswordView.getText().toString()
         );
+        StartLottieButton();
         userLoginTask.execute((Void) null);
 
     }
 
+    public void ResetLottieButton(){
+        LottieButton.pauseAnimation();
+        LottieButton.setFrame(0);
+        LottieButtonLoading.pauseAnimation();
+        LottieButtonLoading.setFrame(0);
+    }
+    public void StartLottieButton(){
+        LottieButton.playAnimation();
+        LottieButtonLoading.playAnimation();
+    }
     public void ShowPrivacyPolicyDrawer(View view){
         Drawer drawer = Drawer.newInstance(R.layout.drawer_privacy_policy);
         drawer.show(getSupportFragmentManager(),null);
@@ -197,6 +214,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void TransitionToVerificationActivity(){
         Intent intent = new Intent(this, VerificationActivity.class);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

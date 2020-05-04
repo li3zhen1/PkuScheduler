@@ -205,4 +205,9 @@ public class VerificationActivity extends AppCompatActivity {
 
         }
     }
+
+    //拦截返回到 LoginActivity 的动作
+    @Override
+    public void onBackPressed() {
+    }
 }
