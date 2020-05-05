@@ -14,5 +14,10 @@
     <string name="Network_Error">网络错误</string>
     <string name="Api_Error">接口异常</string>
     <string name="DrawerText_PrivacyPolicy">隐私政策</string>
+    <string name="calendar">Date</string>
+    <string name="todo">To-do</string>
+    <string name="info">About</string>
+    <string name="add_goal">Add your goal...</string>
+    <string name="create_a_new_task">Create a new task</string>
 </resources>
 
