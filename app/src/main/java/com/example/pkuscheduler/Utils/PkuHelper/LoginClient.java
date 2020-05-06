@@ -1,29 +1,14 @@
-package com.example.pkuscheduler.utilities;
+package com.example.pkuscheduler.Utils.PkuHelper;
 
-import android.util.Log;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.Date;
 
-import static com.example.pkuscheduler.utilities.StringHelper.betweenStrings;
-import static com.example.pkuscheduler.utilities.StringHelper.convertStreamToString;
+import static com.example.pkuscheduler.Utils.StringHelper.convertStreamToString;
 
-public class PkuHelperClient {
-    private static String getUrl(String studentId){
-        int apiVer = (int) (2*Math.floor(new Date().getTime()/72e5));
-        return "https://pkuhelper.pku.edu.cn/api_xmcp/login/send_code?user="+studentId+"&code_type=sms&PKUHelperAPI=3.0&jsapiver=200326204124-"+apiVer;
-    }
-    private static String getTokenUrl(String studentId, String validCode){
-        int apiVer = (int) (2*Math.floor(new Date().getTime()/72e5));
-        return "https://pkuhelper.pku.edu.cn/api_xmcp/login/login?user="+studentId+"&valid_code="+validCode+"&PKUHelperAPI=3.0&jsapiver=200326204124-"+apiVer;
-    }
+public class LoginClient {
     private static Boolean isResponseSuccess(String _response){
         return _response.contains("\"success\":true");
     }
@@ -32,7 +17,7 @@ public class PkuHelperClient {
     }
     public static Boolean AskForPin(String studentId) throws IOException {
         HttpURLConnection conn = null;
-        URL url = new URL(getUrl(studentId));
+        URL url = new URL(ApiRepository.getUrl(studentId));
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
         conn.setRequestMethod("POST");
@@ -59,8 +44,8 @@ public class PkuHelperClient {
 
     public static String FetchToken(String studentId,String validCode) throws IOException {
         HttpURLConnection conn = null;
-        System.out.println(getTokenUrl(studentId,validCode));
-        URL url = new URL(getTokenUrl(studentId,validCode));
+        System.out.println(ApiRepository.getTokenUrl(studentId,validCode));
+        URL url = new URL(ApiRepository.getTokenUrl(studentId,validCode));
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
         conn.setRequestMethod("POST");

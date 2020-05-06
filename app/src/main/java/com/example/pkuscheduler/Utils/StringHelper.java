@@ -1,6 +1,7 @@
-package com.example.pkuscheduler.utilities;
+package com.example.pkuscheduler.Utils;
 
-import android.util.Log;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringHelper {
     public static String betweenStrings(String str, String leftStr, String rightStr) {
@@ -20,4 +21,15 @@ public class StringHelper {
         return betweenStrings(str,"\""+field+"\":\"","\",\"");
     }
 
+
+    public static String getUnicodeEscaped(String unescaped){
+        Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
+        Matcher matcher = pattern.matcher(unescaped);
+        char ch;
+        while (matcher.find()) {
+            ch = (char) Integer.parseInt(matcher.group(2), 16);
+            unescaped = unescaped.replace(matcher.group(1), ch+"" );
+        }
+        return unescaped;
+    }
 }

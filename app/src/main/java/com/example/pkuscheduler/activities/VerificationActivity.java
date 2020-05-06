@@ -1,6 +1,5 @@
 package com.example.pkuscheduler.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -12,27 +11,21 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 
-import android.transition.Fade;
-import android.transition.Slide;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.pkuscheduler.R;
-import com.example.pkuscheduler.utilities.CustomTypefaceSpan;
-import com.example.pkuscheduler.utilities.PkuHelperClient;
-import com.example.pkuscheduler.utilities.StringHelper;
+import com.example.pkuscheduler.Utils.CustomTypefaceSpan;
+import com.example.pkuscheduler.Utils.PkuHelper.LoginClient;
+import com.example.pkuscheduler.Utils.StringHelper;
 import com.microsoft.officeuifabric.drawer.Drawer;
 
 import java.io.IOException;
@@ -44,6 +37,8 @@ public class VerificationActivity extends AppCompatActivity {
     private EditText CodeCoreText;
     private String studentId;
     private TextView VerificationActivityTitle;
+    private String inputVerificationCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +76,8 @@ public class VerificationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String newStr = String.format("%-6s",editable.toString()).replace(" ","_");
+                inputVerificationCode = editable.toString();
+                String newStr = String.format("%-6s",inputVerificationCode).replace(" ","_");
                 CodeInput0.setText(String.valueOf(newStr.charAt(0)));
                 CodeInput1.setText(String.valueOf(newStr.charAt(1)));
                 CodeInput2.setText(String.valueOf(newStr.charAt(2)));
@@ -138,7 +134,7 @@ public class VerificationActivity extends AppCompatActivity {
             if(!isNetworkAvailable())
                 return getString(R.string.Network_Error);
             try{
-                if(!PkuHelperClient.AskForPin(studentId))
+                if(!LoginClient.AskForPin(studentId))
                     return getString(R.string.Network_Error);
                 return getString(R.string.VerificationActivity_AskPinSuccess);
             } catch (IOException e) {
@@ -178,11 +174,12 @@ public class VerificationActivity extends AppCompatActivity {
             if(!isNetworkAvailable())
                 return getString(R.string.Network_Error);
             try{
-                String jsonResponse = PkuHelperClient.FetchToken(
+                if(inputVerificationCode==null||inputVerificationCode.length()!=6)
+                    return getString(R.string.VerificationActivity_VerificationCodeMissing);
+                String jsonResponse = LoginClient.FetchToken(
                         studentId,
-                        CodeCoreText.getText().toString()
+                        inputVerificationCode
                 );
-                Log.d("task",jsonResponse);
                 SharedPreferences sharedPreferences_pkuHelperLoginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences_pkuHelperLoginInfo.edit();
                 editor.putString("pkuHelperToken", StringHelper.getFieldFromJson(jsonResponse,"user_token"));

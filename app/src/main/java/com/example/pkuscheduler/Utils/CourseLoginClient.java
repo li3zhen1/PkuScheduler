@@ -1,30 +1,27 @@
-package com.example.pkuscheduler.utilities;
-
-import android.widget.Toast;
+package com.example.pkuscheduler.Utils;
 
 import com.example.pkuscheduler.data.LoginInfoRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.pkuscheduler.utilities.StringHelper.betweenStrings;
-import static com.example.pkuscheduler.utilities.StringHelper.convertStreamToString;
+import static com.example.pkuscheduler.Utils.StringHelper.betweenStrings;
+import static com.example.pkuscheduler.Utils.StringHelper.convertStreamToString;
 
-public class LoginClient {
+public class CourseLoginClient {
     private LoginInfoRepository loginInfoRepository;
 
     private static String iaaaTokenBaseUrl = "https://iaaa.pku.edu.cn/iaaa/oauthlogin.do";
     private static String cookieBaseUrl = "https://course.pku.edu.cn/webapps/bb-sso-bb_bb60/execute/authValidate/campusLogin?_rand=0.5&token=";
     private static String jSessionIdBaseUrl = "https://course.pku.edu.cn/webapps/portal/frameset.jsp";
 
-    public LoginClient(String loginInfoStudentId, String loginInfoPassword){
+    public CourseLoginClient(String loginInfoStudentId, String loginInfoPassword){
         loginInfoRepository=new LoginInfoRepository(loginInfoStudentId,loginInfoPassword);
     }
 

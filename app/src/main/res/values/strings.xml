@@ -11,9 +11,13 @@
     <string name="VerificationActivity_InputHint">_</string>
     <string name="VerificationActivity_AskPinSuccess">验证码已成功发送至你的手机</string>
     <string name="VerificationActivity_FetchTokenSuccess">获取 PKU Helper Token 成功</string>
+    <string name="VerificationActivity_VerificationCodeMissing">验证码填写不正确</string>
     <string name="Network_Error">网络错误</string>
     <string name="Api_Error">接口异常</string>
     <string name="DrawerText_PrivacyPolicy">隐私政策</string>
+
+
+
     <string name="calendar">Date</string>
     <string name="todo">To-do</string>
     <string name="info">About</string>
