@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.pkuscheduler.R;
-import com.example.pkuscheduler.Utils.CourseLoginClient;
+import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -61,10 +61,10 @@ public class LoginActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private class UserLoginTask extends AsyncTask<Void, Void, Integer> {
 
-        private final CourseLoginClient courseLoginClient;
+        private final PkuCourseLoginClient loginClient;
 
         UserLoginTask(String _studentId, String _password) {
-            courseLoginClient = new CourseLoginClient(_studentId,_password);
+            loginClient = new PkuCourseLoginClient(_studentId,_password);
         }
 
 
@@ -82,14 +82,14 @@ public class LoginActivity extends AppCompatActivity {
             }
             String bgWorkResult;
             try {
-                Boolean hasIaaaToken = courseLoginClient.FetchIaaaToken();
-                Boolean hasCookies = courseLoginClient.FetchCookies();
-                Boolean hasJSessionId = courseLoginClient.FetchJSessionId();
+                Boolean hasIaaaToken = loginClient.FetchIaaaToken();
+                Boolean hasCookies = loginClient.FetchCookies();
+                Boolean hasJSessionId = loginClient.FetchJSessionId();
                 SharedPreferences sharedPreferences_LoginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences_LoginInfo.edit();
 
                 if(hasIaaaToken&&hasCookies&&hasJSessionId){
-                    CourseLoginInfoModel courseLoginInfoModel = courseLoginClient.GetLoginInfo();
+                    CourseLoginInfoModel courseLoginInfoModel = loginClient.GetLoginInfo();
                     editor.putString("sSessionId", courseLoginInfoModel.sSessionId);
                     editor.putString("studentId", courseLoginInfoModel.studentId);
                     editor.putString("password", courseLoginInfoModel.password);

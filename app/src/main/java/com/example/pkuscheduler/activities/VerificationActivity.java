@@ -24,8 +24,8 @@ import android.widget.TextView;
 
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.Utils.CustomTypefaceSpan;
-import com.example.pkuscheduler.Utils.PkuHelper.LoginClient;
-import com.example.pkuscheduler.Utils.StringHelper;
+import com.example.pkuscheduler.Utils.PkuHelper.PkuHelperLoginClient;
+import com.example.pkuscheduler.Utils.StringUtils;
 import com.microsoft.officeuifabric.drawer.Drawer;
 
 import java.io.IOException;
@@ -134,7 +134,7 @@ public class VerificationActivity extends AppCompatActivity {
             if(!isNetworkAvailable())
                 return getString(R.string.Network_Error);
             try{
-                if(!LoginClient.AskForPin(studentId))
+                if(!PkuHelperLoginClient.AskForPin(studentId))
                     return getString(R.string.Network_Error);
                 return getString(R.string.VerificationActivity_AskPinSuccess);
             } catch (IOException e) {
@@ -176,16 +176,16 @@ public class VerificationActivity extends AppCompatActivity {
             try{
                 if(inputVerificationCode==null||inputVerificationCode.length()!=6)
                     return getString(R.string.VerificationActivity_VerificationCodeMissing);
-                String jsonResponse = LoginClient.FetchToken(
+                String jsonResponse = PkuHelperLoginClient.FetchToken(
                         studentId,
                         inputVerificationCode
                 );
                 SharedPreferences sharedPreferences_pkuHelperLoginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences_pkuHelperLoginInfo.edit();
-                editor.putString("pkuHelperToken", StringHelper.getFieldFromJson(jsonResponse,"user_token"));
-                editor.putString("userName", StringHelper.getFieldFromJson(jsonResponse,"name"));
-                editor.putString("gender", StringHelper.getFieldFromJson(jsonResponse,"gender"));
-                editor.putString("department", StringHelper.getFieldFromJson(jsonResponse,"department"));
+                editor.putString("pkuHelperToken", StringUtils.getFieldFromJson(jsonResponse,"user_token"));
+                editor.putString("userName", StringUtils.getFieldFromJson(jsonResponse,"name"));
+                editor.putString("gender", StringUtils.getFieldFromJson(jsonResponse,"gender"));
+                editor.putString("department", StringUtils.getFieldFromJson(jsonResponse,"department"));
                 editor.apply();
                 return getString(R.string.VerificationActivity_FetchTokenSuccess);
             } catch (IOException e) {

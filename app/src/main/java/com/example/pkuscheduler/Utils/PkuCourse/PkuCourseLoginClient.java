@@ -1,6 +1,7 @@
-package com.example.pkuscheduler.Utils;
+package com.example.pkuscheduler.Utils.PkuCourse;
 
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
+import com.example.pkuscheduler.Utils.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,17 +12,17 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.pkuscheduler.Utils.StringHelper.betweenStrings;
-import static com.example.pkuscheduler.Utils.StringHelper.convertStreamToString;
+import static com.example.pkuscheduler.Utils.StringUtils.betweenStrings;
+import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 
-public class CourseLoginClient {
+public class PkuCourseLoginClient {
     private CourseLoginInfoModel courseLoginInfoModel;
 
     private static String iaaaTokenBaseUrl = "https://iaaa.pku.edu.cn/iaaa/oauthlogin.do";
     private static String cookieBaseUrl = "https://course.pku.edu.cn/webapps/bb-sso-bb_bb60/execute/authValidate/campusLogin?_rand=0.5&token=";
     private static String jSessionIdBaseUrl = "https://course.pku.edu.cn/webapps/portal/frameset.jsp";
 
-    public CourseLoginClient(String loginInfoStudentId, String loginInfoPassword){
+    public PkuCourseLoginClient(String loginInfoStudentId, String loginInfoPassword){
         courseLoginInfoModel =new CourseLoginInfoModel(loginInfoStudentId,loginInfoPassword);
     }
 
@@ -44,7 +45,7 @@ public class CourseLoginClient {
         String tokenResult = convertStreamToString(in);
         conn.disconnect();
         if (tokenResult.contains("\"success\":true")) {
-            courseLoginInfoModel.iaaaToken = StringHelper.betweenStrings(tokenResult, "\"token\":\"", "\"}");
+            courseLoginInfoModel.iaaaToken = StringUtils.betweenStrings(tokenResult, "\"token\":\"", "\"}");
             return true;
         }
         else
@@ -88,7 +89,6 @@ public class CourseLoginClient {
         List<String> jSession_cookiesHeader = jSession_headerFields.get("Set-Cookie");
         courseLoginInfoModel.jSessionId = betweenStrings(jSession_cookiesHeader.toString(), "JSESSIONID=", "; Path=/");
         conn.disconnect();
-        System.out.println(jSession_cookiesHeader);
         if(courseLoginInfoModel.jSessionId==null|| courseLoginInfoModel.jSessionId.length()<=1)
             return false;
         return true;

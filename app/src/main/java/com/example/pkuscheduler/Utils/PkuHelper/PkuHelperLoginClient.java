@@ -6,9 +6,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static com.example.pkuscheduler.Utils.StringHelper.convertStreamToString;
+import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 
-public class LoginClient {
+public class PkuHelperLoginClient {
     private static Boolean isResponseSuccess(String _response){
         return _response.contains("\"success\":true");
     }
