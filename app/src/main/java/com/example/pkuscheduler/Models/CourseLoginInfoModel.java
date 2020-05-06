@@ -1,6 +1,6 @@
-package com.example.pkuscheduler.data;
+package com.example.pkuscheduler.Models;
 
-public class LoginInfoRepository {
+public class CourseLoginInfoModel {
     public String studentId;
     public String password;
 
@@ -10,7 +10,7 @@ public class LoginInfoRepository {
     public String iaaaToken;
     public String sessionId;
 
-    public LoginInfoRepository(String _studentId,String _password){
+    public CourseLoginInfoModel(String _studentId, String _password){
         studentId=_studentId;
         password=_password;
         jSessionId=null;

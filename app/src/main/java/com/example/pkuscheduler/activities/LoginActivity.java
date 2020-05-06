@@ -2,7 +2,7 @@ package com.example.pkuscheduler.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pkuscheduler.data.LoginInfoRepository;
+import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.microsoft.officeuifabric.drawer.Drawer;
 
 import android.annotation.SuppressLint;
@@ -89,13 +89,13 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences_LoginInfo.edit();
 
                 if(hasIaaaToken&&hasCookies&&hasJSessionId){
-                    LoginInfoRepository loginInfoRepository = courseLoginClient.GetLoginInfo();
-                    editor.putString("sSessionId", loginInfoRepository.sSessionId);
-                    editor.putString("studentId", loginInfoRepository.studentId);
-                    editor.putString("password", loginInfoRepository.password);
-                    editor.putString("jSessionId", loginInfoRepository.jSessionId);
-                    editor.putString("guid",loginInfoRepository.password);
-                    editor.putString("sessionId",loginInfoRepository.sessionId);
+                    CourseLoginInfoModel courseLoginInfoModel = courseLoginClient.GetLoginInfo();
+                    editor.putString("sSessionId", courseLoginInfoModel.sSessionId);
+                    editor.putString("studentId", courseLoginInfoModel.studentId);
+                    editor.putString("password", courseLoginInfoModel.password);
+                    editor.putString("jSessionId", courseLoginInfoModel.jSessionId);
+                    editor.putString("guid", courseLoginInfoModel.password);
+                    editor.putString("sessionId", courseLoginInfoModel.sessionId);
                     editor.putBoolean("isLogged",true);
                     editor.apply();
                     return 0;

@@ -1,6 +1,6 @@
 package com.example.pkuscheduler.Utils;
 
-import com.example.pkuscheduler.data.LoginInfoRepository;
+import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,20 +15,20 @@ import static com.example.pkuscheduler.Utils.StringHelper.betweenStrings;
 import static com.example.pkuscheduler.Utils.StringHelper.convertStreamToString;
 
 public class CourseLoginClient {
-    private LoginInfoRepository loginInfoRepository;
+    private CourseLoginInfoModel courseLoginInfoModel;
 
     private static String iaaaTokenBaseUrl = "https://iaaa.pku.edu.cn/iaaa/oauthlogin.do";
     private static String cookieBaseUrl = "https://course.pku.edu.cn/webapps/bb-sso-bb_bb60/execute/authValidate/campusLogin?_rand=0.5&token=";
     private static String jSessionIdBaseUrl = "https://course.pku.edu.cn/webapps/portal/frameset.jsp";
 
     public CourseLoginClient(String loginInfoStudentId, String loginInfoPassword){
-        loginInfoRepository=new LoginInfoRepository(loginInfoStudentId,loginInfoPassword);
+        courseLoginInfoModel =new CourseLoginInfoModel(loginInfoStudentId,loginInfoPassword);
     }
 
     public Boolean FetchIaaaToken() throws IOException {
         String urlParameters = "appid=blackboard&userName=" +
-                URLEncoder.encode(loginInfoRepository.studentId, "UTF-8") +
-                "&password=" + URLEncoder.encode(loginInfoRepository.password, "UTF-8")
+                URLEncoder.encode(courseLoginInfoModel.studentId, "UTF-8") +
+                "&password=" + URLEncoder.encode(courseLoginInfoModel.password, "UTF-8")
                 + "&randCode=&smsCode=&otpCode=&redirUrl=https%3A%2F%2Fcourse.pku.edu.cn%2Fwebapps%2Fbb-sso-bb_bb60%2Fexecute%2FauthValidate%2FcampusLogin";
 
         HttpURLConnection conn = null;
@@ -44,7 +44,7 @@ public class CourseLoginClient {
         String tokenResult = convertStreamToString(in);
         conn.disconnect();
         if (tokenResult.contains("\"success\":true")) {
-            loginInfoRepository.iaaaToken = StringHelper.betweenStrings(tokenResult, "\"token\":\"", "\"}");
+            courseLoginInfoModel.iaaaToken = StringHelper.betweenStrings(tokenResult, "\"token\":\"", "\"}");
             return true;
         }
         else
@@ -52,10 +52,10 @@ public class CourseLoginClient {
     }
 
     public Boolean FetchCookies() throws IOException {
-        if(loginInfoRepository.iaaaToken==null)
+        if(courseLoginInfoModel.iaaaToken==null)
             return null;
         HttpURLConnection conn = null;
-        URL url = new URL(cookieBaseUrl+loginInfoRepository.iaaaToken);
+        URL url = new URL(cookieBaseUrl+ courseLoginInfoModel.iaaaToken);
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
         Map<String, List<String>> headerFields = conn.getHeaderFields();
@@ -64,14 +64,14 @@ public class CourseLoginClient {
         if (cookiesHeader != null)
             for (String cookie : cookiesHeader){
                 if (cookie.contains("session_id=")){
-                    loginInfoRepository.sessionId = betweenStrings(cookie, "session_id=", "; Path=/;");}
+                    courseLoginInfoModel.sessionId = betweenStrings(cookie, "session_id=", "; Path=/;");}
                 if (cookie.contains("s_session_id=")){
-                    loginInfoRepository.sSessionId = betweenStrings(cookie, "s_session_id=", "; Path=/;");}
+                    courseLoginInfoModel.sSessionId = betweenStrings(cookie, "s_session_id=", "; Path=/;");}
                 if (cookie.contains("web_client_cache_guid=")){
-                    loginInfoRepository.guid = betweenStrings(cookie, "web_client_cache_guid=", "; Path=/;");
+                    courseLoginInfoModel.guid = betweenStrings(cookie, "web_client_cache_guid=", "; Path=/;");
                 }}
-        if (loginInfoRepository.sSessionId == null||loginInfoRepository.guid==null||loginInfoRepository.sessionId==null
-                ||loginInfoRepository.sSessionId.length()==0||loginInfoRepository.guid.length()==0||loginInfoRepository.sessionId.length()==0)
+        if (courseLoginInfoModel.sSessionId == null|| courseLoginInfoModel.guid==null|| courseLoginInfoModel.sessionId==null
+                || courseLoginInfoModel.sSessionId.length()==0|| courseLoginInfoModel.guid.length()==0|| courseLoginInfoModel.sessionId.length()==0)
             return false;
         return true;
     }
@@ -81,20 +81,20 @@ public class CourseLoginClient {
         URL url = new URL(jSessionIdBaseUrl);
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
-        conn.setRequestProperty("Cookie", "session_id=" + loginInfoRepository.sessionId);
-        conn.setRequestProperty("Cookie", "s_session_id=" + loginInfoRepository.sSessionId);
-        conn.setRequestProperty("Cookie", "web_client_cache_guid=" + loginInfoRepository.guid);
+        conn.setRequestProperty("Cookie", "session_id=" + courseLoginInfoModel.sessionId);
+        conn.setRequestProperty("Cookie", "s_session_id=" + courseLoginInfoModel.sSessionId);
+        conn.setRequestProperty("Cookie", "web_client_cache_guid=" + courseLoginInfoModel.guid);
         Map<String, List<String>> jSession_headerFields = conn.getHeaderFields();
         List<String> jSession_cookiesHeader = jSession_headerFields.get("Set-Cookie");
-        loginInfoRepository.jSessionId = betweenStrings(jSession_cookiesHeader.toString(), "JSESSIONID=", "; Path=/");
+        courseLoginInfoModel.jSessionId = betweenStrings(jSession_cookiesHeader.toString(), "JSESSIONID=", "; Path=/");
         conn.disconnect();
         System.out.println(jSession_cookiesHeader);
-        if(loginInfoRepository.jSessionId==null||loginInfoRepository.jSessionId.length()<=1)
+        if(courseLoginInfoModel.jSessionId==null|| courseLoginInfoModel.jSessionId.length()<=1)
             return false;
         return true;
     }
 
-    public LoginInfoRepository GetLoginInfo(){
-        return loginInfoRepository;
+    public CourseLoginInfoModel GetLoginInfo(){
+        return courseLoginInfoModel;
     }
 }

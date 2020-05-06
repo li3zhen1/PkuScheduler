@@ -1,4 +1,4 @@
-package com.example.pkuscheduler.Utils.PkuHelper.ScheduleJsonStructure;
+package com.example.pkuscheduler.Models.ScheduleJsonModel;
 
 public class Jsap
 {
