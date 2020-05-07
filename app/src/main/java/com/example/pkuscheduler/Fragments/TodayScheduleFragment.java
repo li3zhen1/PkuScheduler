@@ -1,16 +1,15 @@
 package com.example.pkuscheduler.Fragments;
 
-import androidx.lifecycle.ViewModelProviders;
-
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.pkuscheduler.Models.ScheduleJsonModel.ScheduleRootObject;
 import com.example.pkuscheduler.R;
@@ -34,9 +33,12 @@ public class TodayScheduleFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(TodayScheduleViewModel.class);
-
+        scheduleRootObject = ScheduleRootObject.getInstanceFromWebApi(
+                getActivity()
+                        .getSharedPreferences("loginInfo", Context.MODE_PRIVATE)
+                        .getString("pkuHelperToken",null)
+        );
         mViewModel.UpdateTodayScheduleViewModel(scheduleRootObject);
-
     }
 
 }

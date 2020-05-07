@@ -20,6 +20,8 @@ public final class ScheduleRootObject {
 
     //
     public static ScheduleRootObject getInstanceFromWebApi(String helperToken){
+        if(helperToken==null)
+            throw new AssertionError();
         try{
             HttpURLConnection conn = null;
             URL url = new URL(ApiRepository.getPKUHelperScheduleUrl(helperToken));

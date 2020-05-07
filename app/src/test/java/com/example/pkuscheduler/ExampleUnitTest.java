@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
+    public void ScheduleRootObjectTest() {
         ScheduleRootObject scheduleRootObject = ScheduleRootObject.getInstanceFromWebApi("");
         assertEquals("ok",scheduleRootObject.msg);
     }

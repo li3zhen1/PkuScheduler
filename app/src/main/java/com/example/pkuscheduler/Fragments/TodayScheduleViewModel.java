@@ -10,11 +10,13 @@ import com.example.pkuscheduler.R;
 
 public class TodayScheduleViewModel extends ViewModel {
     private MutableLiveData<Integer> dayOfWeekToday;
+    private MutableLiveData<String> a;
 
     public void UpdateTodayScheduleViewModel(ScheduleRootObject scheduleRootObject){
         dayOfWeekToday.setValue(
                 Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
         );
+        a.setValue(scheduleRootObject.user_token);
     }
 
 
