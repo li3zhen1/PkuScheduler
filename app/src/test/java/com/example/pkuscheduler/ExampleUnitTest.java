@@ -1,5 +1,9 @@
 package com.example.pkuscheduler;
 
+
+import com.example.pkuscheduler.Models.ScheduleJsonModel.CourseTimeRepository;
+import com.example.pkuscheduler.Models.ScheduleJsonModel.Coursetableroom;
+import com.example.pkuscheduler.Models.ScheduleJsonModel.Jsap;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
 import com.example.pkuscheduler.Utils.PkuHelper.ApiRepository;
 
@@ -9,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 
 import com.alibaba.fastjson.*;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.ScheduleRootObject;
@@ -27,7 +32,26 @@ public class ExampleUnitTest {
     @Test
     public void ScheduleRootObjectTest() {
         ScheduleRootObject scheduleRootObject = ScheduleRootObject.getInstanceFromWebApi("");
+        System.out.println(JSON.toJSONString(scheduleRootObject.courseTableRoom));
         assertEquals("ok",scheduleRootObject.msg);
     }
+    @Test
+    public void esc(){
+        System.out.println(getUnicodeEscaped("{\"code\":1,\"msg\":\"ISOP\\u4e0a\\u6e38\\u6570\\u636e\\u9519\\u8bef (2-b)\"}"));
+    }
+
+    @Test
+    public void test(){
+        ScheduleRootObject scheduleRootObject = ScheduleRootObject.getInstanceFromWebApi("");
+        String dayOfWeek = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1);
+        for(Coursetableroom coursetableroom: scheduleRootObject.courseTableRoom){
+            for(Jsap jsap:coursetableroom.jsap){
+                if(jsap.xq.equals(dayOfWeek)){
+                    System.out.println(coursetableroom.kcmc);
+                }
+            }
+        }
+    }
+
 
 }

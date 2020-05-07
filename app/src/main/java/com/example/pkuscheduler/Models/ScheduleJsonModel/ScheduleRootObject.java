@@ -1,5 +1,7 @@
 package com.example.pkuscheduler.Models.ScheduleJsonModel;
 
+import android.util.Log;
+
 import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.Utils.PkuHelper.ApiRepository;
 
@@ -41,7 +43,6 @@ public final class ScheduleRootObject {
 
     //cache, not implemented yet
     public static ScheduleRootObject getInstanceFromStorage(){
-
         return null;
     }
 }

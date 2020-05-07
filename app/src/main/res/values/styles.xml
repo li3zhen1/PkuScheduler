@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="android:textViewStyle">@style/InterText</item>
 
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
@@ -15,5 +16,9 @@
         <item name="android:windowEnterTransition">@transition/explode</item>
         <item name="android:windowExitTransition">@transition/explode</item>
 
+    </style>
+
+    <style name="InterText">
+        <item name="fontFamily">@font/inter</item>
     </style>
 </resources>

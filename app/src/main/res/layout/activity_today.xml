@@ -32,24 +32,38 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
         <HorizontalScrollView
+
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="220dp"
             android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@id/today_course_title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="8dp"
             android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
             android:id="@+id/today_schedule_horizontal_scroll_view"
+            android:scrollbars="none"
             >
-            <LinearLayout
+            <fragment android:name="com.example.pkuscheduler.Fragments.TodayScheduleFragment"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/today_course_container"
-                android:orientation="horizontal">
-            </LinearLayout>
+                android:layout_height="match_parent" />
         </HorizontalScrollView>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:fillViewport="true"
+            android:src="@drawable/ic_mask"
+            android:scaleType="fitStart"
+            app:layout_constraintTop_toBottomOf="@id/today_course_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:focusable="false"
+            android:clickable="false"
+            android:longClickable="false"
+            >
+        </ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
