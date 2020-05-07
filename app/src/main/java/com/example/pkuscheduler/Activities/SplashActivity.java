@@ -1,4 +1,4 @@
-package com.example.pkuscheduler.activities;
+package com.example.pkuscheduler.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -1,17 +1,13 @@
-package com.example.pkuscheduler.fragments;
+package com.example.pkuscheduler.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.pkuscheduler.R;
-import com.yalantis.beamazingtoday.listeners.BatListener;
-import com.yalantis.beamazingtoday.util.TypefaceUtil;
 
 public class TodoFragment extends Fragment {
     @Override

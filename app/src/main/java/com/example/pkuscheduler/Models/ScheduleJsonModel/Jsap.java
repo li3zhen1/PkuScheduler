@@ -1,6 +1,6 @@
 package com.example.pkuscheduler.Models.ScheduleJsonModel;
 
-public class Jsap
+public final class Jsap
 {
 /*
 "jsap":[{"dsz":"单双周","qsz":"起始周","jsz":"结束周","xq":"星期几","js":"上课节数",

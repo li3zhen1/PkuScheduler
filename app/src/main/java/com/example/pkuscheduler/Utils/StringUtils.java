@@ -3,7 +3,7 @@ package com.example.pkuscheduler.Utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StringUtils {
+public final class StringUtils {
     public static String betweenStrings(String str, String leftStr, String rightStr) {
         int l = str.indexOf(leftStr) + leftStr.length();
         int r = l+str.substring(l,str.length()).indexOf(rightStr);

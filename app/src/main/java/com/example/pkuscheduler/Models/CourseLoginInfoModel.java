@@ -1,6 +1,6 @@
 package com.example.pkuscheduler.Models;
 
-public class CourseLoginInfoModel {
+public final class CourseLoginInfoModel {
     public String studentId;
     public String password;
 

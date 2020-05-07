@@ -17,6 +17,14 @@
     <string name="DrawerText_PrivacyPolicy">隐私政策</string>
 
 
+    <string name="DayOfWeek_Mon">星期一</string>
+    <string name="DayOfWeek_Tue">星期二</string>
+    <string name="DayOfWeek_Wed">星期三</string>
+    <string name="DayOfWeek_Thu">星期四</string>
+    <string name="DayOfWeek_Fri">星期五</string>
+    <string name="DayOfWeek_Sat">星期六</string>
+    <string name="DayOfWeek_Sun">星期天</string>
+
 
     <string name="calendar">Date</string>
     <string name="todo">To-do</string>

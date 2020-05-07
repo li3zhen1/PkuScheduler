@@ -1,5 +1,5 @@
 package com.example.pkuscheduler.Models.CourseDeadlineJsonModel;
 
-public class Calendarnamelocalizable {
+public final class Calendarnamelocalizable {
     public String rawValue;
 }

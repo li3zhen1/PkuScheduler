@@ -1,4 +1,4 @@
-package com.example.pkuscheduler.fragments;
+package com.example.pkuscheduler.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

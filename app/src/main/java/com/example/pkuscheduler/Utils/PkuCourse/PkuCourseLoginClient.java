@@ -15,7 +15,7 @@ import java.util.Map;
 import static com.example.pkuscheduler.Utils.StringUtils.betweenStrings;
 import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 
-public class PkuCourseLoginClient {
+public final class PkuCourseLoginClient {
     private CourseLoginInfoModel courseLoginInfoModel;
 
     private static String iaaaTokenBaseUrl = "https://iaaa.pku.edu.cn/iaaa/oauthlogin.do";

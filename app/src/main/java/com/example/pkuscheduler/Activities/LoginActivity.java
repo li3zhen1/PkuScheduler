@@ -1,4 +1,4 @@
-package com.example.pkuscheduler.activities;
+package com.example.pkuscheduler.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText LoginPasswordView;
     private ImageButton LoginSubmitButton;
     private LottieAnimationView LottieButton;
-
     private LottieAnimationView LottieButtonLoading;
 
     @Override
@@ -107,60 +106,6 @@ public class LoginActivity extends AppCompatActivity {
                     if(!hasJSessionId)return 3;
                 }
                 return 4;
-/*                if (false) {
-                    Boolean isCookiesFetched = loginClient.FetchCookies();
-                    if(isCookiesFetched){
-                        loginClient.FetchJSessionId();
-                    }else return "CookiesFetchFailed";
-
-
-                    // get Basic info
-                   */
-/* request = "https://course.pku.edu.cn/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_3_1";
-                    url = new URL(request);
-                    conn = (HttpURLConnection) url.openConnection();
-                    conn.setInstanceFollowRedirects(false);
-                    conn.setRequestProperty("Cookie", "JSESSIONID=" + course_j_session_id +"; session_id=" + session_id
-                            +"; s_session_id=" + s_session_id+"; web_client_cache_guid=" + web_client_cache_guid);
-                    //conn.setRequestMethod("GET");
-
-                    System.out.println( conn.getResponseCode());
-                    in = conn.getInputStream();
-                    str = convertStreamToString(in);
-
-                    //System.out.println("\nBasicInfo "+str);
-
-                    String infos = betweenStrings(str, "&url=\" target=\"_top\">", "</a>\n</li>");
-                    System.out.println(infos);
-                    conn.disconnect();
-
-
-
-                    request = "https://course.pku.edu.cn/webapps/calendar/calendarData/selectedCalendarEvents?start=1285411200000&end=1589040000000&course_id=&mode=personal";
-                    url = new URL(request);
-                    conn = (HttpURLConnection) url.openConnection();
-                    conn.setInstanceFollowRedirects(false);
-                    conn.setRequestProperty("Cookie", "JSESSIONID=" + course_j_session_id +"; session_id=" + session_id
-                            +"; s_session_id=" + s_session_id+"; web_client_cache_guid=" + web_client_cache_guid);
-                    //conn.setRequestMethod("GET");
-                    in = conn.getInputStream();
-                    str = convertStreamToString(in);
-
-                    System.out.println("\nCalendar "+str);*//*
-                *//*
-                // 存储进SharedPreferences
-                SharedPreferences sharedPreferences = getSharedPreferences("login_info", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("session_id", session_id);
-                editor.putString("student_id", mstudentid);
-                editor.putString("password", mPassword);
-                editor.putString("name", infos.split(" ")[1]);
-                editor.putString("school", infos.split(" ")[0]);
-                editor.apply();*//*
-                    return "hello";
-                } else {
-                    return "iaaa connect failed";
-                }*/
             } catch (Exception e) {
 //                e.printStackTrace();
                 return 4;
