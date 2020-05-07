@@ -48,7 +48,7 @@ public final class ScheduleRootObject implements IStoragable {
     }
 
     @Override
-    public void Save() {
+    public void saveInstanceToStorage() {
 
     }
 }
