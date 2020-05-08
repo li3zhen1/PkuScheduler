@@ -23,7 +23,7 @@ public class ToDoItem implements Serializable {
 
 
     private Date ScheduleDeadline;
-    private ArrayList<String> ScheduleTags;
+    private String ScheduleTag;
 
 
     private boolean isFromCourse;
@@ -36,10 +36,10 @@ public class ToDoItem implements Serializable {
 
     //自定义
     public ToDoItem(@NonNull String scheduleTitle, @Nullable Date scheduleDeadline,
-                    @Nullable ArrayList<String> scheduleDescription, @Nullable ArrayList<Date> scheduleReminderTimeList) {
+                    @Nullable String scheduleDescription, @Nullable ArrayList<Date> scheduleReminderTimeList) {
         ScheduleTitle = scheduleTitle;
         ScheduleDeadline = scheduleDeadline;
-        ScheduleTags = scheduleDescription;
+        ScheduleTag = scheduleDescription;
         isFromCourse = false;
         ScheduleCourseSource = null;
         if(scheduleReminderTimeList==null){
@@ -57,8 +57,7 @@ public class ToDoItem implements Serializable {
     public ToDoItem(@NonNull DeadlineRootObject deadlineRootObject, @Nullable ArrayList<Date> scheduleReminderTimeList){
         ScheduleTitle = deadlineRootObject.title;
         ScheduleDeadline = deadlineRootObject.end;
-        ScheduleTags = new ArrayList<String>();
-        ScheduleTags.add(deadlineRootObject.eventType);
+        ScheduleTag = deadlineRootObject.eventType;
         isFromCourse = true;
         ScheduleCourseSource = deadlineRootObject.calendarName;
         if(scheduleReminderTimeList==null){
@@ -92,8 +91,8 @@ public class ToDoItem implements Serializable {
         ScheduleReminderTimeList = scheduleReminderTimeList;
     }
 
-    public void setScheduleTags(ArrayList<String> scheduleTags) {
-        ScheduleTags = scheduleTags;
+    public void setScheduleTag(String scheduleTag) {
+        ScheduleTag = scheduleTag;
     }
 
     public void setScheduleTitle(@NonNull String scheduleTitle) {
@@ -104,8 +103,8 @@ public class ToDoItem implements Serializable {
         return ScheduleReminderTimeList;
     }
 
-    public ArrayList<String> getScheduleTags() {
-        return ScheduleTags;
+    public String getScheduleTag() {
+        return ScheduleTag;
     }
 
     public Date getScheduleDeadline() {

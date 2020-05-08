@@ -20,4 +20,22 @@
     <style name="InterText">
         <item name="fontFamily">@font/inter</item>
     </style>
+
+    <style name="BlueTag">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textColor">@color/colorBrandingBlue</item>
+        <item name="android:background">@drawable/shape_corner_2dp_shallowblue</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="RedTag">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textColor">@color/colorBrandingRed</item>
+        <item name="android:background">@drawable/shape_corner_2dp_shallowred</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:textSize">12dp</item>
+    </style>
 </resources>

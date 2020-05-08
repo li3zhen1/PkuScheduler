@@ -2,6 +2,7 @@ package com.example.pkuscheduler.Components;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.icu.text.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,8 @@ import android.widget.TextView;
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link ToDoItem} and makes a call to the
@@ -22,6 +21,8 @@ import java.util.List;
  */
 public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRecyclerViewAdapter.ViewHolder> {
     private final List<ToDoItem> items;
+    private DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.CHINA);
+    private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.CHINA);
 
     public ToDoItemRecyclerViewAdapter(List<ToDoItem> _toDoItems) {
         this.items = _toDoItems;
@@ -37,8 +38,13 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = items.get(position);
-        holder.mIdView.setText(items.get(position).getScheduleTitle());
-        holder.mContentView.setText(items.get(position).getScheduleDeadline().toString());
+        holder.mTitleView.setText(items.get(position).getScheduleTitle().replace(" ",""));
+        holder.mDueTimeView.setText(
+                dateFormat.format( items.get(position).getScheduleDeadline())
+                +"  " +timeFormat.format( items.get(position).getScheduleDeadline())
+        );
+        holder.mEventTypeView.setText(items.get(position).getScheduleTag());
+        holder.mCourseSourceView.setText(items.get(position).getScheduleCourseSource());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,20 +65,24 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView mTitleView;
+        public final TextView mDueTimeView;
+        public final TextView mEventTypeView;
+        public final TextView mCourseSourceView;
         public ToDoItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mTitleView = (TextView) view.findViewById(R.id.todo_item_title);
+            mDueTimeView = (TextView) view.findViewById(R.id.todo_item_description);
+            mEventTypeView =(TextView) view.findViewById(R.id.todo_item_eventtype);
+            mCourseSourceView=(TextView) view.findViewById(R.id.todo_item_coursesource);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mDueTimeView.getText() + "'";
         }
     }
 }

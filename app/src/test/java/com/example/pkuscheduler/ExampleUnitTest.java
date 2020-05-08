@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.*;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.ScheduleRootObject;
@@ -50,6 +52,16 @@ public class ExampleUnitTest {
                     System.out.println(coursetableroom.kcmc);
                 }
             }
+        }
+    }
+
+    @Test
+    public void reg(){
+        String regex = "\\（.*\\）";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher("算法设计与分析（研讨性）");
+        while (matcher.find()) {
+            System.out.println(matcher.group(1));
         }
     }
 

@@ -74,12 +74,6 @@ public class ScheduleListFragment extends Fragment {
 
         adapter = new ToDoItemRecyclerViewAdapter(toDoItems);
         mRecyclerView.setAdapter(adapter);
-
-        toDoItems.add(new ToDoItem(
-                        "hello", new Date(),null,null
-                )
-        );
-        adapter.notifyDataSetChanged();
         fetchScheduleInfo = new FetchScheduleInfo(
                 CourseLoginInfoModel.getInstanceFromSharedPreference(getContext())
         );
@@ -102,7 +96,7 @@ public class ScheduleListFragment extends Fragment {
                     courseLoginInfoModel,
                     String.valueOf(System.currentTimeMillis()),
                     String.valueOf(System.currentTimeMillis()
-                            +MILLISECONDS_OF_A_WEEK)
+                            +MILLISECONDS_OF_A_WEEK*4)
             );
             Log.e(JSON.toJSONString(_deadlineRootObjects),"");
             for(DeadlineRootObject deadlineRootObject:_deadlineRootObjects){

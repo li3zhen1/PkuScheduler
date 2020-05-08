@@ -91,7 +91,6 @@ public class VerificationActivity extends AppCompatActivity {
         };
         CodeCoreText.addTextChangedListener(tw);
         studentId = getSharedPreferences("loginInfo",MODE_PRIVATE).getString("studentId","");
-        System.out.println("\n\n\n:::::::::::\n\n\n"+studentId);
     }
 
 

@@ -2,7 +2,12 @@ package com.example.pkuscheduler.Components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.pkuscheduler.R;
+import com.example.pkuscheduler.Utils.UI.CustomTypefaceSpan;
 
 public class ScheduleCourseGrid extends FrameLayout {
     private Context mContext;
@@ -56,7 +62,27 @@ public class ScheduleCourseGrid extends FrameLayout {
     public void setDisplayTitleText(String _text) {
         if (_text != null) {
             this.displayTitleText = _text;
-            textView.setText(displayTitleText);
+            int leftBracketEn = _text.indexOf("(");
+            int leftBracketCh = _text.indexOf("（");
+            int rightBracketEn = _text.lastIndexOf(")");
+            int rightBracketCh = _text.lastIndexOf("）");
+            if(leftBracketCh!=-1&&rightBracketCh!=-1){
+                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(0xa0ffffff);
+                final SpannableStringBuilder mSpannableStringBuilder = new SpannableStringBuilder(
+                        _text.replace("（"," ").replace("）"," ")
+                );
+                mSpannableStringBuilder.setSpan(foregroundColorSpan,leftBracketCh,rightBracketCh+1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                textView.setText(mSpannableStringBuilder);
+            }
+            else if(leftBracketEn!=-1&&rightBracketEn!=-1){
+                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(0xa0ffffff);
+                final SpannableStringBuilder mSpannableStringBuilder = new SpannableStringBuilder(
+                        _text.replace("("," ").replace(")"," ")
+                );
+                mSpannableStringBuilder.setSpan(foregroundColorSpan,leftBracketEn,rightBracketEn+1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                textView.setText(mSpannableStringBuilder);
+            }
+            else textView.setText(displayTitleText);
         }
     }
     public Drawable getDisplayButtonBackground() {
