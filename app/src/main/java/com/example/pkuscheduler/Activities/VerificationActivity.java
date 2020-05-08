@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -194,6 +195,7 @@ public class VerificationActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final String str){
+            TransitionToTodayActivity();
         }
 
         //TODO：中断行为处理
@@ -203,9 +205,10 @@ public class VerificationActivity extends AppCompatActivity {
         }
     }
 
-    //拦截返回到 LoginActivity 的动作
-    //TODO：允许返回桌面或改为回收LoginActivity
-    @Override
-    public void onBackPressed() {
+    public void TransitionToTodayActivity(){
+        Intent intent = new Intent(this, TodayActivity.class);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }
