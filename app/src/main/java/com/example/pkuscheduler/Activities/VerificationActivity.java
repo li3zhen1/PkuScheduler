@@ -23,7 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.pkuscheduler.R;
-import com.example.pkuscheduler.Utils.CustomTypefaceSpan;
+import com.example.pkuscheduler.Utils.UI.CustomTypefaceSpan;
 import com.example.pkuscheduler.Utils.PkuHelper.PkuHelperLoginClient;
 import com.example.pkuscheduler.Utils.StringUtils;
 import com.microsoft.officeuifabric.drawer.Drawer;
@@ -197,6 +197,7 @@ public class VerificationActivity extends AppCompatActivity {
         protected void onPostExecute(final String str){
         }
 
+        //TODO：中断行为处理
         @Override
         protected void onCancelled(){
 
@@ -204,6 +205,7 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     //拦截返回到 LoginActivity 的动作
+    //TODO：允许返回桌面或改为回收LoginActivity
     @Override
     public void onBackPressed() {
     }

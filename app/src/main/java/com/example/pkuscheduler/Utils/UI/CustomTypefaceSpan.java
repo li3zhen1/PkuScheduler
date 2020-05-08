@@ -1,4 +1,4 @@
-package com.example.pkuscheduler.Utils;
+package com.example.pkuscheduler.Utils.UI;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;

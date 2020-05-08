@@ -7,7 +7,7 @@
     <string name="LoginActivity_PrivatePolicy"><u>隐私政策</u></string>
     <string name="LoginActivity_ForgotPassword"><u>忘记密码</u></string>
     <string name="VerificationActivity_SendVerificationCode">发送验证码至手机</string>
-    <string name="VerificationActivity_Continue">跳过</string>
+    <string name="VerificationActivity_Continue"></string>
     <string name="VerificationActivity_InputHint">_</string>
     <string name="VerificationActivity_AskPinSuccess">验证码已成功发送至你的手机</string>
     <string name="VerificationActivity_FetchTokenSuccess">获取 PKU Helper Token 成功</string>
@@ -15,6 +15,7 @@
     <string name="Network_Error">网络错误</string>
     <string name="Api_Error">接口异常</string>
     <string name="DrawerText_PrivacyPolicy">隐私政策</string>
+    <string name="Schedule_From_Course">来自于教学网的计划</string>
 
 
     <string name="DayOfWeek_Mon">星期一</string>

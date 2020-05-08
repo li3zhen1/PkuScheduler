@@ -2,21 +2,17 @@ package com.example.pkuscheduler.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.icu.util.Calendar;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,16 +21,13 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.alibaba.fastjson.JSON;
-import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Coursetableroom;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Jsap;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.ScheduleRootObject;
 import com.example.pkuscheduler.R;
 
 import com.example.pkuscheduler.Models.ScheduleJsonModel.CourseTimeRepository;
-import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
-import com.example.pkuscheduler.Views.ScheduleCourseGrid;
+import com.example.pkuscheduler.Components.ScheduleCourseGrid;
 
 public class TodayScheduleFragment extends Fragment {
 
@@ -101,6 +94,9 @@ public class TodayScheduleFragment extends Fragment {
                 dp,
                 getResources().getDisplayMetrics()));
     }
+
+
+//    TODO: 星期天-1可能有bug
     public void updateCourseBlocks(){
         int blockHeight = DpToPx(180);
         float offsetX;
@@ -127,6 +123,7 @@ public class TodayScheduleFragment extends Fragment {
     }
 
 
+    //    TODO: ScheduleCourseGrid 显示待办事项
     public ScheduleCourseGrid AddCourseBlock(int offsetX, int offsetY, String courseTitle, int blockWidth, int blockHeight){
         ScheduleCourseGrid courseBlockButton = new ScheduleCourseGrid(this.getContext());
         courseBlockButton.setDisplayButtonBackground(getResources().getDrawable(R.drawable.ripple_corner_8dp_accent_red));

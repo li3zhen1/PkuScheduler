@@ -19,6 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
 
+        // TODO：sp 判断 Helper 登陆状态
         if(getSharedPreferences("loginInfo", Context.MODE_PRIVATE).getBoolean("isLogged",false)){
             startActivity(new Intent(this, TodayActivity.class));
         }

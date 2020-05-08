@@ -3,7 +3,6 @@ package com.example.pkuscheduler.Models.ScheduleJsonModel;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.example.pkuscheduler.Utils.IStoragable;
 import com.example.pkuscheduler.Utils.PkuHelper.ApiRepository;
 
 import java.net.HttpURLConnection;
@@ -12,7 +11,7 @@ import java.net.URL;
 import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 import static com.example.pkuscheduler.Utils.StringUtils.getUnicodeEscaped;
 
-public final class ScheduleRootObject implements IStoragable {
+public final class ScheduleRootObject{
     public int code;
     public String msg;
     public String uid;
@@ -47,8 +46,5 @@ public final class ScheduleRootObject implements IStoragable {
         return null;
     }
 
-    @Override
-    public void saveInstanceToStorage() {
 
-    }
 }
