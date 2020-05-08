@@ -3,11 +3,10 @@ package com.example.pkuscheduler.Utils;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
-import com.example.pkuscheduler.ViewModels.ScheduleItem;
+import com.example.pkuscheduler.ViewModels.ToDoItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.BufferedReader;
@@ -17,7 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class StorageTemplates {
@@ -29,7 +27,7 @@ public class StorageTemplates {
         mFileName = filename;
     }
 
-    public void saveToFile(ArrayList<ScheduleItem> items) throws JSONException, IOException {
+    public void saveToFile(ArrayList<ToDoItem> items) throws JSONException, IOException {
         FileOutputStream fileOutputStream;
         OutputStreamWriter outputStreamWriter;
         fileOutputStream = mContext.openFileOutput(mFileName, Context.MODE_PRIVATE);
@@ -39,8 +37,8 @@ public class StorageTemplates {
         fileOutputStream.close();
     }
 
-    public ArrayList<ScheduleItem> loadFromFile(ScheduleItem t) throws IOException, JSONException {
-        ArrayList<ScheduleItem> items = new ArrayList<>();
+    public ArrayList<ToDoItem> loadFromFile(ToDoItem t) throws IOException, JSONException {
+        ArrayList<ToDoItem> items = new ArrayList<>();
         BufferedReader bufferedReader = null;
         FileInputStream fileInputStream = null;
         try {
@@ -54,7 +52,7 @@ public class StorageTemplates {
 
             JSONArray jsonArray = (JSONArray) new JSONTokener(builder.toString()).nextValue();
             for (int i = 0; i < jsonArray.length(); i++) {
-                ScheduleItem item = JSON.parseObject(builder.toString(), ScheduleItem.class);
+                ToDoItem item = JSON.parseObject(builder.toString(), ToDoItem.class);
                 items.add(item);
             }
 

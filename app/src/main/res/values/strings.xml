@@ -32,5 +32,8 @@
     <string name="info">About</string>
     <string name="add_goal">Add your goal...</string>
     <string name="create_a_new_task">Create a new task</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
 

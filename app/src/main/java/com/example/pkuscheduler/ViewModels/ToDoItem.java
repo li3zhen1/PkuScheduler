@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static android.provider.Settings.System.getString;
 
-public class ScheduleItem implements Serializable {
+public class ToDoItem implements Serializable {
     @NonNull
     private String ScheduleTitle;
 
@@ -35,8 +35,8 @@ public class ScheduleItem implements Serializable {
 
 
     //自定义
-    public ScheduleItem(@NonNull String scheduleTitle, @Nullable Date scheduleDeadline,
-                        @Nullable ArrayList<String> scheduleDescription, @Nullable ArrayList<Date> scheduleReminderTimeList) {
+    public ToDoItem(@NonNull String scheduleTitle, @Nullable Date scheduleDeadline,
+                    @Nullable ArrayList<String> scheduleDescription, @Nullable ArrayList<Date> scheduleReminderTimeList) {
         ScheduleTitle = scheduleTitle;
         ScheduleDeadline = scheduleDeadline;
         ScheduleTags = scheduleDescription;
@@ -54,7 +54,7 @@ public class ScheduleItem implements Serializable {
 
 
     //从教学网
-    public ScheduleItem(@NonNull DeadlineRootObject deadlineRootObject,@Nullable ArrayList<Date> scheduleReminderTimeList){
+    public ToDoItem(@NonNull DeadlineRootObject deadlineRootObject, @Nullable ArrayList<Date> scheduleReminderTimeList){
         ScheduleTitle = deadlineRootObject.title;
         ScheduleDeadline = deadlineRootObject.end;
         ScheduleTags = new ArrayList<String>();

@@ -1,5 +1,7 @@
 package com.example.pkuscheduler.Utils.PkuCourse;
 
+import android.util.Log;
+
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.Utils.StringUtils;
 

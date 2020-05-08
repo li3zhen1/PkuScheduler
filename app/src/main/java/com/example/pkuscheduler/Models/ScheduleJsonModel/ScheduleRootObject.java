@@ -22,35 +22,25 @@ import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 import static com.example.pkuscheduler.Utils.StringUtils.getUnicodeEscaped;
 
 public final class ScheduleRootObject{
-    public final static String storagePath ="ScheduleRootObject.json";
+    public final static String storagePath ="ScheduleRootObjectCache.json";
     public int code;
     public String msg;
     public String uid;
     public String user_token;
     public Coursetable[] courseTable;
     public Coursetableroom[] courseTableRoom;
-
-
     public static ScheduleRootObject getInstance(String helperToken, Context context){
         ScheduleRootObject scheduleRootObject = null;
         boolean isStorageValid = true;
-        //Log.e("!!!","Su!!!");
         try{
             scheduleRootObject = getInstanceFromStorage(context);
-            /*System.out.println("FromStorage");
-            Log.e("FromStorage","Succ");*/
         } catch (IOException e) {
             isStorageValid=false;
-            //Log.e("FromStorage","Fail");
             //TODO:alert
         }
         if(!isStorageValid){
-
             try{
-                //Log.e("FromWeb","Try");
                 scheduleRootObject = getInstanceFromWebApi(helperToken,context);
-
-                //Log.e("FromWeb","Succ");
             } catch (Exception e) {
                 //TODO:alert
             }
@@ -71,11 +61,9 @@ public final class ScheduleRootObject{
             conn.setRequestMethod("GET");
             conn.connect();
             String jsonResponse = convertStreamToString(conn.getInputStream());
-            //Log.d("String", jsonResponse);
             scheduleRootObject = JSON.parseObject(getUnicodeEscaped(jsonResponse), ScheduleRootObject.class);
-            //Log.d(scheduleRootObject.msg,scheduleRootObject.msg);
             if(scheduleRootObject!=null)
-                scheduleRootObject.saveInstance(context);
+                saveInstance(scheduleRootObject,context);
             return scheduleRootObject;
         } catch (Exception e) {
             throw new Exception();
@@ -112,14 +100,12 @@ public final class ScheduleRootObject{
         return scheduleRootObject;
     }
 
-    public void saveInstance(Context context) throws JSONException, IOException {
+    public static void saveInstance(ScheduleRootObject scheduleRootObject, Context context) throws JSONException, IOException {
         FileOutputStream fileOutputStream;
         OutputStreamWriter outputStreamWriter;
         fileOutputStream = context.openFileOutput(storagePath, Context.MODE_PRIVATE);
         outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-        //System.out.println(JSON.toJSONString(this));
-        //Log.e("saved",JSON.toJSONString(this));
-        outputStreamWriter.write(JSON.toJSONString(this));
+        outputStreamWriter.write(JSON.toJSONString(scheduleRootObject));
         outputStreamWriter.close();
         fileOutputStream.close();
     }

@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("studentId", courseLoginInfoModel.studentId);
                     editor.putString("password", courseLoginInfoModel.password);
                     editor.putString("jSessionId", courseLoginInfoModel.jSessionId);
-                    editor.putString("guid", courseLoginInfoModel.password);
+                    editor.putString("guid", courseLoginInfoModel.guid);
                     editor.putString("sessionId", courseLoginInfoModel.sessionId);
                     editor.putBoolean("isLogged",true);
                     editor.apply();

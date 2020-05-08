@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Coursetableroom;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Jsap;
@@ -27,9 +26,8 @@ import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.CourseTimeRepository;
 import com.example.pkuscheduler.Components.ScheduleCourseGrid;
 
-public class TodayScheduleFragment extends Fragment {
+public class TodayFragment extends Fragment {
 
-    private TodayScheduleViewModel mViewModel;
     private ScheduleRootObject scheduleRootObject;
     private Calendar calendar;
     private View parentFragment;
@@ -37,14 +35,14 @@ public class TodayScheduleFragment extends Fragment {
     private Typeface Inter;
     FetchCourseInfo scheduleRootObjectTask;
 
-    public static TodayScheduleFragment newInstance() {
-        return new TodayScheduleFragment();
+    public static TodayFragment newInstance() {
+        return new TodayFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        parentFragment = inflater.inflate(R.layout.today_schedule_fragment, container, false);
+        parentFragment = inflater.inflate(R.layout.today_fragment, container, false);
         layoutContainer = parentFragment.findViewById(R.id.today_schedule_fragment_container);
         Inter = ResourcesCompat.getFont(getActivity(), R.font.inter);
 
@@ -56,7 +54,7 @@ public class TodayScheduleFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(TodayScheduleViewModel.class);
+
         String Token = getActivity().getSharedPreferences("loginInfo", Context.MODE_PRIVATE)
                 .getString("pkuHelperToken",null);
 /*        System.out.println(Token);
@@ -135,7 +133,6 @@ public class TodayScheduleFragment extends Fragment {
         layoutContainer.addView(courseBlockButton);
         return courseBlockButton;
     }
-
 
     @SuppressLint("StaticFieldLeak")
     private class FetchCourseInfo extends AsyncTask<Void, Void, ScheduleRootObject> {
