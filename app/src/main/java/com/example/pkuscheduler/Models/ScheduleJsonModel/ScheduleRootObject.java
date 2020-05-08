@@ -34,24 +34,23 @@ public final class ScheduleRootObject{
     public static ScheduleRootObject getInstance(String helperToken, Context context){
         ScheduleRootObject scheduleRootObject = null;
         boolean isStorageValid = true;
-        Log.e("FromStorage","Try");
+        //Log.e("!!!","Su!!!");
         try{
             scheduleRootObject = getInstanceFromStorage(context);
             /*System.out.println("FromStorage");
             Log.e("FromStorage","Succ");*/
         } catch (IOException e) {
-            isStorageValid=false;/*
-            Log.e("FromStorage","Fail");*/
+            isStorageValid=false;
+            //Log.e("FromStorage","Fail");
             //TODO:alert
         }
         if(!isStorageValid){
 
             try{
+                //Log.e("FromWeb","Try");
                 scheduleRootObject = getInstanceFromWebApi(helperToken,context);
-                if(scheduleRootObject!=null)
-                    scheduleRootObject.saveInstance(context);
-                /*System.out.println("FromWeb");
-                Log.e("FromWeb","Succ");*/
+
+                //Log.e("FromWeb","Succ");
             } catch (Exception e) {
                 //TODO:alert
             }
@@ -61,7 +60,8 @@ public final class ScheduleRootObject{
     }
 
     //
-    public static ScheduleRootObject getInstanceFromWebApi(String helperToken,Context context){
+    public static ScheduleRootObject getInstanceFromWebApi(String helperToken,Context context) throws Exception {
+        ScheduleRootObject scheduleRootObject=null;
         if(helperToken==null)
             throw new AssertionError();
         try{
@@ -71,18 +71,20 @@ public final class ScheduleRootObject{
             conn.setRequestMethod("GET");
             conn.connect();
             String jsonResponse = convertStreamToString(conn.getInputStream());
-            ScheduleRootObject scheduleRootObject = JSON.parseObject(getUnicodeEscaped(jsonResponse), ScheduleRootObject.class);
-            if (scheduleRootObject.msg == "ok")
-                throw new AssertionError();
+            //Log.d("String", jsonResponse);
+            scheduleRootObject = JSON.parseObject(getUnicodeEscaped(jsonResponse), ScheduleRootObject.class);
+            //Log.d(scheduleRootObject.msg,scheduleRootObject.msg);
+            if(scheduleRootObject!=null)
+                scheduleRootObject.saveInstance(context);
             return scheduleRootObject;
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new Exception();
         }
     }
 
     //cache
     public static ScheduleRootObject getInstanceFromStorage(Context context) throws IOException{
+
         BufferedReader bufferedReader = null;
         FileInputStream fileInputStream = null;
         ScheduleRootObject scheduleRootObject = null;
@@ -97,6 +99,7 @@ public final class ScheduleRootObject{
             scheduleRootObject = JSON.parseObject(builder.toString(),ScheduleRootObject.class);
 
         } catch (FileNotFoundException fnfe) {
+            throw new IOException();
         } finally {
             if (bufferedReader != null) {
                 bufferedReader.close();
@@ -114,8 +117,8 @@ public final class ScheduleRootObject{
         OutputStreamWriter outputStreamWriter;
         fileOutputStream = context.openFileOutput(storagePath, Context.MODE_PRIVATE);
         outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-        System.out.println(JSON.toJSONString(this));
-        Log.e("saved",JSON.toJSONString(this));
+        //System.out.println(JSON.toJSONString(this));
+        //Log.e("saved",JSON.toJSONString(this));
         outputStreamWriter.write(JSON.toJSONString(this));
         outputStreamWriter.close();
         fileOutputStream.close();

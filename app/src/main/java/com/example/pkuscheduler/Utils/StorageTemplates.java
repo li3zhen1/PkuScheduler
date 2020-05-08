@@ -20,11 +20,11 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class StorageHelper {
+public class StorageTemplates {
     private Context mContext;
     private String mFileName;
 
-    public StorageHelper(Context context, String filename) {
+    public StorageTemplates(Context context, String filename) {
         mContext = context;
         mFileName = filename;
     }
