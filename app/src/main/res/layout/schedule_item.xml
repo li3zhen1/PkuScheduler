@@ -8,8 +8,16 @@
     android:layout_marginStart="12dp"
     android:layout_marginEnd="12dp"
     android:layout_marginBottom="4dp"
-    android:elevation="1.5dp">
+    android:elevation="1dp"
+    >
 
+    <!--com.airbnb.lottie.LottieAnimationView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginVertical="12dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_fileName="ButtonLoading.json"/-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,6 +31,8 @@
             android:layout_height="wrap_content"
             style="@style/InterText"
             android:textFontWeight="700"
+            android:singleLine="true"
+            android:ellipsize = "end"
             android:textSize="@dimen/GridTitleTextSize"
             android:textColor="@color/uifabric_black"
             />
