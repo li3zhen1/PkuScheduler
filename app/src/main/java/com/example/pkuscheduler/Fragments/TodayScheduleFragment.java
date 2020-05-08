@@ -143,28 +143,17 @@ public class TodayScheduleFragment extends Fragment {
     private class FetchCourseInfo extends AsyncTask<Void, Void, ScheduleRootObject> {
         private String Token;
         FetchCourseInfo(String token){Token=token;}
-        private boolean isNetworkAvailable() {
-            ConnectivityManager connectivityManager
-                    = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        }
-
         @Override
         protected ScheduleRootObject doInBackground(Void... params) {
-            if (!isNetworkAvailable()) {
-                return null;
-            }
             try {
-                return ScheduleRootObject.getInstanceFromWebApi(
-                        Token
+                return ScheduleRootObject.getInstance(
+                        Token, getContext()
                 );
             } catch (Exception e) {
 //                e.printStackTrace();
                 return null;
             }
         }
-
         @Override
         protected void onPostExecute(final ScheduleRootObject returnStatus) {
             if(returnStatus!=null)
@@ -173,8 +162,6 @@ public class TodayScheduleFragment extends Fragment {
                 updateCourseBlocks();
             }
         }
-
-
     }
 
 }
