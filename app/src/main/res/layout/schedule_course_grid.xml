@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/course_grid_parent_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--com.example.pkuscheduler.Views.ScheduleCourseGrid
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="#ccc"
+        android:paddingLeft="20dp"
+        android:paddingBottom="40dp"
+        app:exampleColor="#33b5e5"
+        app:exampleDimension="24sp"
+        app:exampleDrawable="@android:drawable/ic_menu_add"
+        app:exampleString="Hello, ScheduleCourseGrid" /-->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/display_background"
+        android:background="@drawable/ripple_corner_8dp_accent_red"
+        />
+    <TextView
+        android:focusable="false"
+        android:clickable="false"
+        android:longClickable="false"
+        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/display_title"
+        android:fontFamily="@font/inter"
+        android:padding="12dp"
+        android:text="@string/LoginActivity_ForgotPassword"/>
+
+</FrameLayout>

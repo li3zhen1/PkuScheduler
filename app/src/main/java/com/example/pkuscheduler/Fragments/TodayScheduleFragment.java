@@ -34,6 +34,7 @@ import com.example.pkuscheduler.R;
 
 import com.example.pkuscheduler.Models.ScheduleJsonModel.CourseTimeRepository;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
+import com.example.pkuscheduler.Views.ScheduleCourseGrid;
 
 public class TodayScheduleFragment extends Fragment {
 
@@ -126,14 +127,16 @@ public class TodayScheduleFragment extends Fragment {
     }
 
 
-    public Button AddCourseBlock(int offsetX, int offsetY, String courseTitle, int blockWidth, int blockHeight){
-        Button courseBlockButton = new Button(this.getContext());
-        courseBlockButton.setBackgroundResource(R.drawable.ripple_corner_8dp_accent_red);
-        courseBlockButton.setWidth(blockWidth);
-        courseBlockButton.setHeight(blockHeight);
+    public ScheduleCourseGrid AddCourseBlock(int offsetX, int offsetY, String courseTitle, int blockWidth, int blockHeight){
+        ScheduleCourseGrid courseBlockButton = new ScheduleCourseGrid(this.getContext());
+        courseBlockButton.setDisplayButtonBackground(getResources().getDrawable(R.drawable.ripple_corner_8dp_accent_red));
+        courseBlockButton.setDisplayTitleText(courseTitle);
+        courseBlockButton.setDisplayWidth(blockWidth);
+        courseBlockButton.setDisplayHeight(blockHeight);
         courseBlockButton.setX(offsetX);
         courseBlockButton.setY(offsetY);
-
+        courseBlockButton.setElevation(16);
+        courseBlockButton.setBackground(getResources().getDrawable(R.drawable.shape_corner_8dp_accent_red));
         layoutContainer.addView(courseBlockButton);
         return courseBlockButton;
     }

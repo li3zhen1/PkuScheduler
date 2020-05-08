@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="ScheduleCourseGrid">
+        <attr name="displayTitleText" format="string" />
+        <attr name="displayBackgroundResource" format="reference"/>
+        <attr name="displayWidth" format="integer"/>
+        <attr name="displayHeight" format="integer"/>
+    </declare-styleable>
+</resources>
