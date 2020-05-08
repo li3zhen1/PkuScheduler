@@ -59,7 +59,8 @@ public class ToDoItem implements Serializable {
         ScheduleDeadline = deadlineRootObject.end;
         ScheduleTag = deadlineRootObject.eventType;
         isFromCourse = true;
-        ScheduleCourseSource = deadlineRootObject.calendarName;
+        ScheduleCourseSource = deadlineRootObject.calendarName.substring(0,deadlineRootObject.calendarName.length()-13)
+                .replace("（","(").replace("）",")");
         if(scheduleReminderTimeList==null){
             HasReminder = false;
             ScheduleReminderTimeList = null;

@@ -23,6 +23,7 @@ import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -101,10 +102,8 @@ public class ScheduleListFragment extends Fragment {
             Log.e(JSON.toJSONString(_deadlineRootObjects),"");
             for(DeadlineRootObject deadlineRootObject:_deadlineRootObjects){
                 ToDoItem newItem = new ToDoItem(deadlineRootObject, null);
-                Log.e("DDL",JSON.toJSONString(newItem));
                 _toDoItems.add(newItem);
             }
-            Log.e("DDLALL",JSON.toJSONString(_toDoItems));
             return _toDoItems;
         }
         @Override
@@ -114,6 +113,7 @@ public class ScheduleListFragment extends Fragment {
                 for(ToDoItem __toDoItem :returnStatus){
                     toDoItems.add(__toDoItem);
                 }
+                toDoItems.sort(Comparator.comparing(toDoItem -> {return toDoItem.getScheduleDeadline();}));
                 adapter.notifyDataSetChanged();
 
             }
