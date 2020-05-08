@@ -37,20 +37,21 @@ public final class ScheduleRootObject{
         Log.e("FromStorage","Try");
         try{
             scheduleRootObject = getInstanceFromStorage(context);
-            System.out.println("FromStorage");
-            Log.e("FromStorage","Succ");
+            /*System.out.println("FromStorage");
+            Log.e("FromStorage","Succ");*/
         } catch (IOException e) {
-            isStorageValid=false;
-            Log.e("FromStorage","Fail");
+            isStorageValid=false;/*
+            Log.e("FromStorage","Fail");*/
             //TODO:alert
         }
         if(!isStorageValid){
 
             try{
                 scheduleRootObject = getInstanceFromWebApi(helperToken,context);
-                scheduleRootObject.saveInstance(context);
-                System.out.println("FromWeb");
-                Log.e("FromWeb","Succ");
+                if(scheduleRootObject!=null)
+                    scheduleRootObject.saveInstance(context);
+                /*System.out.println("FromWeb");
+                Log.e("FromWeb","Succ");*/
             } catch (Exception e) {
                 //TODO:alert
             }
@@ -73,7 +74,6 @@ public final class ScheduleRootObject{
             ScheduleRootObject scheduleRootObject = JSON.parseObject(getUnicodeEscaped(jsonResponse), ScheduleRootObject.class);
             if (scheduleRootObject.msg == "ok")
                 throw new AssertionError();
-            scheduleRootObject.saveInstance(context);
             return scheduleRootObject;
         } catch (Exception e) {
             e.printStackTrace();

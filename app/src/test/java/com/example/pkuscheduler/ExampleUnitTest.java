@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void ScheduleRootObjectTest() {
-        ScheduleRootObject scheduleRootObject = ScheduleRootObject.getInstanceFromWebApi("");
+        ScheduleRootObject scheduleRootObject = null;//ScheduleRootObject.getInstanceFromWebApi("");
         System.out.println(JSON.toJSONString(scheduleRootObject.courseTableRoom));
         assertEquals("ok",scheduleRootObject.msg);
     }
@@ -42,7 +42,7 @@ public class ExampleUnitTest {
 
     @Test
     public void test(){
-        ScheduleRootObject scheduleRootObject = ScheduleRootObject.getInstanceFromWebApi("");
+        ScheduleRootObject scheduleRootObject = null;//ScheduleRootObject.getInstanceFromWebApi("");
         String dayOfWeek = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1);
         for(Coursetableroom coursetableroom: scheduleRootObject.courseTableRoom){
             for(Jsap jsap:coursetableroom.jsap){
