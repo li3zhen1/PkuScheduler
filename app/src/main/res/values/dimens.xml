@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="GridTextMargin">12dp</dimen>
-    <dimen name="TodoItemGridHeight">96dp</dimen>
+    <dimen name="TodoItemGridHeight">120dp</dimen>
     <dimen name="GridTitleTextSize">16sp</dimen>
     <dimen name="SubFragmentTitleTextSize">24sp</dimen>
 </resources>

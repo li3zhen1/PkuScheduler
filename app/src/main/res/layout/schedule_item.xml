@@ -7,7 +7,7 @@
     android:background="@drawable/ripple_corner_8dp_accent_white"
     android:layout_marginStart="12dp"
     android:layout_marginEnd="12dp"
-    android:layout_marginBottom="4dp"
+    android:layout_marginBottom="2dp"
     >
 
     <!--com.airbnb.lottie.LottieAnimationView
@@ -21,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="20dp">
         <TextView
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,29 +36,39 @@
             android:textSize="@dimen/GridTitleTextSize"
             android:textColor="@color/uifabric_black"
             />
-        <LinearLayout
-            app:layout_constraintTop_toBottomOf="@id/todo_item_title"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="16dp"
-                android:layout_height="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginBottom="8dp"
+                android:id="@+id/todo_item_duetime_icon"
+                app:layout_constraintBottom_toTopOf="@id/todo_item_hashtag_icon"
                 android:src="@drawable/ic_timer_24px"
                 android:scaleType="centerInside"
                 />
             <TextView
+                app:layout_constraintStart_toEndOf="@id/todo_item_duetime_icon"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@id/todo_item_hashtag_icon"
                 android:id="@+id/todo_item_description"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="4dp"
                 style="@style/InterText"/>
-
-        </LinearLayout>
+        <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="0dp"
+            android:layout_width="16dp"
+            android:layout_height="20dp"
+            android:id="@+id/todo_item_hashtag_icon"
+            android:src="@drawable/ic_local_offer_24px"
+            android:scaleType="centerInside"
+            />
         <TextView
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="6dp"
+            app:layout_constraintStart_toEndOf="@id/todo_item_hashtag_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/todo_item_eventtype"
