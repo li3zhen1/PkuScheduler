@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,31 +46,25 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         System.out.println(position);
+        System.out.println(holder.mView.getClass());
         holder.mItem = items.get(position);
-        Log.e("NotDone", JSON.toJSONString(holder.mItem.getIsDone()));
+        //Log.e("NotDone", JSON.toJSONString(holder.mItem.getIsDone()));
+        //System.out.println(JSON.toJSONString(holder.mLinearLayout.getLayoutParams().));
         if(holder.mItem.getIsDone()){
-            LinearLayout.LayoutParams _lp =  new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, 0);
-            int horizontalMarg = LengthConveter.DpToPx(12,
-                    holder.mView.getContext());
-            _lp.setMargins(horizontalMarg,0,horizontalMarg,0);
-            holder.mLinearLayout.setLayoutParams(_lp);
+
+            holder.mView.setVisibility(View.GONE);
+            ViewGroup.LayoutParams llp = holder.mLinearLayout.getLayoutParams();
+            llp.height=0;llp.width=0;
+            holder.mView.setLayoutParams(llp);
         }
         else{
-            Log.e("NotDone","!!");
-/*            LinearLayout.LayoutParams _lp =
-                    new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LengthConveter.DpToPx(R.dimen.TodoItemGridHeight,
-                            holder.mView.getContext())
-            );
-            int horizontalMarg = LengthConveter.DpToPx(12,
-                    holder.mView.getContext());
-            _lp.setMargins(horizontalMarg,0,horizontalMarg,
-                    LengthConveter.DpToPx(R.dimen.TodoItemGridMarginBottom,
-                            holder.mView.getContext())
-                    );
-            holder.mLinearLayout.setLayoutParams(_lp);*/
+
+            holder.mView.setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams llp = holder.mLinearLayout.getLayoutParams();
+            System.out.println(R.dimen.TodoItemGridHeight);
+            llp.height=holder.mView.getContext().getResources().getDimensionPixelSize(R.dimen.TodoItemGridHeight);
+            llp.width=ViewGroup.LayoutParams.MATCH_PARENT;
+            holder.mView.setLayoutParams(llp);
         }
         holder.mTitleView.setText(holder.mItem.getScheduleTitle().replace(" ",""));
         holder.mDueTimeView.setText(
@@ -131,6 +126,16 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
     public void onItemCompleted(int position) {
         items.get(position).setIsDone(true);
         notifyItemChanged(position);
+    }
+
+    public int getIncompletedCount() {
+        int ret =0;
+        for(ToDoItem itm:items){
+            if(!itm.getIsDone()){
+                ret++;
+            }
+        }
+        return ret;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

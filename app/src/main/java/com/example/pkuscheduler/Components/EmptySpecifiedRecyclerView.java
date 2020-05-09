@@ -2,6 +2,7 @@ package com.example.pkuscheduler.Components;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ public class EmptySpecifiedRecyclerView extends RecyclerView {
     private RecyclerView.AdapterDataObserver observer = new AdapterDataObserver() {
         @Override
         public void onChanged() {
+
             showEmptyView();
         }
 
@@ -26,6 +28,7 @@ public class EmptySpecifiedRecyclerView extends RecyclerView {
             super.onItemRangeRemoved(positionStart, itemCount);
             showEmptyView();
         }
+
     };
 
 
@@ -41,6 +44,19 @@ public class EmptySpecifiedRecyclerView extends RecyclerView {
                 emptyView.setVisibility(VISIBLE);
                 EmptySpecifiedRecyclerView.this.setVisibility(GONE);
             } else {
+/*                Log.d(String.valueOf((adapter instanceof ToDoItemRecyclerViewAdapter)),
+                        String.valueOf(((ToDoItemRecyclerViewAdapter)adapter)
+                                .getIncompletedCount()==0));
+                if((adapter instanceof ToDoItemRecyclerViewAdapter) &&
+                        (
+                                ((ToDoItemRecyclerViewAdapter)adapter)
+                                        .getIncompletedCount()==0
+                        )
+                ){
+                    Log.e("1","12312312321312123");
+                    emptyView.setVisibility(VISIBLE);
+                    EmptySpecifiedRecyclerView.this.setVisibility(GONE);
+                }*/
                 emptyView.setVisibility(GONE);
                 EmptySpecifiedRecyclerView.this.setVisibility(VISIBLE);
             }

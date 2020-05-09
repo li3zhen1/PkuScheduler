@@ -184,9 +184,9 @@ public class ScheduleListFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(final String returnStatus) {
-            Log.e("",returnStatus);
+            Log.e("!!!!!!",returnStatus);
+            toDoItems.forEach(toDoItem -> Log.e("!!!",toDoItem.getScheduleTitle()+toDoItem.getIsDone()));
             adapter.notifyDataSetChanged();
-
             //TODO:Handle Excpetion
         }
 

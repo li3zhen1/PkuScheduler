@@ -9,8 +9,13 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="300dp"
+        android:background="@drawable/shape_corner_8dp_accent_red">
         <!--Decoration-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="没有TODO啦！！！"/>
     </LinearLayout>
 
     <com.example.pkuscheduler.Components.EmptySpecifiedRecyclerView
