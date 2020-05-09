@@ -53,6 +53,7 @@ public class ToDoItem implements ISchedulable {
         EndTime = endTime;
         ScheduleTag = scheduleDescription;
         isFromCourse = false;
+        isDone=false;
         ScheduleCourseSource = null;
         if(scheduleReminderTimeList==null){
             HasReminder = false;
@@ -72,6 +73,7 @@ public class ToDoItem implements ISchedulable {
         ScheduleTag = courseRawToDoItemsRootObject.eventType;
         isFromCourse = true;
         CourseObjectIdentifier = courseRawToDoItemsRootObject.id;
+        isDone = false;
         ScheduleCourseSource = courseRawToDoItemsRootObject.calendarName.substring(0, courseRawToDoItemsRootObject.calendarName.length()-13)
                 .replace("（","(").replace("）",")");
         if(scheduleReminderTimeList==null){

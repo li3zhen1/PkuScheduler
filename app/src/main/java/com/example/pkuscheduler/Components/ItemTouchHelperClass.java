@@ -3,8 +3,6 @@ package com.example.pkuscheduler.Components;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.VectorDrawable;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -22,6 +20,7 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
     public interface ItemTouchHelperAdapter {
         void onItemMoved(int fromPosition, int toPosition);
         void onItemRemoved(int position);
+        void onItemCompleted(int position);
     }
 
     public ItemTouchHelperClass(ItemTouchHelperAdapter ad, Context context) {
@@ -56,8 +55,11 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        adapter.onItemRemoved(viewHolder.getAdapterPosition());
-
+        System.out.println(direction);
+        if(direction==(1<<4))//LEFT
+            adapter.onItemRemoved(viewHolder.getAdapterPosition());
+        else
+            adapter.onItemCompleted(viewHolder.getAdapterPosition());
     }
 
     @Override
@@ -65,8 +67,6 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
         if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
             View itemView = viewHolder.itemView;
             Paint p = new Paint();
-
-
             ToDoItemRecyclerViewAdapter.ViewHolder vh= (ToDoItemRecyclerViewAdapter.ViewHolder)viewHolder;
 
             if(dX > 0){

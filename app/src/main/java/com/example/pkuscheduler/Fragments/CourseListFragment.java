@@ -26,6 +26,8 @@ import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.CourseTimeRepository;
 import com.example.pkuscheduler.Components.ScheduleCourseGrid;
 
+import static com.example.pkuscheduler.Utils.UI.LengthConveter.DpToPx;
+
 public class CourseListFragment extends Fragment {
 
     private ScheduleRootObject scheduleRootObject;
@@ -85,16 +87,11 @@ public class CourseListFragment extends Fragment {
             layoutContainer.addView(time);
         }
     }
-    public int DpToPx(float dp){
-        return ((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                getResources().getDisplayMetrics()));
-    }
 
 
 //    TODO: 星期天-1可能有bug
     public void updateCourseBlocks(){
-        int blockHeight = DpToPx(180);
+        int blockHeight = DpToPx(180,getContext());
         float offsetX;
         String dayOfWeek = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1);
         for(Coursetableroom coursetableroom: scheduleRootObject.courseTableRoom){
@@ -107,10 +104,10 @@ public class CourseListFragment extends Fragment {
                     Log.e("kcmc",coursetableroom.kcmc);*/
                     offsetX=CourseTimeRepository.getStartTimeMinute(jsap.kssj);
                     AddCourseBlock(
-                            DpToPx(offsetX*1.2f),
+                            DpToPx(offsetX*1.2f,getContext()),
                             0,
                             coursetableroom.kcmc,
-                            DpToPx((CourseTimeRepository.getEndTimeMinute(jsap.jssj)-offsetX)*1.2f),
+                            DpToPx((CourseTimeRepository.getEndTimeMinute(jsap.jssj)-offsetX)*1.2f,getContext()),
                             blockHeight
                     );
                 }

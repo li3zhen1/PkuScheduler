@@ -3,12 +3,18 @@ package com.example.pkuscheduler.Components;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.icu.text.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.R;
+import com.example.pkuscheduler.Utils.UI.LengthConveter;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
 import java.util.Collections;
@@ -38,8 +44,34 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        System.out.println(position);
         holder.mItem = items.get(position);
-        holder.mTitleView.setText(items.get(position).getScheduleTitle().replace(" ",""));
+        Log.e("NotDone", JSON.toJSONString(holder.mItem.getIsDone()));
+        if(holder.mItem.getIsDone()){
+            LinearLayout.LayoutParams _lp =  new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, 0);
+            int horizontalMarg = LengthConveter.DpToPx(12,
+                    holder.mView.getContext());
+            _lp.setMargins(horizontalMarg,0,horizontalMarg,0);
+            holder.mLinearLayout.setLayoutParams(_lp);
+        }
+        else{
+            Log.e("NotDone","!!");
+/*            LinearLayout.LayoutParams _lp =
+                    new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LengthConveter.DpToPx(R.dimen.TodoItemGridHeight,
+                            holder.mView.getContext())
+            );
+            int horizontalMarg = LengthConveter.DpToPx(12,
+                    holder.mView.getContext());
+            _lp.setMargins(horizontalMarg,0,horizontalMarg,
+                    LengthConveter.DpToPx(R.dimen.TodoItemGridMarginBottom,
+                            holder.mView.getContext())
+                    );
+            holder.mLinearLayout.setLayoutParams(_lp);*/
+        }
+        holder.mTitleView.setText(holder.mItem.getScheduleTitle().replace(" ",""));
         holder.mDueTimeView.setText(
                 dateFormat.format( items.get(position).getEndTime())
                 +"  " +timeFormat.format( items.get(position).getEndTime())
@@ -57,6 +89,14 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
                 }*/
             }
         });
+
+        holder.mCheckBox.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> {
+                    holder.mItem.setIsDone(isChecked);
+                    notifyItemChanged(position);
+                }
+
+        );
     }
 
     @Override
@@ -83,30 +123,14 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
     public void onItemRemoved(final int position) {
         mJustDeletedToDoItem = items.remove(position);
         mIndexOfDeletedToDoItem = position;
-
-        //Intent i = new Intent(getContext(), TodoNotificationService.class);
-        //deleteAlarm(i, mJustDeletedToDoItem.getIdentifier().hashCode());
         notifyItemRemoved(position);
+        //TODO: wakeup Snackbar to Withdraw
+    }
 
-/*        Log.e("",root_view.getContext().getString(R.string.LoginActivity_ForgotPassword));
-        String toShow = "Todo";
-        Snackbar.make(mCoordLayout, "Deleted " + toShow, Snackbar.LENGTH_LONG)
-                .setAction("UNDO", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        //Comment the line below if not using Google Analytics
-                        app.send(this, "Action", "UNDO Pressed");
-                        items.add(mIndexOfDeletedToDoItem, mJustDeletedToDoItem);
-                        if (mJustDeletedToDoItem.getToDoDate() != null && mJustDeletedToDoItem.hasReminder()) {
-                            Intent i = new Intent(getContext(), TodoNotificationService.class);
-                            i.putExtra(TodoNotificationService.TODOTEXT, mJustDeletedToDoItem.getToDoText());
-                            i.putExtra(TodoNotificationService.TODOUUID, mJustDeletedToDoItem.getIdentifier());
-                            createAlarm(i, mJustDeletedToDoItem.getIdentifier().hashCode(), mJustDeletedToDoItem.getToDoDate().getTime());
-                        }
-                        notifyItemInserted(mIndexOfDeletedToDoItem);
-                    }
-                }).show();*/
+    @Override
+    public void onItemCompleted(int position) {
+        items.get(position).setIsDone(true);
+        notifyItemChanged(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -115,7 +139,9 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         public final TextView mDueTimeView;
         public final TextView mEventTypeView;
         public final TextView mCourseSourceView;
+        public CheckBox mCheckBox;
         public ToDoItem mItem;
+        public final LinearLayout mLinearLayout;
 
         public ViewHolder(View view) {
             super(view);
@@ -124,11 +150,9 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
             mDueTimeView = (TextView) view.findViewById(R.id.todo_item_description);
             mEventTypeView =(TextView) view.findViewById(R.id.todo_item_eventtype);
             mCourseSourceView=(TextView) view.findViewById(R.id.todo_item_coursesource);
+            mCheckBox =(CheckBox) view.findViewById(R.id.todo_item_checkbox);
+            mLinearLayout = (LinearLayout)view.findViewById(R.id.todo_item_container);
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mDueTimeView.getText() + "'";
-        }
     }
 }

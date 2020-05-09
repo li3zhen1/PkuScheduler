@@ -77,6 +77,9 @@ public class ExampleUnitTest {
         A(int x){
             a=x;
         }
+        public void seta(int x){
+            a=x;
+        }
     }
     public class B extends A{
         public int b;
@@ -95,9 +98,10 @@ public class ExampleUnitTest {
     }
     @Test
     public void test2(){
-        B BB = new B(1,2);
-        C CC = new C(3,5);
-        List<ISchedulable> la = new ArrayList<ISchedulable>();
+        List<A> a= new ArrayList<A>();
+        a.add(new A(2));
+        a.get(0).seta(3);
+        System.out.println(a.get(0).a);
     }
 
     @Test
