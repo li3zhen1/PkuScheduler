@@ -165,10 +165,11 @@ public class ScheduleListFragment extends Fragment {
                         {
                             Log.e("Hello","");
                             isDistinct=false;
-                            continue;
+                            break;
                         }
                     }
                     if(isDistinct){
+                        Log.e("GOT","");
                         toDoItems.addAll(_toDoItems);
                     }
                 }
@@ -178,11 +179,13 @@ public class ScheduleListFragment extends Fragment {
                 } catch (IOException e) {
                     return "更新存储来自CourseApi的信息失败";
                 }
+                return "成功";
             }
-            return "成功";
+            return "未获取到有效信息";
         }
         @Override
         protected void onPostExecute(final String returnStatus) {
+            Log.e("",returnStatus);
             adapter.notifyDataSetChanged();
 
             //TODO:Handle Excpetion

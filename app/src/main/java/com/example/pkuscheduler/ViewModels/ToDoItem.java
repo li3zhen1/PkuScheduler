@@ -71,6 +71,7 @@ public class ToDoItem implements ISchedulable {
         EndTime = courseRawToDoItemsRootObject.end;
         ScheduleTag = courseRawToDoItemsRootObject.eventType;
         isFromCourse = true;
+        CourseObjectIdentifier = courseRawToDoItemsRootObject.id;
         ScheduleCourseSource = courseRawToDoItemsRootObject.calendarName.substring(0, courseRawToDoItemsRootObject.calendarName.length()-13)
                 .replace("（","(").replace("）",")");
         if(scheduleReminderTimeList==null){
@@ -162,7 +163,8 @@ public class ToDoItem implements ISchedulable {
                 return false;
             }
             if(isFromCourse&&((ToDoItem) obj).isFromCourse){
-                return CourseObjectIdentifier == ((ToDoItem) obj).CourseObjectIdentifier;
+                System.out.println(CourseObjectIdentifier+"\n"+((ToDoItem) obj).CourseObjectIdentifier+"\n");
+                return CourseObjectIdentifier.equals(((ToDoItem) obj).CourseObjectIdentifier);
             }
 
 
