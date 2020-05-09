@@ -1,26 +1,19 @@
 package com.example.pkuscheduler.Components;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.icu.text.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.*;
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT;
 
 public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRecyclerViewAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter  {
     private final List<ToDoItem> items;
@@ -48,8 +41,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         holder.mItem = items.get(position);
         holder.mTitleView.setText(items.get(position).getScheduleTitle().replace(" ",""));
         holder.mDueTimeView.setText(
-                dateFormat.format( items.get(position).getScheduleDeadline())
-                +"  " +timeFormat.format( items.get(position).getScheduleDeadline())
+                dateFormat.format( items.get(position).getEndTime())
+                +"  " +timeFormat.format( items.get(position).getEndTime())
         );
         holder.mEventTypeView.setText(items.get(position).getScheduleTag());
         holder.mCourseSourceView.setText(items.get(position).getScheduleCourseSource());
@@ -90,6 +83,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
     public void onItemRemoved(final int position) {
         mJustDeletedToDoItem = items.remove(position);
         mIndexOfDeletedToDoItem = position;
+
         //Intent i = new Intent(getContext(), TodoNotificationService.class);
         //deleteAlarm(i, mJustDeletedToDoItem.getIdentifier().hashCode());
         notifyItemRemoved(position);

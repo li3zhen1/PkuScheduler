@@ -70,7 +70,7 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
             ToDoItemRecyclerViewAdapter.ViewHolder vh= (ToDoItemRecyclerViewAdapter.ViewHolder)viewHolder;
 
             if(dX > 0){
-                float opacity = (2*dX/(itemView.getRight()-itemView.getLeft()));
+                float opacity = 0.1f+(2*dX/(itemView.getRight()-itemView.getLeft()));
                 opacity=opacity>1?1:opacity;
                 //TODO: 提到外面去
                 int nonOpacityColor = recyclerView.getResources().getColor(R.color.colorBrandingBlue);
@@ -78,7 +78,7 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
                         ((int)(opacity *0xff))<<24);
             }
             else{
-                float opacity = (2*dX/(itemView.getLeft()-itemView.getRight()));
+                float opacity = 0.1f+(2*dX/(itemView.getLeft()-itemView.getRight()));
                 opacity=opacity>1?1:opacity;
                 //TODO: 提到外面去
                 int nonOpacityColor = recyclerView.getResources().getColor(R.color.colorBrandingRed);

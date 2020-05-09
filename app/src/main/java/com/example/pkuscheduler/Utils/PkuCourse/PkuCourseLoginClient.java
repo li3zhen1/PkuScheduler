@@ -66,7 +66,8 @@ public final class PkuCourseLoginClient {
         conn.disconnect();
         if (cookiesHeader != null)
             for (String cookie : cookiesHeader){
-                if (cookie.contains("session_id=")){
+                //Log.e("",cookie);
+                if (cookie.contains("session_id=")&&!cookie.contains("s_session_id=")){
                     courseLoginInfoModel.sessionId = betweenStrings(cookie, "session_id=", "; Path=/;");}
                 if (cookie.contains("s_session_id=")){
                     courseLoginInfoModel.sSessionId = betweenStrings(cookie, "s_session_id=", "; Path=/;");}

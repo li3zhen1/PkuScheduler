@@ -7,6 +7,7 @@
     android:background="@drawable/ripple_corner_0dp_white"
     android:layout_marginHorizontal="12dp"
     android:layout_marginBottom="2dp"
+    android:elevation="0.6dp"
     >
 <CheckBox
     android:layout_width="wrap_content"

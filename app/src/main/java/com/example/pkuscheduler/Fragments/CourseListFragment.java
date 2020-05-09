@@ -26,7 +26,7 @@ import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.CourseTimeRepository;
 import com.example.pkuscheduler.Components.ScheduleCourseGrid;
 
-public class TodayFragment extends Fragment {
+public class CourseListFragment extends Fragment {
 
     private ScheduleRootObject scheduleRootObject;
     private Calendar calendar;
@@ -35,8 +35,8 @@ public class TodayFragment extends Fragment {
     private Typeface Inter;
     FetchCourseInfo scheduleRootObjectTask;
 
-    public static TodayFragment newInstance() {
-        return new TodayFragment();
+    public static CourseListFragment newInstance() {
+        return new CourseListFragment();
     }
 
     @Override

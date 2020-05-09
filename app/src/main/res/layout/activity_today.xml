@@ -46,7 +46,7 @@
             android:id="@+id/today_schedule_horizontal_scroll_view"
             android:scrollbars="none"
             >
-            <fragment android:name="com.example.pkuscheduler.Fragments.TodayFragment"
+            <fragment android:name="com.example.pkuscheduler.Fragments.CourseListFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
         </HorizontalScrollView>
@@ -113,5 +113,14 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    android:layout_margin="24dp"
+    android:contentDescription="@string/create_a_new_task"
+    android:src="@drawable/ic_add_white_24dp"
+    android:onClick="CreateNewToDoItem"
+    />
 </androidx.constraintlayout.widget.ConstraintLayout>

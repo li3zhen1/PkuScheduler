@@ -26,4 +26,6 @@ public class TodayActivity extends AppCompatActivity{
     }
 
 
+    public void CreateNewToDoItem(View view) {
+    }
 }

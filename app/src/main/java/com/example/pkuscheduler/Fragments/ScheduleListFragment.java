@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,15 +18,18 @@ import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.Components.EmptySpecifiedRecyclerView;
 import com.example.pkuscheduler.Components.ItemTouchHelperClass;
 import com.example.pkuscheduler.Components.ToDoItemRecyclerViewAdapter;
-import com.example.pkuscheduler.Models.CourseDeadlineJsonModel.DeadlineRootObject;
+import com.example.pkuscheduler.Models.CourseDeadlineJsonModel.CourseRawToDoItemsRootObject;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.example.pkuscheduler.ViewModels.ToDoItem.saveListInstance;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +44,9 @@ public class ScheduleListFragment extends Fragment {
     private List<ToDoItem> toDoItems =new ArrayList<>();
     private ToDoItemRecyclerViewAdapter adapter;
     private EmptySpecifiedRecyclerView mRecyclerView;
-    private FetchScheduleInfo fetchScheduleInfo;
+    private FetchScheduleInfoFromStorage fetchScheduleInfoFromStorage;
+    private UpdateScheduleInfoFromWebApi updateScheduleInfoFromWebApi;
+    private CourseLoginInfoModel courseLoginInfoModel;
     private final Long MILLISECONDS_OF_A_WEEK = Long.valueOf(604800000);
     public ItemTouchHelper itemTouchHelper;
 
@@ -82,49 +86,118 @@ public class ScheduleListFragment extends Fragment {
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.setAdapter(adapter);
-        fetchScheduleInfo = new FetchScheduleInfo(
-                CourseLoginInfoModel.getInstanceFromSharedPreference(getContext())
-        );
-        fetchScheduleInfo.execute();
+        courseLoginInfoModel =CourseLoginInfoModel.getInstanceFromSharedPreference(getContext());
+        fetchScheduleInfoFromStorage = new FetchScheduleInfoFromStorage();
+        fetchScheduleInfoFromStorage.execute();
         return mView;
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class FetchScheduleInfo extends AsyncTask<Void, Void, List<ToDoItem>>{
-        private CourseLoginInfoModel courseLoginInfoModel;
-        FetchScheduleInfo(CourseLoginInfoModel _c){
-            courseLoginInfoModel=_c;
-        }
+    private class FetchScheduleInfoFromStorage extends AsyncTask<Void, Void, String>{
+        FetchScheduleInfoFromStorage(){}
 
         @Override
-        protected List<ToDoItem> doInBackground(Void... voids) {
+        protected String doInBackground(Void... voids) {
             List<ToDoItem> _toDoItems = new ArrayList<ToDoItem>();
-            List<DeadlineRootObject> _deadlineRootObjects = DeadlineRootObject.getInstance(
-                    getContext(),
-                    courseLoginInfoModel,
-                    String.valueOf(System.currentTimeMillis()),
-                    String.valueOf(System.currentTimeMillis()
-                            +MILLISECONDS_OF_A_WEEK*4)
-            );
-            Log.e(JSON.toJSONString(_deadlineRootObjects),"");
-            for(DeadlineRootObject deadlineRootObject:_deadlineRootObjects){
-                ToDoItem newItem = new ToDoItem(deadlineRootObject, null);
-                _toDoItems.add(newItem);
+
+            try{
+                _toDoItems = ToDoItem.getListInstanceFromStorage(getContext());
+            } catch (IOException e) {
+                return "获取存储的TODO项失败";
             }
-            return _toDoItems;
+            if(_toDoItems!=null)
+            {
+                toDoItems.addAll(_toDoItems);
+                toDoItems.sort(Comparator.comparing(toDoItem -> {return toDoItem.getEndTime();}));
+            }
+            try {
+                saveListInstance(toDoItems,getContext());
+            } catch (IOException e) {
+                return "更新存储TODO项失败";
+            }
+            return "成功";
         }
         @Override
-        protected void onPostExecute(final List<ToDoItem> returnStatus) {
-            if(returnStatus!=null)
-            {
-                for(ToDoItem __toDoItem :returnStatus){
-                    toDoItems.add(__toDoItem);
-                }
-                toDoItems.sort(Comparator.comparing(toDoItem -> {return toDoItem.getScheduleDeadline();}));
-                adapter.notifyDataSetChanged();
+        protected void onPostExecute(final String returnStatus) {
+            adapter.notifyDataSetChanged();
 
-            }
+            //TODO handle exception
+            updateScheduleInfoFromWebApi = new UpdateScheduleInfoFromWebApi();
+            updateScheduleInfoFromWebApi.execute();
         }
 
+    }
+    @SuppressLint("StaticFieldLeak")
+    private class UpdateScheduleInfoFromWebApi extends AsyncTask<Void, Void, String>{
+        UpdateScheduleInfoFromWebApi(){
+
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            List<ToDoItem> _toDoItems = new ArrayList<ToDoItem>();
+            List<CourseRawToDoItemsRootObject> _courseRawToDoItemsRootObjects;
+            try{
+                _courseRawToDoItemsRootObjects
+                        = CourseRawToDoItemsRootObject.getInstanceFromWebApi(
+                        getContext(),
+                        String.valueOf(System.currentTimeMillis()),
+                        String.valueOf(System.currentTimeMillis()
+                                +MILLISECONDS_OF_A_WEEK*4)
+                );
+                Log.e("",JSON.toJSONString(_courseRawToDoItemsRootObjects));
+                for(CourseRawToDoItemsRootObject courseRawToDoItemsRootObject : _courseRawToDoItemsRootObjects){
+                    ToDoItem newItem = new ToDoItem(courseRawToDoItemsRootObject, null);
+                    _toDoItems.add(newItem);
+                }
+            }catch (Exception e){
+                return "获取CourseApi失败";
+            }
+
+            if(_toDoItems!=null)
+            {
+                boolean isDistinct = true;
+
+                //查重
+                for(ToDoItem td:_toDoItems){
+                    for(ToDoItem _td: toDoItems){
+                        if(td.equals(_td))
+                        {
+                            Log.e("Hello","");
+                            isDistinct=false;
+                            continue;
+                        }
+                    }
+                    if(isDistinct){
+                        toDoItems.addAll(_toDoItems);
+                    }
+                }
+                toDoItems.sort(Comparator.comparing(toDoItem -> {return toDoItem.getEndTime();}));
+                try {
+                    saveListInstance(toDoItems,getContext());
+                } catch (IOException e) {
+                    return "更新存储来自CourseApi的信息失败";
+                }
+            }
+            return "成功";
+        }
+        @Override
+        protected void onPostExecute(final String returnStatus) {
+            adapter.notifyDataSetChanged();
+
+            //TODO:Handle Excpetion
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        try {
+            saveListInstance(toDoItems,getContext());
+        } catch (IOException e) {
+            //TODO:Handle Excpetion
+            e.printStackTrace();
+        }
+        super.onPause();
     }
 }

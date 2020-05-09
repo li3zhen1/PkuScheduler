@@ -1,12 +1,14 @@
 package com.example.pkuscheduler.Models.CourseDeadlineJsonModel;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.Utils.PkuCourse.ApiRepository;
+import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -18,12 +20,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 
-public final class DeadlineRootObject {
+public final class CourseRawToDoItemsRootObject {
     public final static String storagePath ="DeadlineRootObjectCache.json";
 
     public Boolean allDay;
@@ -51,38 +54,35 @@ public final class DeadlineRootObject {
     public Date endDate;
     public String eventType;
 
-    public static List<DeadlineRootObject> getInstanceFromWebApi(
+    public static List<CourseRawToDoItemsRootObject> getInstanceFromWebApi(
             Context context,
-            CourseLoginInfoModel courseLoginInfoModel,
             String startTimeStamp,
-            String endTimeStamp)
-            throws Exception
+            String endTimeStamp) throws Exception
     {
-        List<DeadlineRootObject> deadlineRootObjects = null;
+        CourseLoginInfoModel courseLoginInfoModel = CourseLoginInfoModel.getInstanceFromWebApi(context);
+        List<CourseRawToDoItemsRootObject> courseRawToDoItemsRootObjects = null;
         HttpURLConnection conn;
         String request = ApiRepository.getDeadlinesUrl(startTimeStamp,endTimeStamp);
         URL url = new URL(request);
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
+        conn.setRequestMethod("GET");
         conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId
                 +"; session_id=" + courseLoginInfoModel.sessionId
                 +"; s_session_id=" + courseLoginInfoModel.sSessionId
                 +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
-        conn.setRequestMethod("GET");
         InputStream in = conn.getInputStream();
-        deadlineRootObjects = JSON.parseArray(convertStreamToString(in), DeadlineRootObject.class);
-
-
-        saveListInstance(deadlineRootObjects,context);
-        return deadlineRootObjects;
+        courseRawToDoItemsRootObjects = JSON.parseArray(convertStreamToString(in), CourseRawToDoItemsRootObject.class);
+        saveListInstance(courseRawToDoItemsRootObjects,context);
+        return courseRawToDoItemsRootObjects;
     }
 
 
     //cache
-    public static List<DeadlineRootObject> getInstanceFromStorage(Context context) throws IOException {
+    public static List<CourseRawToDoItemsRootObject> getInstanceFromStorage(Context context) throws IOException {
         BufferedReader bufferedReader = null;
         FileInputStream fileInputStream = null;
-        List<DeadlineRootObject> deadlineRootObjects = null;
+        List<CourseRawToDoItemsRootObject> courseRawToDoItemsRootObjects = null;
         try {
             fileInputStream = context.openFileInput(storagePath);
             StringBuilder builder = new StringBuilder();
@@ -91,7 +91,7 @@ public final class DeadlineRootObject {
             while ((line = bufferedReader.readLine()) != null) {
                 builder.append(line);
             }
-            deadlineRootObjects = JSON.parseArray(builder.toString(), DeadlineRootObject.class);
+            courseRawToDoItemsRootObjects = JSON.parseArray(builder.toString(), CourseRawToDoItemsRootObject.class);
         } catch (FileNotFoundException fnfe) {
             throw new IOException();
         } finally {
@@ -103,47 +103,47 @@ public final class DeadlineRootObject {
             }
 
         }
-        return deadlineRootObjects;
+        return courseRawToDoItemsRootObjects;
     }
 
-    public static void saveListInstance(List<DeadlineRootObject> deadlineRootObjects, Context context) throws JSONException, IOException {
+    public static void saveListInstance(List<CourseRawToDoItemsRootObject> courseRawToDoItemsRootObjects, Context context) throws JSONException, IOException {
         FileOutputStream fileOutputStream;
         OutputStreamWriter outputStreamWriter;
         fileOutputStream = context.openFileOutput(storagePath, Context.MODE_PRIVATE);
         outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-        outputStreamWriter.write(JSON.toJSONString(deadlineRootObjects));
+        outputStreamWriter.write(JSON.toJSONString(courseRawToDoItemsRootObjects));
         outputStreamWriter.close();
         fileOutputStream.close();
+        //Log.e("CourseRaw","Saved");
     }
 
 
     //TODO:Probably updated online, try update.
-    public static List<DeadlineRootObject> getInstance(
+    public static List<CourseRawToDoItemsRootObject> getInstance(
             Context context,
             CourseLoginInfoModel courseLoginInfoModel,
             String startTimeStamp,
             String endTimeStamp){
-        List<DeadlineRootObject> deadlineRootObjects = null;
+        List<CourseRawToDoItemsRootObject> courseRawToDoItemsRootObjects = null;
         boolean isStorageValid = true;
         try{
-            deadlineRootObjects = getInstanceFromStorage(context);
-            if(deadlineRootObjects==null) isStorageValid=false;
+            courseRawToDoItemsRootObjects = getInstanceFromStorage(context);
+            if(courseRawToDoItemsRootObjects ==null) isStorageValid=false;
         } catch (IOException e) {
             isStorageValid=false;
             //TODO:alert
         }
         if(!isStorageValid){
             try{
-                deadlineRootObjects = getInstanceFromWebApi(
+                courseRawToDoItemsRootObjects = getInstanceFromWebApi(
                         context,
-                        courseLoginInfoModel,
                         startTimeStamp,
                         endTimeStamp);
             } catch (Exception e) {
                 //TODO:alert
             }
         }
-        Log.e("FROM OBJ",JSON.toJSONString(deadlineRootObjects));
-        return deadlineRootObjects;
+        Log.e("FROM OBJ",JSON.toJSONString(courseRawToDoItemsRootObjects));
+        return courseRawToDoItemsRootObjects;
     }
 }
