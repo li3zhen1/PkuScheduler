@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class StringUtils {
+
+
     public static String betweenStrings(String str, String leftStr, String rightStr) {
         int l = str.indexOf(leftStr) + leftStr.length();
         int r = l+str.substring(l,str.length()).indexOf(rightStr);
@@ -12,6 +14,7 @@ public final class StringUtils {
         return str.substring(l, r);
     }
 
+    //网络用
     public static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
@@ -22,6 +25,7 @@ public final class StringUtils {
     }
 
 
+    //unicode 转义
     public static String getUnicodeEscaped(String unescaped){
         Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
         Matcher matcher = pattern.matcher(unescaped);

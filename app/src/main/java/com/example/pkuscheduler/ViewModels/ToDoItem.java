@@ -163,7 +163,7 @@ public class ToDoItem implements ISchedulable {
                 return false;
             }
             if(isFromCourse&&((ToDoItem) obj).isFromCourse){
-                System.out.println(CourseObjectIdentifier+"\n"+((ToDoItem) obj).CourseObjectIdentifier+"\n");
+                //System.out.println(CourseObjectIdentifier+"\n"+((ToDoItem) obj).CourseObjectIdentifier+"\n");
                 return CourseObjectIdentifier.equals(((ToDoItem) obj).CourseObjectIdentifier);
             }
 

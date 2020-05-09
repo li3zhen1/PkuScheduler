@@ -17,6 +17,8 @@ import java.util.Map;
 import static com.example.pkuscheduler.Utils.StringUtils.betweenStrings;
 import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 
+
+//获取访问 pkucourse 需要的4个cookie
 public final class PkuCourseLoginClient {
     private CourseLoginInfoModel courseLoginInfoModel;
 
@@ -28,6 +30,7 @@ public final class PkuCourseLoginClient {
         courseLoginInfoModel =new CourseLoginInfoModel(loginInfoStudentId,loginInfoPassword);
     }
 
+    //获取iaaa的token
     public Boolean FetchIaaaToken() throws IOException {
         String urlParameters = "appid=blackboard&userName=" +
                 URLEncoder.encode(courseLoginInfoModel.studentId, "UTF-8") +
@@ -54,6 +57,7 @@ public final class PkuCourseLoginClient {
             return false;
     }
 
+    //获取s_session,session,guid三个cookie
     public Boolean FetchCookies() throws IOException {
         if(courseLoginInfoModel.iaaaToken==null)
             return null;
@@ -80,6 +84,7 @@ public final class PkuCourseLoginClient {
         return true;
     }
 
+    //获取jsession
     public Boolean FetchJSessionId() throws IOException{
         HttpURLConnection conn = null;
         URL url = new URL(jSessionIdBaseUrl);

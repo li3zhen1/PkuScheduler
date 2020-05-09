@@ -7,8 +7,6 @@ public final class ApiRepository {
                 + "&end=" + endTimeStamp
                 + "&course_id=&mode=personal";
     }
-
-
     public final static String getSubmisstionStatusUrl(String ObjectIdentifier){
         return "https://course.pku.edu.cn/webapps/calendar/launch/attempt/"+ObjectIdentifier;
     }

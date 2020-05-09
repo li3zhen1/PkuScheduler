@@ -15,6 +15,8 @@ public class PkuHelperLoginClient {
     private static Boolean isTokenResponseSuccess(String _response){
         return _response.contains("\"code\":0,\"msg\":\"ok\"");
     }
+
+    //请求北大地带验证码
     public static Boolean AskForPin(String studentId) throws IOException {
         HttpURLConnection conn = null;
         URL url = new URL(ApiRepository.getUrl(studentId));
@@ -42,6 +44,8 @@ public class PkuHelperLoginClient {
         }
     }
 
+    //把验证码发给pkuhelper获取helper的token（用来访问pkuhelper所有可以访问的信息，不易变）
+    //TODO：处理token失效
     public static String FetchToken(String studentId,String validCode) throws IOException {
         HttpURLConnection conn = null;
         System.out.println(ApiRepository.getTokenUrl(studentId,validCode));

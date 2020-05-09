@@ -18,6 +18,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+
+//没用 复制粘贴用的
 public class StorageTemplates {
     private Context mContext;
     private String mFileName;

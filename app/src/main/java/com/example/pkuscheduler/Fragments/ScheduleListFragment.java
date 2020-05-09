@@ -156,21 +156,20 @@ public class ScheduleListFragment extends Fragment {
 
             if(_toDoItems!=null)
             {
-                boolean isDistinct = true;
+                boolean isDistinct;
 
                 //查重
                 for(ToDoItem td:_toDoItems){
+                    isDistinct = true;
                     for(ToDoItem _td: toDoItems){
                         if(td.equals(_td))
                         {
-                            Log.e("Hello","");
                             isDistinct=false;
                             break;
                         }
                     }
                     if(isDistinct){
-                        Log.e("GOT","");
-                        toDoItems.addAll(_toDoItems);
+                        toDoItems.add(td);
                     }
                 }
                 toDoItems.sort(Comparator.comparing(toDoItem -> {return toDoItem.getEndTime();}));
