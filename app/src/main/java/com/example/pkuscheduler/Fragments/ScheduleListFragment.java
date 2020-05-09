@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.Components.EmptySpecifiedRecyclerView;
+import com.example.pkuscheduler.Components.ItemTouchHelperClass;
 import com.example.pkuscheduler.Components.ToDoItemRecyclerViewAdapter;
 import com.example.pkuscheduler.Models.CourseDeadlineJsonModel.DeadlineRootObject;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
@@ -42,6 +44,7 @@ public class ScheduleListFragment extends Fragment {
     private EmptySpecifiedRecyclerView mRecyclerView;
     private FetchScheduleInfo fetchScheduleInfo;
     private final Long MILLISECONDS_OF_A_WEEK = Long.valueOf(604800000);
+    public ItemTouchHelper itemTouchHelper;
 
 
     public ScheduleListFragment() {
@@ -73,7 +76,11 @@ public class ScheduleListFragment extends Fragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new ToDoItemRecyclerViewAdapter(toDoItems);
+        adapter = new ToDoItemRecyclerViewAdapter(toDoItems
+        ,mView);
+        ItemTouchHelper.Callback callback = new ItemTouchHelperClass(adapter,getContext());
+        itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.setAdapter(adapter);
         fetchScheduleInfo = new FetchScheduleInfo(
                 CourseLoginInfoModel.getInstanceFromSharedPreference(getContext())
@@ -85,8 +92,8 @@ public class ScheduleListFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
     private class FetchScheduleInfo extends AsyncTask<Void, Void, List<ToDoItem>>{
         private CourseLoginInfoModel courseLoginInfoModel;
-        FetchScheduleInfo(CourseLoginInfoModel _){
-            courseLoginInfoModel=_;
+        FetchScheduleInfo(CourseLoginInfoModel _c){
+            courseLoginInfoModel=_c;
         }
 
         @Override

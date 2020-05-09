@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 import com.example.pkuscheduler.Models.CourseDeadlineJsonModel.DeadlineRootObject;
 import com.example.pkuscheduler.R;
 
+import org.jetbrains.annotations.Contract;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -119,6 +121,28 @@ public class ToDoItem implements Serializable {
     @NonNull
     public String getScheduleTitle() {
         return ScheduleTitle;
+    }
+
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+
+        if(obj == null){
+            return false;
+        }
+
+        if(obj instanceof ToDoItem){
+            ToDoItem other = (ToDoItem) obj;
+            if(this.getScheduleDeadline() == other.getScheduleDeadline()
+            && this.getScheduleTitle()==other.getScheduleTitle()
+            && this.getScheduleTag()==other.getScheduleTag()){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
