@@ -26,7 +26,6 @@
 
             android:textColor="@color/colorBlack"
             android:textFontWeight="700"
-            android:fontFamily="@font/hanyi"
             android:textSize="@dimen/SubFragmentTitleTextSize"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -86,7 +85,6 @@
             android:text="@string/TodayActivity_DeadlinesTitle"
             android:textColor="@color/colorBlack"
             android:textFontWeight="700"
-            android:fontFamily="@font/hanyi"
             android:textSize="@dimen/SubFragmentTitleTextSize"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

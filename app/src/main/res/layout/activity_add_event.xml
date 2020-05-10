@@ -14,32 +14,80 @@
         android:layout_marginTop="0dp"
         android:elevation="4dp"
         >
-        <ImageView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="700dp"
-            android:scaleType="fitStart"
-            android:src="@drawable/ic_backgrounddec"/>
+
         <EditText
+            android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/TodayActivity_DeadlinesTitle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginHorizontal="24dp"
             android:fontFamily="@font/inter"
+            android:hint="Title"
             android:textFontWeight="400"
             android:textSize="32sp"
-            android:textColorHint="@color/colorWhite"
-            android:layout_margin="24dp"/>
+            app:layout_constraintBottom_toTopOf="@+id/add_new_item_switcher"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_new_item_switcher"
+            android:layout_width="wrap_content"
+            android:layout_height="84dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <View android:layout_width="240dp"
+                android:layout_margin="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/pin_input"/>
+            <View
+                android:id="@+id/view2"
+                android:layout_width="96dp"
+                android:layout_height="36dp"
+                android:layout_margin="24dp"
+                android:background="@drawable/ripple_corner_24dp_accent_red"
+                android:clickable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="4dp"/>
+
+            <TextView
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:fontFamily="@font/inter"
+                android:text="To-Do"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="4dp"/>
+
+            <TextView
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="108dp"
+                android:text="日程"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="4dp" />
+
+            <TextView
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="180dp"
+                android:text="番茄钟"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="4dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/add_todo_select_calendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClick_SelectCalendaButton"
-        android:text="选择日历"
-        app:layout_constraintStart_toStartOf="@+id/schedule_fragment_container"
-        app:layout_constraintTop_toBottomOf="@+id/schedule_fragment_container"></Button>
 </androidx.constraintlayout.widget.ConstraintLayout>

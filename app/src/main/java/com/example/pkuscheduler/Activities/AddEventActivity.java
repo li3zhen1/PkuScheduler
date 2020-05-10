@@ -48,15 +48,15 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     public void setUpActionBar(){
-        /*getSupportActionBar().hide();
-        getWindow().setStatusBarColor(0xffffffff);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);*/
-
-
         getSupportActionBar().hide();
+        getWindow().setStatusBarColor(0xffffffff);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+
+/*        getSupportActionBar().hide();
         //getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(0x00ffffff);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);*/
     }
 }
