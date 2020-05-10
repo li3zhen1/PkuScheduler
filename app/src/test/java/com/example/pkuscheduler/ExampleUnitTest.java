@@ -9,6 +9,7 @@ import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Coursetableroom;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Jsap;
 import com.example.pkuscheduler.Utils.PkuCourse.ApiRepository;
+import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseInformationClient;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
 
 import org.junit.Test;
@@ -106,32 +107,7 @@ public class ExampleUnitTest {
 
     @Test
     public void SubT() throws Exception{
-        InputStream in = null;
-        List<CourseRawToDoItemsRootObject> courseRawToDoItemsRootObjects = null;
-        HttpURLConnection conn;
-        String request = ApiRepository.getDeadlinesUrl(String.valueOf(Calendar.getInstance().getTimeInMillis())
-                ,String.valueOf(Calendar.getInstance().getTimeInMillis()+8000000000L));
-        URL url = new URL(request);
-        conn = (HttpURLConnection) url.openConnection();
-        conn.setInstanceFollowRedirects(false);
-        conn.setRequestMethod("GET");
-
-        PkuCourseLoginClient pkuCourseLoginClient=new PkuCourseLoginClient("1800013025","19991005lee");
-        pkuCourseLoginClient.FetchIaaaToken();
-        pkuCourseLoginClient.FetchCookies();
-        pkuCourseLoginClient.FetchJSessionId();
-        CourseLoginInfoModel courseLoginInfoModel = pkuCourseLoginClient.GetLoginInfo();
-
-        System.out.println("JSESSIONID=" + courseLoginInfoModel.jSessionId
-                +"; session_id=" + courseLoginInfoModel.sessionId
-                +"; s_session_id=" + courseLoginInfoModel.sSessionId
-                +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
-        conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId
-                +"; session_id=" + courseLoginInfoModel.sessionId
-                +"; s_session_id=" + courseLoginInfoModel.sSessionId
-                +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
-        in = conn.getInputStream();
-        System.out.println(convertStreamToString(in));
+        System.out.println(PkuCourseInformationClient.fetchSubmissionStatus("BZ1920104831280_12423"));
     }
 
 }

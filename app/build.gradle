@@ -29,6 +29,7 @@ android {
 
 dependencies {
     implementation 'com.alibaba:fastjson:1.2.61'
+    implementation 'ws.vinta:pangu:1.1.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.airbnb.android:lottie:3.4.0'
     implementation 'com.microsoft.uifabric:OfficeUIFabric:0.3.9'

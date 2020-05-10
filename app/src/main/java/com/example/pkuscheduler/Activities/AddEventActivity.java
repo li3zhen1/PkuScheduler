@@ -14,6 +14,8 @@ import com.microsoft.officeuifabric.datetimepicker.DateTimePickerDialog;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
 
+import ws.vinta.pangu.Pangu;
+
 public class AddEventActivity extends AppCompatActivity {
 
     private DateTimePickerDialog dateTimePickerDialog;
@@ -25,6 +27,8 @@ public class AddEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_event);
         setUpActionBar();
         AndroidThreeTen.init(this);
+        Pangu pangu = new Pangu();
+        String newText = pangu.spacingText("");
     }
 
 
