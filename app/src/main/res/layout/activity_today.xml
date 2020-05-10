@@ -13,6 +13,7 @@
         android:background="@color/colorWhite"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="0dp"
+        android:elevation="4dp"
         >
         <TextView
             android:id="@+id/today_course_title"

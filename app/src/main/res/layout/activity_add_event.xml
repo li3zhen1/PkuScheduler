@@ -5,13 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.AddEventActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/schedule_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        android:elevation="4dp"
+        >
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="700dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_backgrounddec"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/TodayActivity_DeadlinesTitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/inter"
+            android:textFontWeight="400"
+            android:textSize="32sp"
+            android:textColorHint="@color/colorWhite"
+            android:layout_margin="24dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <Button
         android:id="@+id/add_todo_select_calendar"
-        android:background="@drawable/shape_corner_8dp_accent_red"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="onClick_SelectCalendaButton"
-        android:text="选择日历">
-
-    </Button>
+        android:text="选择日历"
+        app:layout_constraintStart_toStartOf="@+id/schedule_fragment_container"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_fragment_container"></Button>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.pkuscheduler.R;
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -47,8 +48,15 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     public void setUpActionBar(){
-        getSupportActionBar().hide();
+        /*getSupportActionBar().hide();
         getWindow().setStatusBarColor(0xffffffff);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);*/
+
+
+        getSupportActionBar().hide();
+        //getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(0x00ffffff);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 }
