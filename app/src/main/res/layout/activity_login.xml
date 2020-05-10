@@ -67,29 +67,18 @@
         app:layout_constraintStart_toEndOf="@id/privacy_button"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintVertical_bias="1.0"/>
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/login_form_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/shape_corner_8dp_white"
-        >
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="72dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:layout_marginTop="12dp"
+            android:background="@drawable/shape_corner_8dp_white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -102,8 +91,8 @@
                 android:id="@+id/login_button"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/ripple_corner_24dp_accent_red"
                 android:fontFamily="@font/inter"
 
@@ -118,13 +107,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:textColorHint="@color/colorWhite"
                 android:onClick="AttemptLogin"
+                android:elevation="8dp"
                 />
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/login_button_lottie"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="20dp"
                 android:clickable="false"
                 android:longClickable="false"
                 android:contextClickable="false"
@@ -136,13 +126,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
+                android:elevation="8dp"
                 />
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/login_button_loading"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="20dp"
                 android:clickable="false"
                 android:longClickable="false"
                 android:contextClickable="false"
@@ -154,14 +145,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
+                android:elevation="8dp"
                 />
             <EditText
                 android:id="@+id/Login_input_password"
                 android:longClickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginHorizontal="12dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/shape_corner_24dp_gray_50"
                 android:ems="10"
@@ -180,8 +171,6 @@
                 android:longClickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/shape_corner_24dp_gray_50"
                 android:ems="10"
@@ -190,13 +179,13 @@
                 android:inputType="phone"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
+                android:layout_marginHorizontal="12dp"
                 app:layout_constraintBottom_toTopOf="@+id/Login_input_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
 
 
 
