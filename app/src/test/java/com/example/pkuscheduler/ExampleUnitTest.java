@@ -107,7 +107,7 @@ public class ExampleUnitTest {
 
     @Test
     public void SubT() throws Exception{
-        System.out.println(PkuCourseInformationClient.fetchSubmissionStatus("BZ1920104831280_12423"));
+        System.out.println(PkuCourseInformationClient.fetchSubmissionStatus("BZ1819104031651128499"));
     }
 
 }

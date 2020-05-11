@@ -118,6 +118,7 @@ public class CourseListFragment extends Fragment {
 
     //    TODO: ScheduleCourseGrid 显示待办事项
     public ScheduleCourseGrid AddCourseBlock(int offsetX, int offsetY, String courseTitle, int blockWidth, int blockHeight){
+        System.out.println(courseTitle);
         ScheduleCourseGrid courseBlockButton = new ScheduleCourseGrid(this.getContext());
         courseBlockButton.setDisplayButtonBackground(getResources().getDrawable(R.drawable.ripple_corner_8dp_accent_red));
         courseBlockButton.setDisplayTitleText(courseTitle);

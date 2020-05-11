@@ -2,6 +2,7 @@ package com.example.pkuscheduler.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -27,5 +28,6 @@ public class TodayActivity extends AppCompatActivity{
 
 
     public void CreateNewToDoItem(View view) {
+        startActivity(new Intent(this, AddEventActivity.class));
     }
 }

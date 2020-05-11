@@ -31,6 +31,7 @@
         android:id="@+id/display_title"
         android:fontFamily="@font/inter"
         android:textFontWeight="700"
-        android:padding="12dp"/>
+        android:padding="12dp"
+        android:elevation="12dp"/>
 
 </FrameLayout>
