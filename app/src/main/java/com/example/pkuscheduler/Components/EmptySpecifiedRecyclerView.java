@@ -40,23 +40,15 @@ public class EmptySpecifiedRecyclerView extends RecyclerView {
 
         Adapter<?> adapter = getAdapter();
         if (adapter != null && emptyView != null) {
-            if (adapter.getItemCount() == 0) {
+            if (adapter.getItemCount() == 0
+                    ||(adapter instanceof ToDoItemRecyclerViewAdapter) &&
+                    (
+                            ((ToDoItemRecyclerViewAdapter)adapter)
+                                    .getIncompletedCount()==0
+                    )) {
                 emptyView.setVisibility(VISIBLE);
                 EmptySpecifiedRecyclerView.this.setVisibility(GONE);
             } else {
-/*                Log.d(String.valueOf((adapter instanceof ToDoItemRecyclerViewAdapter)),
-                        String.valueOf(((ToDoItemRecyclerViewAdapter)adapter)
-                                .getIncompletedCount()==0));
-                if((adapter instanceof ToDoItemRecyclerViewAdapter) &&
-                        (
-                                ((ToDoItemRecyclerViewAdapter)adapter)
-                                        .getIncompletedCount()==0
-                        )
-                ){
-                    Log.e("1","12312312321312123");
-                    emptyView.setVisibility(VISIBLE);
-                    EmptySpecifiedRecyclerView.this.setVisibility(GONE);
-                }*/
                 emptyView.setVisibility(GONE);
                 EmptySpecifiedRecyclerView.this.setVisibility(VISIBLE);
             }
