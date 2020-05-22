@@ -1,14 +1,9 @@
 package com.example.pkuscheduler;
 
 
-import android.util.Log;
-
-import com.example.pkuscheduler.Interfaces.ISchedulable;
-import com.example.pkuscheduler.Models.CourseDeadlineJsonModel.CourseRawToDoItemsRootObject;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Coursetableroom;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Jsap;
-import com.example.pkuscheduler.Utils.PkuCourse.ApiRepository;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseInformationClient;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
 
@@ -21,13 +16,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.*;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.ScheduleRootObject;
 
-import static com.example.pkuscheduler.Utils.PkuCourse.PkuCourseSubmissionStatusClient.fetchSubmissionStatus;
 import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 import static com.example.pkuscheduler.Utils.StringUtils.getUnicodeEscaped;
 
@@ -108,6 +103,77 @@ public class ExampleUnitTest {
     @Test
     public void SubT() throws Exception{
         System.out.println(PkuCourseInformationClient.fetchSubmissionStatus("BZ1819104031651128499"));
+    }
+
+    @Test
+    public void TestPkuCourse() throws IOException {
+        PkuCourseLoginClient pkuCourseLoginClient = new PkuCourseLoginClient("","");
+        pkuCourseLoginClient.FetchCourseCookies_Portals();
+        pkuCourseLoginClient.FetchIaaaToken();
+        pkuCourseLoginClient.OathValidate();
+        pkuCourseLoginClient.FetchJSessionId_FrameSet();
+        CourseLoginInfoModel courseLoginInfoModel = pkuCourseLoginClient.GetLoginInfo();
+
+        URL taburl = new URL("https://course.pku.edu.cn/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_3_1");
+        HttpURLConnection conn3;
+        conn3 =(HttpURLConnection)taburl.openConnection();
+        conn3.setRequestMethod("GET");
+        conn3.setRequestProperty("Referer","https://iaaa.pku.edu.cn/iaaa/oauth.jsp");
+        conn3.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId_Frameset
+                +"; JSESSIONID=" + courseLoginInfoModel.jSessionId_Portal
+                +"; s_session_id="+ courseLoginInfoModel.sSessionId
+                +"; session_id=" + courseLoginInfoModel.sessionId
+                +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
+        Map<String, List<String>> headerFields = conn3.getHeaderFields();
+        System.out.println("\n\nConn3\n"+JSON.toJSONString(headerFields));
+        InputStream in = conn3.getInputStream();
+        System.out.println(convertStreamToString(in));
+
+
+/*
+        String url1 = "https://course.pku.edu.cn/webapps/calendar/viewMyBb?globalNavigation=false";
+        HttpURLConnection conn2;
+        URL url__ = new URL(url1);
+        conn2 =(HttpURLConnection)url__.openConnection();
+        conn2.setRequestMethod("GET");
+
+        conn2.setRequestProperty("Referer","https://course.pku.edu.cn/webapps/bb-social-learning-bb_bb60/execute/mybb?cmd=display&toolId=calendar-mybb_____calendar-tool");
+
+        conn2.setRequestProperty("Sec-Fetch-Dest","iframe");
+        conn2.setRequestProperty("Sec-Fetch-Mode","navigate");
+        conn2.setRequestProperty("Sec-Fetch-Site","same-origin");
+        conn2.setRequestProperty("Upgrade-Insecure-Requests","1");
+
+        conn2.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.mainPageJSessionId
+                +"; s_session_id=" + courseLoginInfoModel.sSessionId
+                +"; session_id=" + courseLoginInfoModel.sessionId
+                +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
+        Map<String, List<String>> headerFields = conn2.getHeaderFields();
+        System.out.println(JSON.toJSONString(headerFields));
+        String newJSid = betweenStrings(headerFields.get("Set-Cookie").toString(),"JSESSIONID=", "; Path=");
+        System.out.println(newJSid);
+
+
+        List<CourseRawToDoItemsRootObject> courseRawToDoItemsRootObjects = null;
+        HttpURLConnection conn;
+        String request = ApiRepository.getDeadlinesUrl("1587830400000","1591459200000");
+        URL url = new URL(request);
+        conn = (HttpURLConnection) url.openConnection();
+        conn.setInstanceFollowRedirects(false);
+        conn.setRequestMethod("GET");
+*//*
+        System.out.println("JSESSIONID=" + newJSid
+                +"; web_client_cache_guid=" + courseLoginInfoModel.guid
+                +"; JSESSIONID=" + courseLoginInfoModel.mainPageJSessionId);*//*
+        conn.setRequestProperty("Cookie",
+                "JSESSIONID=" + newJSid
+                + "JSESSIONID=" + courseLoginInfoModel.mainPageJSessionId
+                        +"; session_id=" + courseLoginInfoModel.sessionId
+                        +"; s_session_id=" + courseLoginInfoModel.sSessionId
+                        +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
+        InputStream in2 = conn.getInputStream();
+        System.out.println(in2);
+        courseRawToDoItemsRootObjects = JSON.parseArray(convertStreamToString(in), CourseRawToDoItemsRootObject.class);*/
     }
 
 }

@@ -1,14 +1,12 @@
 package com.example.pkuscheduler.Models.CourseDeadlineJsonModel;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.Utils.PkuCourse.ApiRepository;
-import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -20,7 +18,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +64,7 @@ public final class CourseRawToDoItemsRootObject {
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId
+        conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId_Frameset
                 +"; session_id=" + courseLoginInfoModel.sessionId
                 +"; s_session_id=" + courseLoginInfoModel.sSessionId
                 +"; web_client_cache_guid=" + courseLoginInfoModel.guid);

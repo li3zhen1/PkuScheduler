@@ -1,7 +1,6 @@
 package com.example.pkuscheduler.Utils.PkuCourse;
 
-import android.util.Log;
-
+import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.Utils.StringUtils;
 
@@ -10,7 +9,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +20,9 @@ import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 public final class PkuCourseLoginClient {
     private CourseLoginInfoModel courseLoginInfoModel;
 
-    private static String iaaaTokenBaseUrl = "https://iaaa.pku.edu.cn/iaaa/oauthlogin.do";
-    private static String cookieBaseUrl = "https://course.pku.edu.cn/webapps/bb-sso-bb_bb60/execute/authValidate/campusLogin?_rand=0.5&token=";
-    private static String jSessionIdBaseUrl = "https://course.pku.edu.cn/webapps/portal/frameset.jsp";
+    private final static String iaaaTokenBaseUrl = "https://iaaa.pku.edu.cn/iaaa/oauthlogin.do";
+    private final static String oathValidateBaseUrl = "https://course.pku.edu.cn/webapps/bb-sso-bb_bb60/execute/authValidate/campusLogin?_rand=0.28873561615480403&token=";
+    private  static String FramesetBaseUrl = "https://course.pku.edu.cn/webapps/portal/frameset.jsp";
 
     public PkuCourseLoginClient(String loginInfoStudentId, String loginInfoPassword){
         courseLoginInfoModel =new CourseLoginInfoModel(loginInfoStudentId,loginInfoPassword);
@@ -32,23 +30,21 @@ public final class PkuCourseLoginClient {
 
     //获取iaaa的token
     public Boolean FetchIaaaToken() throws IOException {
-        String urlParameters = "appid=blackboard&userName=" +
+        String urlParameters = iaaaTokenBaseUrl+ "?appid=blackboard&userName=" +
                 URLEncoder.encode(courseLoginInfoModel.studentId, "UTF-8") +
                 "&password=" + URLEncoder.encode(courseLoginInfoModel.password, "UTF-8")
                 + "&randCode=&smsCode=&otpCode=&redirUrl=https%3A%2F%2Fcourse.pku.edu.cn%2Fwebapps%2Fbb-sso-bb_bb60%2Fexecute%2FauthValidate%2FcampusLogin";
 
         HttpURLConnection conn = null;
-        byte[] postData = urlParameters.getBytes(Charset.forName("UTF-8"));
-        URL url = new URL(iaaaTokenBaseUrl);
+        URL url = new URL(urlParameters);
         conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setInstanceFollowRedirects(false);
         conn.setRequestMethod("POST");
-        conn.setUseCaches(false);
-        conn.getOutputStream().write(postData);
+        conn.setRequestProperty("Cookie", "remember=true");
+        conn.setRequestProperty("Cookie", "username=" + courseLoginInfoModel.studentId);
         InputStream in = conn.getInputStream();
         String tokenResult = convertStreamToString(in);
         conn.disconnect();
+        System.out.println(tokenResult);
         if (tokenResult.contains("\"success\":true")) {
             courseLoginInfoModel.iaaaToken = StringUtils.betweenStrings(tokenResult, "\"token\":\"", "\"}");
             return true;
@@ -57,27 +53,53 @@ public final class PkuCourseLoginClient {
             return false;
     }
 
-    //获取s_session,session,guid三个cookie
-    public Boolean FetchCookies() throws IOException {
-        if(courseLoginInfoModel.iaaaToken==null)
-            return null;
+    //获取教学网的Cookie
+    public Boolean FetchCourseCookies_Portals() throws IOException {
         HttpURLConnection conn = null;
-        URL url = new URL(cookieBaseUrl+ courseLoginInfoModel.iaaaToken);
+        URL url = new URL("https://course.pku.edu.cn/webapps/login");
         conn = (HttpURLConnection) url.openConnection();
-        conn.setInstanceFollowRedirects(false);
+        conn.setRequestMethod("GET");
         Map<String, List<String>> headerFields = conn.getHeaderFields();
+        System.out.println(JSON.toJSONString(headerFields));
         List<String> cookiesHeader = headerFields.get("Set-Cookie");
         conn.disconnect();
         if (cookiesHeader != null)
             for (String cookie : cookiesHeader){
-                //Log.e("",cookie);
+                System.out.println(cookie);
                 if (cookie.contains("session_id=")&&!cookie.contains("s_session_id=")){
-                    courseLoginInfoModel.sessionId = betweenStrings(cookie, "session_id=", "; Path=/;");}
+                    courseLoginInfoModel.sessionId = betweenStrings(cookie, "session_id=", "; Path=/;");
+                }
                 if (cookie.contains("s_session_id=")){
-                    courseLoginInfoModel.sSessionId = betweenStrings(cookie, "s_session_id=", "; Path=/;");}
+                    courseLoginInfoModel.sSessionId = betweenStrings(cookie, "s_session_id=", "; Path=/;");
+                }
                 if (cookie.contains("web_client_cache_guid=")){
                     courseLoginInfoModel.guid = betweenStrings(cookie, "web_client_cache_guid=", "; Path=/;");
-                }}
+                }
+                if (cookie.contains("JSESSIONID=")){
+                    courseLoginInfoModel.jSessionId_Portal = betweenStrings(cookie.toString(), "JSESSIONID=", "; Path=/");
+                }
+            }
+        if (courseLoginInfoModel.sSessionId == null|| courseLoginInfoModel.guid==null|| courseLoginInfoModel.sessionId==null
+                || courseLoginInfoModel.sSessionId.length()==0|| courseLoginInfoModel.guid.length()==0|| courseLoginInfoModel.sessionId.length()==0)
+            return false;
+        return true;
+    }
+
+    //验证
+    public Boolean OathValidate() throws IOException {
+        if(courseLoginInfoModel.iaaaToken==null)
+            return null;
+        HttpURLConnection conn = null;
+        URL url = new URL(oathValidateBaseUrl + courseLoginInfoModel.iaaaToken);
+        conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId_Portal
+                +"; s_session_id=" + courseLoginInfoModel.sSessionId
+                +"; session_id=" + courseLoginInfoModel.sessionId
+                +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
+        conn.setRequestProperty("Referer","https://iaaa.pku.edu.cn/iaaa/oauth.jsp");
+        Map<String, List<String>> headerFields = conn.getHeaderFields();
+        conn.disconnect();
         if (courseLoginInfoModel.sSessionId == null|| courseLoginInfoModel.guid==null|| courseLoginInfoModel.sessionId==null
                 || courseLoginInfoModel.sSessionId.length()==0|| courseLoginInfoModel.guid.length()==0|| courseLoginInfoModel.sessionId.length()==0)
             return false;
@@ -85,19 +107,20 @@ public final class PkuCourseLoginClient {
     }
 
     //获取jsession
-    public Boolean FetchJSessionId() throws IOException{
+    public Boolean FetchJSessionId_FrameSet() throws IOException{
         HttpURLConnection conn = null;
-        URL url = new URL(jSessionIdBaseUrl);
+        URL url = new URL(FramesetBaseUrl);
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
-        conn.setRequestProperty("Cookie", "session_id=" + courseLoginInfoModel.sessionId);
-        conn.setRequestProperty("Cookie", "s_session_id=" + courseLoginInfoModel.sSessionId);
-        conn.setRequestProperty("Cookie", "web_client_cache_guid=" + courseLoginInfoModel.guid);
+        conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId_Portal
+                +"; s_session_id=" + courseLoginInfoModel.sSessionId
+                +"; session_id=" + courseLoginInfoModel.sessionId
+                +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
         Map<String, List<String>> jSession_headerFields = conn.getHeaderFields();
         List<String> jSession_cookiesHeader = jSession_headerFields.get("Set-Cookie");
-        courseLoginInfoModel.jSessionId = betweenStrings(jSession_cookiesHeader.toString(), "JSESSIONID=", "; Path=/");
+        courseLoginInfoModel.jSessionId_Frameset = betweenStrings(jSession_cookiesHeader.toString(), "JSESSIONID=", "; Path=/");
         conn.disconnect();
-        if(courseLoginInfoModel.jSessionId==null|| courseLoginInfoModel.jSessionId.length()<=1)
+        if(courseLoginInfoModel.jSessionId_Frameset ==null|| courseLoginInfoModel.jSessionId_Frameset.length()<=1)
             return false;
         return true;
     }

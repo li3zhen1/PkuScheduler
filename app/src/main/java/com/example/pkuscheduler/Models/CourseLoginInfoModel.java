@@ -8,13 +8,12 @@ import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
 
 import java.io.IOException;
 
-import static com.example.pkuscheduler.Utils.PkuCourse.PkuCourseSubmissionStatusClient.fetchSubmissionStatus;
-
 public final class CourseLoginInfoModel {
     public String studentId;
     public String password;
 
-    public String jSessionId;
+    public String jSessionId_Frameset;
+    public String jSessionId_Portal;
     public String sSessionId;
     public String guid;
     public String iaaaToken;
@@ -23,7 +22,7 @@ public final class CourseLoginInfoModel {
     public CourseLoginInfoModel(String _studentId, String _password){
         studentId=_studentId;
         password=_password;
-        jSessionId=null;
+        jSessionId_Frameset =null;
         sSessionId=null;
         guid=null;
         iaaaToken=null;
@@ -37,7 +36,7 @@ public final class CourseLoginInfoModel {
         sped.putString("password",password);
         sped.putString("guid",guid);
         sped.putString("sSessionId",sSessionId);
-        sped.putString("jSessionId",jSessionId);
+        sped.putString("jSessionId", jSessionId_Frameset);
         sped.putString("sessionId",sessionId);
     }
 
@@ -49,7 +48,7 @@ public final class CourseLoginInfoModel {
         );
         courseLoginInfoModel.guid = sp.getString("guid", "");
         courseLoginInfoModel.sSessionId = sp.getString("sSessionId", "");
-        courseLoginInfoModel.jSessionId = sp.getString("jSessionId", "");
+        courseLoginInfoModel.jSessionId_Frameset = sp.getString("jSessionId", "");
         courseLoginInfoModel.sessionId = sp.getString("sessionId", "");
         return courseLoginInfoModel;
     }
@@ -62,8 +61,8 @@ public final class CourseLoginInfoModel {
         );
         try{
             pkuCourseLoginClient.FetchIaaaToken();
-            pkuCourseLoginClient.FetchCookies();
-            pkuCourseLoginClient.FetchJSessionId();
+            pkuCourseLoginClient.FetchCourseCookies_Portals();
+            pkuCourseLoginClient.FetchJSessionId_FrameSet();
             CourseLoginInfoModel courseLoginInfoModel = pkuCourseLoginClient.GetLoginInfo();
             courseLoginInfoModel.saveInstanceToSharedPreference(context);
             return courseLoginInfoModel;

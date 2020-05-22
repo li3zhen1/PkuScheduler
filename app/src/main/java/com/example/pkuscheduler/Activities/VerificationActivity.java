@@ -108,7 +108,6 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void SendVerificationCode(View view){
-
         PkuHelperAskPinTask pkuHelperAskPinTask = new PkuHelperAskPinTask("1800013025");
         pkuHelperAskPinTask.execute();
     }

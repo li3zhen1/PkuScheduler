@@ -17,7 +17,7 @@ public final class PkuCourseSubmissionStatusClient {
         URL url = new URL(request);
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(true);
-        conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId
+        conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId_Frameset
                 +"; session_id=" + courseLoginInfoModel.sessionId
                 +"; s_session_id=" + courseLoginInfoModel.sSessionId
                 +"; web_client_cache_guid=" + courseLoginInfoModel.guid);

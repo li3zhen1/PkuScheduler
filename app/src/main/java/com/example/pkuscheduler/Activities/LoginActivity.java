@@ -2,6 +2,7 @@ package com.example.pkuscheduler.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.microsoft.officeuifabric.drawer.Drawer;
 
@@ -13,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -82,17 +84,22 @@ public class LoginActivity extends AppCompatActivity {
             String bgWorkResult;
             try {
                 Boolean hasIaaaToken = loginClient.FetchIaaaToken();
-                Boolean hasCookies = loginClient.FetchCookies();
-                Boolean hasJSessionId = loginClient.FetchJSessionId();
+                Boolean hasCookies = loginClient.FetchCourseCookies_Portals();
+                Boolean hasJSessionId = loginClient.FetchJSessionId_FrameSet();
+
+                Log.e("221312312312321312", JSON.toJSONString(loginClient.GetLoginInfo()));
                 SharedPreferences sharedPreferences_LoginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences_LoginInfo.edit();
 
                 if(hasIaaaToken&&hasCookies&&hasJSessionId){
+
+                    Log.e("221312312312321312", JSON.toJSONString(loginClient.GetLoginInfo()));
+
                     CourseLoginInfoModel courseLoginInfoModel = loginClient.GetLoginInfo();
                     editor.putString("sSessionId", courseLoginInfoModel.sSessionId);
                     editor.putString("studentId", courseLoginInfoModel.studentId);
                     editor.putString("password", courseLoginInfoModel.password);
-                    editor.putString("jSessionId", courseLoginInfoModel.jSessionId);
+                    editor.putString("jSessionId", courseLoginInfoModel.jSessionId_Frameset);
                     editor.putString("guid", courseLoginInfoModel.guid);
                     editor.putString("sessionId", courseLoginInfoModel.sessionId);
                     editor.putBoolean("isLogged",true);
