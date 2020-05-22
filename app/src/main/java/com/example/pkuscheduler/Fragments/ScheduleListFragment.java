@@ -151,6 +151,7 @@ public class ScheduleListFragment extends Fragment {
                     _toDoItems.add(newItem);
                 }
             }catch (Exception e){
+                Log.e("ERR",e.getLocalizedMessage());
                 return "获取CourseApi失败";
             }
 

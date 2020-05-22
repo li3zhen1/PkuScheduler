@@ -13,6 +13,7 @@ public final class CourseLoginInfoModel {
     public String password;
 
     public String jSessionId_Frameset;
+    public String jSessionId_Calendar;
     public String jSessionId_Portal;
     public String sSessionId;
     public String guid;
@@ -34,35 +35,27 @@ public final class CourseLoginInfoModel {
         SharedPreferences.Editor sped = sp.edit();
         sped.putString("studentId",studentId);
         sped.putString("password",password);
-        sped.putString("guid",guid);
-        sped.putString("sSessionId",sSessionId);
-        sped.putString("jSessionId", jSessionId_Frameset);
-        sped.putString("sessionId",sessionId);
     }
 
     public static CourseLoginInfoModel getInstanceFromSharedPreference(Context context){
         SharedPreferences sp = context.getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         CourseLoginInfoModel courseLoginInfoModel = new CourseLoginInfoModel(
-                sp.getString("studentId", ""),
-                sp.getString("password", "")
+                sp.getString("studentId", null),
+                sp.getString("password", null)
         );
-        courseLoginInfoModel.guid = sp.getString("guid", "");
-        courseLoginInfoModel.sSessionId = sp.getString("sSessionId", "");
-        courseLoginInfoModel.jSessionId_Frameset = sp.getString("jSessionId", "");
-        courseLoginInfoModel.sessionId = sp.getString("sessionId", "");
         return courseLoginInfoModel;
     }
 
-    public static CourseLoginInfoModel getInstanceFromWebApi(Context context){
+    public static CourseLoginInfoModel getCookie(Context context){
         SharedPreferences sp = context.getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         PkuCourseLoginClient pkuCourseLoginClient = new PkuCourseLoginClient(
-                sp.getString("studentId", ""),
-                sp.getString("password", "")
+                sp.getString("studentId", null),
+                sp.getString("password", null)
         );
         try{
-            pkuCourseLoginClient.FetchIaaaToken();
             pkuCourseLoginClient.FetchCourseCookies_Portals();
-            pkuCourseLoginClient.FetchJSessionId_FrameSet();
+            pkuCourseLoginClient.FetchIaaaToken();
+            pkuCourseLoginClient.OathValidate();
             CourseLoginInfoModel courseLoginInfoModel = pkuCourseLoginClient.GetLoginInfo();
             courseLoginInfoModel.saveInstanceToSharedPreference(context);
             return courseLoginInfoModel;

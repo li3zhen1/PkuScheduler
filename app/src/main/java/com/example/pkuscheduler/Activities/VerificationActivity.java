@@ -107,16 +107,16 @@ public class VerificationActivity extends AppCompatActivity {
         drawer.show(getSupportFragmentManager(),null);
     }
 
-    public void SendVerificationCode(View view){
-        PkuHelperAskPinTask pkuHelperAskPinTask = new PkuHelperAskPinTask("1800013025");
-        pkuHelperAskPinTask.execute();
-    }
-
     public void FetchToken(View view){
-
         PkuHelperFetchTokenTask pkuHelperFetchTokenTask = new PkuHelperFetchTokenTask();
         pkuHelperFetchTokenTask.execute();
     }
+
+    public void SendVerificationCode(View view) {
+        PkuHelperAskPinTask pkuHelperAskPinTask = new PkuHelperAskPinTask(studentId);
+        pkuHelperAskPinTask.execute();
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class PkuHelperAskPinTask extends AsyncTask<Void, Void, String>{
         PkuHelperAskPinTask(String studentId){
@@ -185,6 +185,7 @@ public class VerificationActivity extends AppCompatActivity {
                 editor.putString("userName", StringUtils.getFieldFromJson(jsonResponse,"name"));
                 editor.putString("gender", StringUtils.getFieldFromJson(jsonResponse,"gender"));
                 editor.putString("department", StringUtils.getFieldFromJson(jsonResponse,"department"));
+                editor.putBoolean("isLogged",true);
                 editor.apply();
                 return getString(R.string.VerificationActivity_FetchTokenSuccess);
             } catch (IOException e) {

@@ -1,5 +1,7 @@
 package com.example.pkuscheduler.Utils.PkuHelper;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -48,14 +50,14 @@ public class PkuHelperLoginClient {
     //TODO：处理token失效
     public static String FetchToken(String studentId,String validCode) throws IOException {
         HttpURLConnection conn = null;
-        System.out.println(ApiRepository.getTokenUrl(studentId,validCode));
+        Log.e("",ApiRepository.getTokenUrl(studentId,validCode));
         URL url = new URL(ApiRepository.getTokenUrl(studentId,validCode));
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setRequestProperty("connection", "keep-alive");
-        conn.setUseCaches(false);//设置不要缓存
+        conn.setUseCaches(false);
         conn.setInstanceFollowRedirects(true);
         conn.setDoOutput(true);
         conn.setDoInput(true);
@@ -68,7 +70,8 @@ public class PkuHelperLoginClient {
             out.flush();
             InputStream in = conn.getInputStream();
             String str = convertStreamToString(in);
-            System.out.println(str);
+
+            Log.e("",ApiRepository.getTokenUrl(studentId,str));
             return str;
         } catch (IOException e) {
             return  null;

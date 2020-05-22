@@ -1,9 +1,11 @@
 package com.example.pkuscheduler;
 
 
+import com.example.pkuscheduler.Models.CourseDeadlineJsonModel.CourseRawToDoItemsRootObject;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Coursetableroom;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Jsap;
+import com.example.pkuscheduler.Utils.PkuCourse.ApiRepository;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseInformationClient;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
 
@@ -107,14 +109,14 @@ public class ExampleUnitTest {
 
     @Test
     public void TestPkuCourse() throws IOException {
-        PkuCourseLoginClient pkuCourseLoginClient = new PkuCourseLoginClient("","");
+        PkuCourseLoginClient pkuCourseLoginClient = new PkuCourseLoginClient("1800013025","");
         pkuCourseLoginClient.FetchCourseCookies_Portals();
         pkuCourseLoginClient.FetchIaaaToken();
         pkuCourseLoginClient.OathValidate();
         pkuCourseLoginClient.FetchJSessionId_FrameSet();
         CourseLoginInfoModel courseLoginInfoModel = pkuCourseLoginClient.GetLoginInfo();
 
-        URL taburl = new URL("https://course.pku.edu.cn/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_3_1");
+/*        URL taburl = new URL("https://course.pku.edu.cn/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_3_1");
         HttpURLConnection conn3;
         conn3 =(HttpURLConnection)taburl.openConnection();
         conn3.setRequestMethod("GET");
@@ -127,7 +129,7 @@ public class ExampleUnitTest {
         Map<String, List<String>> headerFields = conn3.getHeaderFields();
         System.out.println("\n\nConn3\n"+JSON.toJSONString(headerFields));
         InputStream in = conn3.getInputStream();
-        System.out.println(convertStreamToString(in));
+        System.out.println(convertStreamToString(in));*/
 
 
 /*
@@ -151,7 +153,7 @@ public class ExampleUnitTest {
         Map<String, List<String>> headerFields = conn2.getHeaderFields();
         System.out.println(JSON.toJSONString(headerFields));
         String newJSid = betweenStrings(headerFields.get("Set-Cookie").toString(),"JSESSIONID=", "; Path=");
-        System.out.println(newJSid);
+        System.out.println(newJSid);*/
 
 
         List<CourseRawToDoItemsRootObject> courseRawToDoItemsRootObjects = null;
@@ -161,19 +163,22 @@ public class ExampleUnitTest {
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
         conn.setRequestMethod("GET");
-*//*
-        System.out.println("JSESSIONID=" + newJSid
-                +"; web_client_cache_guid=" + courseLoginInfoModel.guid
-                +"; JSESSIONID=" + courseLoginInfoModel.mainPageJSessionId);*//*
         conn.setRequestProperty("Cookie",
-                "JSESSIONID=" + newJSid
-                + "JSESSIONID=" + courseLoginInfoModel.mainPageJSessionId
-                        +"; session_id=" + courseLoginInfoModel.sessionId
-                        +"; s_session_id=" + courseLoginInfoModel.sSessionId
-                        +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
+                "JSESSIONID=" + courseLoginInfoModel.jSessionId_Portal
+                +"; s_session_id="+ courseLoginInfoModel.sSessionId
+                +"; session_id=" + courseLoginInfoModel.sessionId
+                +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
         InputStream in2 = conn.getInputStream();
-        System.out.println(in2);
-        courseRawToDoItemsRootObjects = JSON.parseArray(convertStreamToString(in), CourseRawToDoItemsRootObject.class);*/
+        System.out.println(convertStreamToString(in2));
+        courseRawToDoItemsRootObjects = JSON.parseArray(convertStreamToString(in2), CourseRawToDoItemsRootObject.class);
     }
 
+
+
+    @Test
+    public void todoItemParseTest(){
+        String str = "[{\"allDay\":false,\"gradable\":false,\"userCreated\":false,\"repeat\":false,\"itemSourceType\":\"blackboard.platform.gradebook2.GradableItem\",\"itemSourceId\":\"_142996_1\",\"calendarId\":\"048-00131480-0006175098-1\",\"recur\":false,\"calendarName\":\"概率统计 （A）(19-20学年第2学期)\",\"color\":\"#ba0665\",\"editable\":false,\"calendarNameLocalizable\":{\"rawValue\":\"概率统计 （A）(19-20学年第2学期)\"},\"disableResizing\":true,\"attemptable\":true,\"isDateRangeLimited\":false,\"isUltraEvent\":false,\"id\":\"_blackboard.platform.gradebook2.GradableItem-_142996_1\",\"start\":\"2020-05-24T23:59:00\",\"end\":\"2020-05-24T23:59:00\",\"startDate\":\"2020-05-24T15:59:00.000Z\",\"eventType\":\"作业\",\"location\":null,\"title\":\"Homework_18(Lecture_PS10_2)\",\"endDate\":\"2020-05-24T15:59:00.000Z\"},{\"allDay\":false,\"gradable\":false,\"userCreated\":false,\"repeat\":false,\"itemSourceType\":\"blackboard.platform.gradebook2.GradableItem\",\"itemSourceId\":\"_143244_1\",\"calendarId\":\"048-04832580-0006174068-1\",\"recur\":false,\"calendarName\":\"算法设计与分析（研讨型小班）(19-20学年第2学期)\",\"color\":\"#de1934\",\"editable\":false,\"calendarNameLocalizable\":{\"rawValue\":\"算法设计与分析（研讨型小班）(19-20学年第2学期)\"},\"disableResizing\":true,\"attemptable\":true,\"isDateRangeLimited\":false,\"isUltraEvent\":false,\"id\":\"_blackboard.platform.gradebook2.GradableItem-_143244_1\",\"start\":\"2020-05-22T15:05:00\",\"end\":\"2020-05-22T15:05:00\",\"startDate\":\"2020-05-22T07:05:00.000Z\",\"eventType\":\"作业\",\"location\":null,\"title\":\"期中考试\",\"endDate\":\"2020-05-22T07:05:00.000Z\"}]";
+        List<CourseRawToDoItemsRootObject> lc = JSON.parseArray(str,CourseRawToDoItemsRootObject.class);
+        System.out.println(JSON.toJSONString(lc.get(0)));
+    }
 }

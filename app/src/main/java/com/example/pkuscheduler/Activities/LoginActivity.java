@@ -83,26 +83,21 @@ public class LoginActivity extends AppCompatActivity {
             }
             String bgWorkResult;
             try {
+                Boolean hasPortalCookies =loginClient.FetchCourseCookies_Portals();
                 Boolean hasIaaaToken = loginClient.FetchIaaaToken();
-                Boolean hasCookies = loginClient.FetchCourseCookies_Portals();
-                Boolean hasJSessionId = loginClient.FetchJSessionId_FrameSet();
+                Boolean hasCookies = loginClient.OathValidate();
 
-                Log.e("221312312312321312", JSON.toJSONString(loginClient.GetLoginInfo()));
+                //Log.e("221312312312321312", JSON.toJSONString(loginClient.GetLoginInfo()));
                 SharedPreferences sharedPreferences_LoginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences_LoginInfo.edit();
 
-                if(hasIaaaToken&&hasCookies&&hasJSessionId){
-
-                    Log.e("221312312312321312", JSON.toJSONString(loginClient.GetLoginInfo()));
-
+                if(hasIaaaToken&&hasCookies&&hasPortalCookies){
                     CourseLoginInfoModel courseLoginInfoModel = loginClient.GetLoginInfo();
-                    editor.putString("sSessionId", courseLoginInfoModel.sSessionId);
                     editor.putString("studentId", courseLoginInfoModel.studentId);
-                    editor.putString("password", courseLoginInfoModel.password);
+                    editor.putString("password", courseLoginInfoModel.password);/*
                     editor.putString("jSessionId", courseLoginInfoModel.jSessionId_Frameset);
                     editor.putString("guid", courseLoginInfoModel.guid);
-                    editor.putString("sessionId", courseLoginInfoModel.sessionId);
-                    editor.putBoolean("isLogged",true);
+                    editor.putString("sessionId", courseLoginInfoModel.sessionId);*/
                     editor.apply();
                     return 0;
                 }
@@ -110,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putBoolean("isLogged",false);
                     if(!hasIaaaToken)return 1;
                     if(!hasCookies)return 2;
-                    if(!hasJSessionId)return 3;
+                    if(!hasPortalCookies)return 3;
                 }
                 return 4;
             } catch (Exception e) {

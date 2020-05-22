@@ -56,7 +56,7 @@ public final class CourseRawToDoItemsRootObject {
             String startTimeStamp,
             String endTimeStamp) throws Exception
     {
-        CourseLoginInfoModel courseLoginInfoModel = CourseLoginInfoModel.getInstanceFromWebApi(context);
+        CourseLoginInfoModel courseLoginInfoModel = CourseLoginInfoModel.getCookie(context);
         List<CourseRawToDoItemsRootObject> courseRawToDoItemsRootObjects = null;
         HttpURLConnection conn;
         String request = ApiRepository.getDeadlinesUrl(startTimeStamp,endTimeStamp);
@@ -64,13 +64,18 @@ public final class CourseRawToDoItemsRootObject {
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(false);
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId_Frameset
+        conn.setRequestProperty("Cookie", "JSESSIONID=" + courseLoginInfoModel.jSessionId_Portal
                 +"; session_id=" + courseLoginInfoModel.sessionId
                 +"; s_session_id=" + courseLoginInfoModel.sSessionId
                 +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
         InputStream in = conn.getInputStream();
         courseRawToDoItemsRootObjects = JSON.parseArray(convertStreamToString(in), CourseRawToDoItemsRootObject.class);
+
+        Log.e("@@@@@@!!!",JSON.toJSONString(courseRawToDoItemsRootObjects));
+
         saveListInstance(courseRawToDoItemsRootObjects,context);
+        Log.e("@@@@@@","");
+
         return courseRawToDoItemsRootObjects;
     }
 
