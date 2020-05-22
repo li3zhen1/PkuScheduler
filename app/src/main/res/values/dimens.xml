@@ -5,4 +5,5 @@
     <dimen name="TodoItemGridMarginBottom">2dp</dimen>
     <dimen name="GridTitleTextSize">16sp</dimen>
     <dimen name="SubFragmentTitleTextSize">24sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

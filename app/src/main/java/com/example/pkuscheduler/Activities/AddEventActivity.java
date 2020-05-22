@@ -1,13 +1,17 @@
 package com.example.pkuscheduler.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.pkuscheduler.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.microsoft.officeuifabric.datetimepicker.DateTimePickerDialog;
 
@@ -23,12 +27,11 @@ public class AddEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_event);
         setUpActionBar();
         AndroidThreeTen.init(this);
-        Pangu pangu = new Pangu();
-        String newText = pangu.spacingText("");
+
     }
 
 
@@ -52,15 +55,18 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     public void setUpActionBar(){
-        getSupportActionBar().hide();
-        getWindow().setStatusBarColor(0xffffffff);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
-
-/*        getSupportActionBar().hide();
-        //getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        getWindow().setStatusBarColor(0x00ffffff);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);*/
+        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setTitle("Create a new event");
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }

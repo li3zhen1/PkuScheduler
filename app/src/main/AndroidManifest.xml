@@ -13,21 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.AddEventActivity">
-        </activity>
-        <activity android:name=".Activities.TodayActivity">
-        </activity>
-        <activity android:name=".Activities.VerificationActivity">
-        </activity>
+        <activity android:name=".Activities.AddEventActivity" />
+        <activity android:name=".Activities.TodayActivity" />
+        <activity android:name=".Activities.VerificationActivity" />
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.LoginActivity">
-        </activity>
-        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.MainActivity" />
     </application>
 
 </manifest>
