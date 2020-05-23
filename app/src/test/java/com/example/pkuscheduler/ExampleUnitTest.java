@@ -1,13 +1,16 @@
 package com.example.pkuscheduler;
 
 
+import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.Models.CourseDeadlineJsonModel.CourseRawToDoItemsRootObject;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Coursetableroom;
 import com.example.pkuscheduler.Models.ScheduleJsonModel.Jsap;
+import com.example.pkuscheduler.Models.ScheduleJsonModel.ScheduleRootObject;
 import com.example.pkuscheduler.Utils.PkuCourse.ApiRepository;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseInformationClient;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
+import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseSubmissionStatusClient;
 
 import org.junit.Test;
 
@@ -18,17 +21,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.alibaba.fastjson.*;
-import com.example.pkuscheduler.Models.ScheduleJsonModel.ScheduleRootObject;
-
 import static com.example.pkuscheduler.Utils.StringUtils.convertStreamToString;
 import static com.example.pkuscheduler.Utils.StringUtils.getUnicodeEscaped;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -180,5 +178,17 @@ public class ExampleUnitTest {
         String str = "[{\"allDay\":false,\"gradable\":false,\"userCreated\":false,\"repeat\":false,\"itemSourceType\":\"blackboard.platform.gradebook2.GradableItem\",\"itemSourceId\":\"_142996_1\",\"calendarId\":\"048-00131480-0006175098-1\",\"recur\":false,\"calendarName\":\"概率统计 （A）(19-20学年第2学期)\",\"color\":\"#ba0665\",\"editable\":false,\"calendarNameLocalizable\":{\"rawValue\":\"概率统计 （A）(19-20学年第2学期)\"},\"disableResizing\":true,\"attemptable\":true,\"isDateRangeLimited\":false,\"isUltraEvent\":false,\"id\":\"_blackboard.platform.gradebook2.GradableItem-_142996_1\",\"start\":\"2020-05-24T23:59:00\",\"end\":\"2020-05-24T23:59:00\",\"startDate\":\"2020-05-24T15:59:00.000Z\",\"eventType\":\"作业\",\"location\":null,\"title\":\"Homework_18(Lecture_PS10_2)\",\"endDate\":\"2020-05-24T15:59:00.000Z\"},{\"allDay\":false,\"gradable\":false,\"userCreated\":false,\"repeat\":false,\"itemSourceType\":\"blackboard.platform.gradebook2.GradableItem\",\"itemSourceId\":\"_143244_1\",\"calendarId\":\"048-04832580-0006174068-1\",\"recur\":false,\"calendarName\":\"算法设计与分析（研讨型小班）(19-20学年第2学期)\",\"color\":\"#de1934\",\"editable\":false,\"calendarNameLocalizable\":{\"rawValue\":\"算法设计与分析（研讨型小班）(19-20学年第2学期)\"},\"disableResizing\":true,\"attemptable\":true,\"isDateRangeLimited\":false,\"isUltraEvent\":false,\"id\":\"_blackboard.platform.gradebook2.GradableItem-_143244_1\",\"start\":\"2020-05-22T15:05:00\",\"end\":\"2020-05-22T15:05:00\",\"startDate\":\"2020-05-22T07:05:00.000Z\",\"eventType\":\"作业\",\"location\":null,\"title\":\"期中考试\",\"endDate\":\"2020-05-22T07:05:00.000Z\"}]";
         List<CourseRawToDoItemsRootObject> lc = JSON.parseArray(str,CourseRawToDoItemsRootObject.class);
         System.out.println(JSON.toJSONString(lc.get(0)));
+    }
+
+    @Test
+    public void testHw() throws IOException {
+        PkuCourseLoginClient pkuCourseLoginClient = new PkuCourseLoginClient("1800013025","19991005lee");
+        pkuCourseLoginClient.FetchCourseCookies_Portals();
+        pkuCourseLoginClient.FetchIaaaToken();
+        pkuCourseLoginClient.OathValidate();
+        CourseLoginInfoModel courseLoginInfoModel = pkuCourseLoginClient.GetLoginInfo();
+        boolean bl =PkuCourseSubmissionStatusClient.fetchSubmissionStatus("_blackboard.platform.gradebook2.GradableItem-_142996_1",courseLoginInfoModel);
+        if(bl)
+            System.out.println("H");
     }
 }

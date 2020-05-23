@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/shape_corner_8dp_white"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:id="@+id/alert_dialog_title_no_submission"
+        android:text="教学网中没有这项 Deadline 的提交记录。"
+        android:textSize="24sp"
+        android:background="@color/colorBrandingBlue"
+        android:textColor="@color/colorWhite"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="18dp"
+        android:id="@+id/alert_dialog_desc_no_submission"
+        android:text="教学网中没有这项 Deadline 的提交记录。"
+        />
+</LinearLayout>

@@ -27,7 +27,7 @@ import static com.example.pkuscheduler.Utils.PkuCourse.PkuCourseSubmissionStatus
 public class ToDoItem implements ISchedulable {
     @NonNull
     private String ScheduleTitle;
-
+    public Boolean isSyncing=false;
     private static final String userDefinedStoragePath = "ToDoItemList.json";
     private static final String courseStoragePath = "CourseToDoItemList.json";
     private Date EndTime;
@@ -181,7 +181,8 @@ public class ToDoItem implements ISchedulable {
         if(!isFromCourse)return true;
         Boolean result =null;
         try{
-            fetchSubmissionStatus(this.CourseObjectIdentifier, courseLoginInfoModel);
+            result=fetchSubmissionStatus(this.CourseObjectIdentifier, courseLoginInfoModel);
+
         }catch(Exception e){
         }
         return result;

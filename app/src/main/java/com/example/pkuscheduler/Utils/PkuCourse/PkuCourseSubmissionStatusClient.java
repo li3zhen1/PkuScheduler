@@ -23,6 +23,7 @@ public final class PkuCourseSubmissionStatusClient {
                 +"; web_client_cache_guid=" + courseLoginInfoModel.guid);
         conn.setRequestMethod("GET");
         InputStream in = conn.getInputStream();
-        return convertStreamToString(in).contains("复查提交历史记录");
+        String str = convertStreamToString(in);
+        return str.contains("复查提交历史记录");
     }
 }
