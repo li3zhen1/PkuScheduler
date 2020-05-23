@@ -71,7 +71,7 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
         d_close = mContext.getResources().getDrawable(R.drawable.ic_delete_24);
-        d_finish = mContext.getResources().getDrawable(R.drawable.ic_check_white_24);
+        d_finish = mContext.getResources().getDrawable(R.drawable.ic_importer_steps_24);
         if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
             View itemView = viewHolder.itemView;
             Paint p = new Paint();
