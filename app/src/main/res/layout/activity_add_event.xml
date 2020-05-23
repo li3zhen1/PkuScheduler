@@ -133,7 +133,7 @@
             android:background="@color/colorWhite"
             android:drawablePadding="12dp"
             android:textAlignment="viewStart"
-            android:text="提醒时间"
+            android:text="提醒我"
             android:padding="12dp"
             android:textColor="@color/colorBrandingGrey"
             android:textSize="16sp"
