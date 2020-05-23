@@ -3,55 +3,56 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/TodoItemGridHeight"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:background="@drawable/ripple_corner_0dp_white"
-    android:layout_marginHorizontal="12dp"
-    android:layout_marginBottom="@dimen/TodoItemGridMarginBottom"
-    android:elevation="0.6dp"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
     android:id="@+id/todo_item_container"
     >
-<CheckBox
-    android:layout_width="wrap_content"
-    android:layout_marginVertical="17dp"
-    android:layout_marginStart="16dp"
-    android:layout_height="wrap_content"
-    android:id="@+id/todo_item_checkbox"
-
-/>
-    <!--com.airbnb.lottie.LottieAnimationView
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginVertical="12dp"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_fileName="ButtonLoading.json"/-->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="20dp">
-        <TextView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/todo_item_title"
-            android:layout_width="match_parent"
+        android:layout_height="119dp"
+        android:orientation="horizontal">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_marginVertical="17dp"
+            android:layout_marginStart="16dp"
             android:layout_height="wrap_content"
-            style="@style/InterText"
-            android:textFontWeight="700"
-            android:singleLine="true"
-            android:ellipsize = "end"
-            android:textSize="@dimen/GridTitleTextSize"
-            android:textColor="@color/uifabric_black"
+            android:id="@+id/todo_item_checkbox"
             />
+        <!--com.airbnb.lottie.LottieAnimationView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginVertical="12dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_fileName="ButtonLoading.json"/-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="20dp">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/todo_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/InterText"
+                android:textFontWeight="700"
+                android:singleLine="true"
+                android:ellipsize = "end"
+                android:textSize="@dimen/GridTitleTextSize"
+                android:textColor="@color/uifabric_black"
+                />
 
             <ImageView
+
                 android:layout_width="16dp"
                 android:layout_height="20dp"
                 android:layout_marginBottom="8dp"
                 android:id="@+id/todo_item_duetime_icon"
                 app:layout_constraintBottom_toTopOf="@id/todo_item_hashtag_icon"
-                android:src="@drawable/ic_timer_24px"
+                android:src="@drawable/ic_date_time_24"
                 android:scaleType="centerInside"
                 />
             <TextView
@@ -63,37 +64,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/InterText"/>
-        <ImageView
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="0dp"
-            android:layout_width="16dp"
-            android:layout_height="20dp"
-            android:id="@+id/todo_item_hashtag_icon"
-            android:src="@drawable/ic_local_offer_24px"
-            android:scaleType="centerInside"
-            />
-        <TextView
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="6dp"
-            app:layout_constraintStart_toEndOf="@id/todo_item_hashtag_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/todo_item_eventtype"
-            style="@style/BlueTag"
+            <ImageView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="0dp"
+                android:layout_width="16dp"
+                android:layout_height="20dp"
+                android:id="@+id/todo_item_hashtag_icon"
+                android:src="@drawable/ic_add_file_24"
+                android:scaleType="centerInside"
+                />
+            <TextView
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="6dp"
+                app:layout_constraintStart_toEndOf="@id/todo_item_hashtag_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/todo_item_eventtype"
+                style="@style/BlueTag"
+                />
+            <TextView
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="6dp"
+                app:layout_constraintStart_toEndOf="@id/todo_item_eventtype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/todo_item_coursesource"
+                style="@style/RedTag"
 
-            />
-        <TextView
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="6dp"
-            app:layout_constraintStart_toEndOf="@id/todo_item_eventtype"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/todo_item_coursesource"
-            style="@style/RedTag"
+                />
 
-            />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <View android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/shape_corner_24dp_gray_50"/>
 </LinearLayout>

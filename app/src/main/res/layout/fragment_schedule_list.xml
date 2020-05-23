@@ -3,26 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Fragments.ScheduleListFragment"
-    android:paddingTop="4dp"
-    android:paddingBottom="24dp">
-    <LinearLayout
-        android:id="@+id/schedule_list_empty_view_container"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@drawable/shape_corner_8dp_accent_red">
-        <!--Decoration-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="没有TODO啦！！！"/>
-    </LinearLayout>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.ScheduleListFragment">
 
-    <com.example.pkuscheduler.Components.EmptySpecifiedRecyclerView
+        <LinearLayout
+            android:id="@+id/schedule_list_empty_view_container"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+            <!--Decoration-->
+        </LinearLayout>
+
+        <com.example.pkuscheduler.Components.EmptySpecifiedRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:id="@+id/today_schedule_recycler_view"/>
+    <com.example.pkuscheduler.Components.CircularCoverView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        app:cover_color="@color/colorBrandingBlue"
+        app:left_top_radius="8dp"
+        app:right_top_radius="8dp"
         android:layout_marginBottom="0dp"
-        android:id="@+id/today_schedule_recycler_view"/>
+        app:left_bottom_radius="0dp"
+        app:right_bottom_radius="0dp"
+        />
 </FrameLayout>

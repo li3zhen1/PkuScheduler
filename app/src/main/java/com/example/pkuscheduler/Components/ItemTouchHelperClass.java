@@ -3,6 +3,7 @@ package com.example.pkuscheduler.Components;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -15,8 +16,11 @@ import com.example.pkuscheduler.R;
 public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
     private ItemTouchHelperAdapter adapter;
     private VectorDrawableCompat mDeleteIcon;
+    private int DP24;
     public Context mContext;
 
+    public Drawable d_close;
+    public Drawable d_finish;
     public interface ItemTouchHelperAdapter {
         void onItemMoved(int fromPosition, int toPosition);
         void onItemRemoved(int position);
@@ -25,9 +29,11 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
 
     public ItemTouchHelperClass(ItemTouchHelperAdapter ad, Context context) {
         adapter = ad;
-        mContext=context;
+        mContext = context;
+
+        DP24 = DpToPx(24);/*
         mDeleteIcon = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_arrow_forward_24px, null);
-        mDeleteIcon.setBounds(0, 0, mDeleteIcon.getIntrinsicWidth(), mDeleteIcon.getIntrinsicHeight());
+        mDeleteIcon.setBounds(0, 0, mDeleteIcon.getIntrinsicWidth(), mDeleteIcon.getIntrinsicHeight());*/
     }
 
     @Override
@@ -55,7 +61,6 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        System.out.println(direction);
         if(direction==(1<<4))//LEFT
             adapter.onItemRemoved(viewHolder.getAdapterPosition());
         else
@@ -64,29 +69,52 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+        d_close = mContext.getResources().getDrawable(R.drawable.ic_delete_24);
+        d_finish = mContext.getResources().getDrawable(R.drawable.ic_ungroup_24);
         if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
             View itemView = viewHolder.itemView;
             Paint p = new Paint();
+            Paint bg = new Paint();
             ToDoItemRecyclerViewAdapter.ViewHolder vh= (ToDoItemRecyclerViewAdapter.ViewHolder)viewHolder;
-
+            int MiddleY = (itemView.getTop()+itemView.getBottom())/2;
             if(dX > 0){
-                float opacity = 0.1f+(2*dX/(itemView.getRight()-itemView.getLeft()));
+                float opacity = 0.1f+(dX/(itemView.getRight()-itemView.getLeft()));
                 opacity=opacity>1?1:opacity;
-                //TODO: 提到外面去
                 int nonOpacityColor = recyclerView.getResources().getColor(R.color.colorBrandingBlue);
+                bg.setColor(nonOpacityColor);
                 p.setColor((nonOpacityColor&0x00ffffff) |
                         ((int)(opacity *0xff))<<24);
             }
             else{
-                float opacity = 0.1f+(2*dX/(itemView.getLeft()-itemView.getRight()));
+                float opacity = 0.1f+(dX/(itemView.getLeft()-itemView.getRight()));
                 opacity=opacity>1?1:opacity;
-                //TODO: 提到外面去
                 int nonOpacityColor = recyclerView.getResources().getColor(R.color.colorBrandingRed);
+                bg.setColor(nonOpacityColor);
                 p.setColor((nonOpacityColor&0x00ffffff) |
                         ((int)(opacity *0xff))<<24);
             }
+
             c.drawRoundRect((float)itemView.getLeft(), (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom(),
-                    DpToPx(8), DpToPx(8), p);
+                    0, 0, p);
+            if(dX>0){
+                c.drawCircle(
+                        (float) (itemView.getLeft()+DP24*1.5), (float)MiddleY, dX/2, bg
+                );
+                d_finish.setBounds(
+                        (int)itemView.getLeft()+DP24, MiddleY-DP24/2, (int) itemView.getLeft()+DP24+DP24, MiddleY+DP24/2
+                );
+                d_finish.draw(c);
+            }
+            else{
+                c.drawCircle(
+                        (float)(itemView.getRight()-DP24*1.5), (float)MiddleY, -dX/2, bg
+                );
+                d_close.setBounds(
+                        (int)itemView.getRight()-DP24-DP24, MiddleY-DP24/2, (int) itemView.getRight()-DP24, MiddleY+DP24/2
+                );
+                d_close.draw(c);
+            }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     }

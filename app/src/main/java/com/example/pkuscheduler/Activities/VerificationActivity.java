@@ -1,7 +1,5 @@
 package com.example.pkuscheduler.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +13,6 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
-
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,10 +20,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.pkuscheduler.R;
-import com.example.pkuscheduler.Utils.UI.CustomTypefaceSpan;
 import com.example.pkuscheduler.Utils.PkuHelper.PkuHelperLoginClient;
 import com.example.pkuscheduler.Utils.StringUtils;
+import com.example.pkuscheduler.Utils.UI.CustomTypefaceSpan;
 import com.microsoft.officeuifabric.drawer.Drawer;
 
 import java.io.IOException;
@@ -206,7 +205,7 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void TransitionToTodayActivity(){
-        Intent intent = new Intent(this, TodayActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
