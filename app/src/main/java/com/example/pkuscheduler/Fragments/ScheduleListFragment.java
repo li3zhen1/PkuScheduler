@@ -52,7 +52,7 @@ public class ScheduleListFragment extends Fragment {
 
     public void addTodoItem(ToDoItem toDoItem){
         this.toDoItems.add(toDoItem);
-        adapter.notifyItemInserted(toDoItems.size()-1);
+        adapter.notifyDataSetChanged();
     }
 
     public ScheduleListFragment() {

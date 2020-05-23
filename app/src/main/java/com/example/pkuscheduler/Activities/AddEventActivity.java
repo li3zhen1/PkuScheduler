@@ -1,16 +1,22 @@
 package com.example.pkuscheduler.Activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -45,9 +51,12 @@ public class AddEventActivity extends AppCompatActivity {
     private Intent mIntent;
     private EditText mEditText_title;
     private EditText mEditText_desc;
+    private TextView mTextView_Deadline;
+    private TextView mTextView_Reminder;
 
 
-    private DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.CHINA);
+
+    private DateFormat timeFormat = new SimpleDateFormat("HH:mm");
     private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.CHINA);
 
     @Override
@@ -60,10 +69,16 @@ public class AddEventActivity extends AppCompatActivity {
         mIntent = getIntent();
         mEditText_title = findViewById(R.id.new_event_title);
         mEditText_desc = findViewById(R.id.todo_description);
+        mTextView_Deadline = findViewById(R.id.select_date_time);
+        mTextView_Reminder = findViewById(R.id.select_reminder);
+        mEditText_title.requestFocus();
+        mEditText_title.requestFocusFromTouch();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mEditText_title, InputMethodManager.SHOW_IMPLICIT);
     }
 
 
-    public void onClick_SelectCalendaButton(View view){
+    public void onClick_SelectCalendaButton(int id){
         dateTimePickerDialog = new DateTimePickerDialog(
                 this,
                 DateTimePickerDialog.Mode.TIME_DATE,
@@ -71,15 +86,29 @@ public class AddEventActivity extends AppCompatActivity {
                 ZonedDateTime.now(),
                 Duration.ZERO
         );
-        dateTimePickerDialog.setOnDateTimePickedListener(
-                (zonedDateTime, duration) -> dateTime = zonedDateTime
-        );
+        if(id==0){
+            dateTimePickerDialog.setOnDateTimePickedListener(
+                    new DateTimePickerDialog.OnDateTimePickedListener() {
+                        @Override
+                        public void onDateTimePicked(@NotNull ZonedDateTime zonedDateTime, @NotNull Duration duration) {
+                            todoItemDeadline = new Date(zonedDateTime.toInstant().toEpochMilli());
+                            mTextView_Deadline.setText(FormatDate(todoItemDeadline));
+                        }
+                    }
+            );
+        }
+        else{
+            dateTimePickerDialog.setOnDateTimePickedListener(
+                    new DateTimePickerDialog.OnDateTimePickedListener() {
+                        @Override
+                        public void onDateTimePicked(@NotNull ZonedDateTime zonedDateTime, @NotNull Duration duration) {
+                            todoItemReminderTime = new Date(zonedDateTime.toInstant().toEpochMilli());
+                            mTextView_Reminder.setText(FormatDate(todoItemReminderTime));
+                        }
+                    }
+            );
+        }
         dateTimePickerDialog.show();
-    }
-    private ZonedDateTime dateTime;
-    public void setDateTime(ZonedDateTime val){
-        if(val==null)return;
-        dateTime=val;
     }
 
     public void setUpActionBar(){
@@ -110,18 +139,21 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     public String FormatDate( Date dt){
-        return  " ("+dateFormat.format(dt)+"  " +timeFormat.format(dt)+")";
+        return  dateFormat.format(dt)+"  " +timeFormat.format(dt);
     }
     public void onClick_SelectDeadlineButton(View view) {
         Date dt = new Date();
         Date dt_today = new Date(dt.getYear(),dt.getMonth(),dt.getDate(),22,0);
         Date dt_tomorrow = new Date(dt.getYear(),dt.getMonth(),dt.getDate()+1,14,0);
         Date dt_totomorrow = new Date(dt.getYear(),dt.getMonth(),dt.getDate()+2,14,0);
+        String str_today = getString(R.string.AddNewEvent_DateTime_Today)+"  ("+FormatDate(dt_today)+")";
+        String str_tomorrow = getString(R.string.AddNewEvent_DateTime_Tomorrow)+"  ("+FormatDate(dt_tomorrow)+")";
+        String str_totomorrow  = getString(R.string.AddNewEvent_DateTime_Weekend)+"  ("+FormatDate(dt_totomorrow)+")";
         ArrayList<PopupMenuItem> deadlinePopupMenuItems = new ArrayList<PopupMenuItem>(){
             {
-                add(new PopupMenuItem(0, getString(R.string.AddNewEvent_DateTime_Today)+FormatDate(dt_today),R.drawable.ic_today_24));
-                add(new PopupMenuItem(1, getString(R.string.AddNewEvent_DateTime_Tomorrow)+FormatDate(dt_tomorrow),R.drawable.ic_tomorrow_24));
-                add(new PopupMenuItem(2, getString(R.string.AddNewEvent_DateTime_Weekend)+FormatDate(dt_totomorrow),R.drawable.ic_next_week_24));
+                add(new PopupMenuItem(0, str_today,R.drawable.ic_today_24));
+                add(new PopupMenuItem(1, str_tomorrow,R.drawable.ic_tomorrow_24));
+                add(new PopupMenuItem(2, str_totomorrow,R.drawable.ic_next_week_24));
                 add(new PopupMenuItem(3, getString(R.string.AddNewEvent_DateTime_SelectADate),R.drawable.ic_date_time_24));
             }
         };
@@ -131,15 +163,18 @@ public class AddEventActivity extends AppCompatActivity {
                 switch (popupMenuItem.getId()){
                     case 0:
                         todoItemDeadline=dt_today;
+                        mTextView_Deadline.setText(str_today);
                         break;
                     case 1:
                         todoItemDeadline=dt_tomorrow;
+                        mTextView_Deadline.setText(str_tomorrow);
                         break;
                     case 2:
                         todoItemDeadline=dt_totomorrow;
+                        mTextView_Deadline.setText(str_totomorrow);
                         break;
                     case 3:
-                        onClick_SelectCalendaButton(null);
+                        onClick_SelectCalendaButton(0);
                         break;
                 }
             }
@@ -153,32 +188,39 @@ public class AddEventActivity extends AppCompatActivity {
         Date dt_today = new Date(dt.getYear(),dt.getMonth(),dt.getDate(),22,0);
         Date dt_tomorrow = new Date(dt.getYear(),dt.getMonth(),dt.getDate()+1,14,0);
         Date dt_totomorrow = new Date(dt.getYear(),dt.getMonth(),dt.getDate()+2,14,0);
+        String str_today = getString(R.string.AddNewEvent_Reminder_Today)+"  ("+FormatDate(dt_today)+")";
+        String str_tomorrow = getString(R.string.AddNewEvent_Reminder_Tomorrow)+"  ("+FormatDate(dt_tomorrow)+")";
+        String str_totomorrow  = getString(R.string.AddNewEvent_Reminder_ToTomorrow)+"  ("+FormatDate(dt_totomorrow)+")";
+
         ArrayList<PopupMenuItem> reminderPopupMenuItems = new ArrayList<PopupMenuItem>(){
             {
-                add(new PopupMenuItem(0, getString(R.string.AddNewEvent_Reminder_Today)+FormatDate(dt_today),R.drawable.ic_remind_today_24));
-                add(new PopupMenuItem(1, getString(R.string.AddNewEvent_Reminder_Tomorrow)+FormatDate(dt_tomorrow),R.drawable.ic_remind_tomorrow_24));
-                add(new PopupMenuItem(2, getString(R.string.AddNewEvent_Reminder_ToTomorrow)+FormatDate(dt_totomorrow),R.drawable.ic_remind_next_week_24));
+                add(new PopupMenuItem(0, str_today,R.drawable.ic_remind_today_24));
+                add(new PopupMenuItem(1, str_tomorrow,R.drawable.ic_remind_tomorrow_24));
+                add(new PopupMenuItem(2, str_totomorrow,R.drawable.ic_remind_next_week_24));
                 add(new PopupMenuItem(3, getString(R.string.AddNewEvent_Reminder_SelectADate),R.drawable.ic_reminder_24));
             }
         };
         PopupMenuItem.OnClickListener onPopupMenuItemClickListener = new PopupMenuItem.OnClickListener(){
             @Override
             public void onPopupMenuItemClicked(@NotNull PopupMenuItem popupMenuItem) {
-
                 switch (popupMenuItem.getId()){
                     case 0:
                         todoItemReminderTime=dt_today;
+                        mTextView_Reminder.setText(str_today);
                         break;
                     case 1:
                         todoItemReminderTime=dt_tomorrow;
+                        mTextView_Reminder.setText(str_tomorrow);
                         break;
                     case 2:
                         todoItemReminderTime=dt_totomorrow;
+                        mTextView_Reminder.setText(str_totomorrow);
                         break;
                     case 3:
-                        onClick_SelectCalendaButton(null);
+                        onClick_SelectCalendaButton(1);
                         break;
                 }
+
             }
         };
         showPopupMenu(findViewById(R.id.select_reminder), reminderPopupMenuItems, PopupMenu.ItemCheckableBehavior.NONE, onPopupMenuItemClickListener);
