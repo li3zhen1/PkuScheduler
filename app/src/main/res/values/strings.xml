@@ -14,6 +14,19 @@
     <string name="VerificationActivity_VerificationCodeMissing">验证码填写不正确</string>
 
 
+
+
+    <string name="AddNewEvent_DateTime_Today">今天</string>
+    <string name="AddNewEvent_DateTime_Tomorrow">明天</string>
+    <string name="AddNewEvent_DateTime_Weekend" >后天</string>
+    <string name="AddNewEvent_DateTime_SelectADate">选择一个日期</string>
+
+    <string name="AddNewEvent_Reminder_Today">今天晚些时候</string>
+    <string name="AddNewEvent_Reminder_Tomorrow">明天</string>
+    <string name="AddNewEvent_Reminder_ToTomorrow">后天</string>
+    <string name="AddNewEvent_Reminder_SelectADate">选择一个日期</string>
+
+
     <string name="TodayActivity_CoursesTitle">日程</string>
     <string name="TodayActivity_DeadlinesTitle">计划</string>
 
@@ -50,5 +63,6 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_create_event">CreateEventActivity</string>
+    <string name="AddNewEvent_Confirm">完成</string>
 </resources>
 

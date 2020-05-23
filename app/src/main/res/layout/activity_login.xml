@@ -67,8 +67,6 @@
         app:layout_constraintStart_toEndOf="@id/privacy_button"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintVertical_bias="1.0"/>
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/login_form"
             android:layout_width="match_parent"
