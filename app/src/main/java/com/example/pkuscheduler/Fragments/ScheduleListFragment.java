@@ -41,7 +41,7 @@ public class ScheduleListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private View mView;
-    private List<ToDoItem> toDoItems =new ArrayList<>();
+    public List<ToDoItem> toDoItems =new ArrayList<>();
     private ToDoItemRecyclerViewAdapter adapter;
     private EmptySpecifiedRecyclerView mRecyclerView;
     private FetchScheduleInfoFromStorage fetchScheduleInfoFromStorage;
@@ -50,6 +50,10 @@ public class ScheduleListFragment extends Fragment {
     private final Long MILLISECONDS_OF_A_WEEK = Long.valueOf(604800000);
     public ItemTouchHelper itemTouchHelper;
 
+    public void addTodoItem(ToDoItem toDoItem){
+        this.toDoItems.add(toDoItem);
+        adapter.notifyItemInserted(toDoItems.size()-1);
+    }
 
     public ScheduleListFragment() {
     }

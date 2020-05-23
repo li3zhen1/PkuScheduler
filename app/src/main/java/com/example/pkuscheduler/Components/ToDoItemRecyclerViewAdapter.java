@@ -3,19 +3,14 @@ package com.example.pkuscheduler.Components;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.icu.text.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.R;
-import com.example.pkuscheduler.Utils.UI.LengthConveter;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
 import java.util.Collections;
@@ -71,7 +66,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
                 dateFormat.format( items.get(position).getEndTime())
                 +"  " +timeFormat.format( items.get(position).getEndTime())
         );
-        holder.mEventTypeView.setText(items.get(position).getScheduleTag());
+        holder.mEventTypeView.setText(items.get(position).getScheduleDescription());
         holder.mCourseSourceView.setText(items.get(position).getScheduleCourseSource());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

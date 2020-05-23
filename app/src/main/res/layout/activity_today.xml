@@ -107,7 +107,8 @@
             >
             <fragment android:name="com.example.pkuscheduler.Fragments.ScheduleListFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:id="@+id/schedule_list_fragment"/>
         </ScrollView>
 
 

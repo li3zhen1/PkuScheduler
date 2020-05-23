@@ -18,7 +18,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +31,7 @@ public class ToDoItem implements ISchedulable {
     private static final String userDefinedStoragePath = "ToDoItemList.json";
     private static final String courseStoragePath = "CourseToDoItemList.json";
     private Date EndTime;
-    private String ScheduleTag;
+    private String ScheduleDescription;
 
 
     private boolean isFromCourse;
@@ -41,48 +40,46 @@ public class ToDoItem implements ISchedulable {
 
 
     private boolean HasReminder;
-    private ArrayList<Date> ScheduleReminderTimeList;
+    private Date ScheduleReminderTime;
     private boolean isDone;
 
     public ToDoItem(){}
-
     //自定义
     public ToDoItem(@NonNull String scheduleTitle, @Nullable Date endTime,
-                    @Nullable String scheduleDescription, @Nullable ArrayList<Date> scheduleReminderTimeList) {
+                    @Nullable String scheduleDescription, @Nullable Date scheduleReminderTime) {
         ScheduleTitle = scheduleTitle;
         EndTime = endTime;
-        ScheduleTag = scheduleDescription;
+        ScheduleDescription = scheduleDescription;
         isFromCourse = false;
         isDone=false;
         ScheduleCourseSource = null;
-        if(scheduleReminderTimeList==null){
+        if(scheduleReminderTime==null){
             HasReminder = false;
-            ScheduleReminderTimeList = null;
+            ScheduleReminderTime = null;
         }
         else{
             HasReminder = true;
-            ScheduleReminderTimeList = scheduleReminderTimeList;
+            ScheduleReminderTime = scheduleReminderTime;
         }
     }
 
-
     //从教学网
-    public ToDoItem(@NonNull CourseRawToDoItemsRootObject courseRawToDoItemsRootObject, @Nullable ArrayList<Date> scheduleReminderTimeList){
+    public ToDoItem(@NonNull CourseRawToDoItemsRootObject courseRawToDoItemsRootObject, @Nullable Date scheduleReminderTime){
         ScheduleTitle = courseRawToDoItemsRootObject.title;
         EndTime = courseRawToDoItemsRootObject.end;
-        ScheduleTag = courseRawToDoItemsRootObject.eventType;
+        ScheduleDescription = courseRawToDoItemsRootObject.eventType;
         isFromCourse = true;
         CourseObjectIdentifier = courseRawToDoItemsRootObject.id;
         isDone = false;
         ScheduleCourseSource = courseRawToDoItemsRootObject.calendarName.substring(0, courseRawToDoItemsRootObject.calendarName.length()-13)
                 .replace("（","(").replace("）",")");
-        if(scheduleReminderTimeList==null){
+        if(scheduleReminderTime==null){
             HasReminder = false;
-            ScheduleReminderTimeList = null;
+            ScheduleReminderTime = null;
         }
         else{
             HasReminder = true;
-            ScheduleReminderTimeList = scheduleReminderTimeList;
+            ScheduleReminderTime = scheduleReminderTime;
         }
     }
 
@@ -114,24 +111,25 @@ public class ToDoItem implements ISchedulable {
         EndTime = endTime;
     }
 
-    public void setScheduleReminderTimeList(ArrayList<Date> scheduleReminderTimeList) {
-        ScheduleReminderTimeList = scheduleReminderTimeList;
+    public void setScheduleReminderTimeList(Date scheduleReminderTime) {
+        ScheduleReminderTime = scheduleReminderTime;
     }
 
-    public void setScheduleTag(String scheduleTag) {
-        ScheduleTag = scheduleTag;
+
+    public void setScheduleDescription(String scheduleDescription) {
+        ScheduleDescription = scheduleDescription;
     }
 
     public void setScheduleTitle(@NonNull String scheduleTitle) {
         ScheduleTitle = scheduleTitle;
     }
 
-    public ArrayList<Date> getScheduleReminderTimeList() {
-        return ScheduleReminderTimeList;
+    public Date getScheduleReminderTimeList() {
+        return ScheduleReminderTime;
     }
 
-    public String getScheduleTag() {
-        return ScheduleTag;
+    public String getScheduleDescription() {
+        return ScheduleDescription;
     }
 
     @Override
@@ -172,7 +170,7 @@ public class ToDoItem implements ISchedulable {
 
             if(this.getEndTime() == other.getEndTime()
             && this.getScheduleTitle()==other.getScheduleTitle()
-            && this.getScheduleTag()==other.getScheduleTag()){
+            && this.getScheduleDescription()==other.getScheduleDescription()){
                 return true;
             }
         }
