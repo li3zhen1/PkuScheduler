@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.AsyncTask;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -14,7 +15,7 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +42,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
     private View root_view;
     private ToDoItem mJustDeletedToDoItem;
     private int mIndexOfDeletedToDoItem;
-    private DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.CHINA);
-    private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.CHINA);
+    private DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.CHINA);
 
     public ToDoItemRecyclerViewAdapter(List<ToDoItem> _toDoItems, View rootview) {
         this.items = _toDoItems;
@@ -115,8 +116,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
             }
         });
 
-        holder.mCheckBox.setOnCheckedChangeListener(
-                (buttonView, isChecked) -> {
+        holder.mCheckBox.setOnClickListener(
+                (view) -> {
                     onItemCompleted(position);
                 }
 
@@ -210,7 +211,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         public final TextView mEventTypeView;
         public final TextView mCourseSourceView;
         public final ConstraintLayout mSyncIndicator;
-        public CheckBox mCheckBox;
+        public ImageButton mCheckBox;
         public ToDoItem mItem;
         public final ConstraintLayout mLinearLayout;
 
@@ -221,7 +222,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
             mDueTimeView = (TextView) view.findViewById(R.id.todo_item_description);
             mEventTypeView =(TextView) view.findViewById(R.id.todo_item_eventtype);
             mCourseSourceView= (TextView) view.findViewById(R.id.todo_item_coursesource);
-            mCheckBox =(CheckBox) view.findViewById(R.id.todo_item_checkbox);
+            mCheckBox =(ImageButton) view.findViewById(R.id.todo_item_checkbox);
             mLinearLayout = (ConstraintLayout)view.findViewById(R.id.todo_item_container);
             mSyncIndicator = (ConstraintLayout)view.findViewById(R.id.submit_status_sync_indicator);
         }

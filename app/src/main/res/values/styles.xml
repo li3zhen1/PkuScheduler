@@ -22,7 +22,6 @@
     </style>
 
     <style name="BlueTag">
-        <item name="fontFamily">@font/inter</item>
         <item name="android:textColor">@color/colorBrandingBlue</item>
         <item name="android:background">@drawable/shape_corner_2dp_shallowblue</item>
         <item name="android:paddingStart">12dp</item>
@@ -31,12 +30,19 @@
     </style>
 
     <style name="RedTag">
-        <item name="fontFamily">@font/inter</item>
         <item name="android:textColor">@color/colorBrandingRed</item>
         <item name="android:background">@drawable/shape_corner_2dp_shallowred</item>
         <item name="android:paddingStart">12dp</item>
         <item name="android:paddingEnd">12dp</item>
         <item name="android:textSize">14dp</item>
+    </style>
+    <style name="GreyTag">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:background">@drawable/shape_corner_2dp_shallowblue</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

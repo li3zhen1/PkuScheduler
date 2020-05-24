@@ -5,6 +5,7 @@ import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class EventDescriptionActivity extends AppCompatActivity {
     private TextView mDeadline;
     private TextView mReminder;
     private TextView mCourseSource;
+    private WebView mWebview;
     private Pangu pangu= new Pangu();
 
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -46,6 +48,7 @@ public class EventDescriptionActivity extends AppCompatActivity {
         mReminder = findViewById(R.id.event_reminder);
         mCourseSource = findViewById(R.id.event_link_to_course);
         mDeadline = findViewById(R.id.event_date_time);
+        // = findViewById(R.id.event_webview);
         mTitle.setText(
                 pangu.spacingText(toDoItem.getScheduleTitle()).replace("("," (").replace(")",") ")
         );
@@ -59,13 +62,22 @@ public class EventDescriptionActivity extends AppCompatActivity {
         }
 
         mDesc.setText(toDoItem.getScheduleDescription());
-        mCourseSource.setText(
-                pangu.spacingText(toDoItem.getScheduleCourseSource()));
+        if(toDoItem.getFromCourse()){
+            mCourseSource.setText(
+                    pangu.spacingText(toDoItem.getScheduleCourseSource())
+            );
+            /*mWebview.getSettings().setJavaScriptEnabled(true);
+            mWebview.setWebViewClient(new WebViewClient());
+            mWebview.loadUrl(ApiRepository.getSubmisstionStatusUrl(toDoItem.CourseObjectIdentifier));*/
+        }
+        else{
+            mCourseSource.setHint("未链接到课程");
+        }
+
         mDeadline.setText(
                 FormatDate(toDoItem.getEndTime())
         );
     }
-
     public void setUpActionBar(){
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setTitle("查看 Deadline");
