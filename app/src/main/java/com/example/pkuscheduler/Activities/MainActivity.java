@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, 22);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
-
         mAlarmManagerSingleShotIdleAvailable = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
