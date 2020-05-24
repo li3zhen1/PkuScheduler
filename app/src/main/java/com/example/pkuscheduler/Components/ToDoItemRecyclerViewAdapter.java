@@ -72,13 +72,21 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
             llp.width=ViewGroup.LayoutParams.MATCH_PARENT;
             holder.mView.setLayoutParams(llp);
         }
-        holder.mTitleView.setText(holder.mItem.getScheduleTitle().replace(" ",""));
-        holder.mDueTimeView.setText(
-                dateFormat.format( items.get(position).getEndTime())
-                +"  " +timeFormat.format( items.get(position).getEndTime())
+        holder.mTitleView.setText(
+                pangu.spacingText(
+                        holder.mItem.getScheduleTitle().replace(" ","")
+                )
         );
-        holder.mEventTypeView.setText(items.get(position).getScheduleDescription());
-        holder.mCourseSourceView.setText(items.get(position).getScheduleCourseSource());
+        holder.mDueTimeView.setText(
+                        dateFormat.format( items.get(position).getEndTime())
+                                +"  " +timeFormat.format( items.get(position).getEndTime())
+        );
+        holder.mEventTypeView.setText(
+                items.get(position).getScheduleDescription()
+        );
+        holder.mCourseSourceView.setText(
+                items.get(position).getScheduleCourseSource()
+        );
         //holder.mCheckBox.setChecked(items.get(position).getIsDone());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
