@@ -90,8 +90,9 @@
                 />
             <TextView
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="12dp"
-                app:layout_constraintStart_toEndOf="@id/todo_item_eventtype"
+
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:id="@+id/todo_item_coursesource"
@@ -104,8 +105,8 @@
     <View android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/shape_corner_24dp_gray_50"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

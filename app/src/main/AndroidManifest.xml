@@ -13,7 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.EventDescriptionActivity"></activity>
+        <receiver
+            android:name=".Receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="intent_alarm_log"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".Activities.EventDescriptionActivity" />
         <activity android:name=".Activities.AddEventActivity" />
         <activity android:name=".Activities.TodayActivity" />
         <activity android:name=".Activities.VerificationActivity" />
@@ -25,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.MainActivity" />
     </application>
 
 </manifest>

@@ -131,13 +131,13 @@ public class ScheduleListFragment extends Fragment {
 
     }
     @SuppressLint("StaticFieldLeak")
-    private class UpdateScheduleInfoFromWebApi extends AsyncTask<Void, Void, String>{
+    private class UpdateScheduleInfoFromWebApi extends AsyncTask<Void, Void, Integer>{
         UpdateScheduleInfoFromWebApi(){
             mMainActivity.RevealSyncingIndicator(true);
         }
 
         @Override
-        protected String doInBackground(Void... voids) {
+        protected Integer doInBackground(Void... voids) {
             List<ToDoItem> _toDoItems = new ArrayList<ToDoItem>();
             List<CourseRawToDoItemsRootObject> _courseRawToDoItemsRootObjects;
             try{
@@ -156,9 +156,10 @@ public class ScheduleListFragment extends Fragment {
                 }
             }catch (Exception e){
                 Log.e("ERR",e.getLocalizedMessage());
-                return "获取CourseApi失败";
+                return -1;//"获取CourseApi失败";
             }
 
+            int distinctCount = 0;
             if(_toDoItems!=null)
             {
                 boolean isDistinct;
@@ -174,6 +175,7 @@ public class ScheduleListFragment extends Fragment {
                         }
                     }
                     if(isDistinct){
+                        distinctCount++;
                         toDoItems.add(td);
                     }
                 }
@@ -181,18 +183,21 @@ public class ScheduleListFragment extends Fragment {
                 try {
                     saveListInstance(toDoItems,getContext());
                 } catch (IOException e) {
-                    return "更新存储来自CourseApi的信息失败";
+                    return -2;//"更新存储来自CourseApi的信息失败";
                 }
-                return "成功";
+                return distinctCount;
             }
-            return "未获取到有效信息";
+            return -3;//"未获取到有效信息";
         }
         @Override
-        protected void onPostExecute(final String returnStatus) {
+        protected void onPostExecute(final Integer returnStatus) {
 
+            if(returnStatus>0){
+                mMainActivity.sendCourseSyncMsg("教学网同步完成","新增了 "+returnStatus+" 项 Deadline",
+                        "新增了 "+returnStatus+" 项 Deadline。"
+                );
+            }
             mMainActivity.RevealSyncingIndicator(false);
-            Log.e("!!!!!!",returnStatus);
-            toDoItems.forEach(toDoItem -> Log.e("!!!",toDoItem.getScheduleTitle()+toDoItem.getIsDone()));
             adapter.notifyDataSetChanged();
             //TODO:Handle Excpetion
         }
