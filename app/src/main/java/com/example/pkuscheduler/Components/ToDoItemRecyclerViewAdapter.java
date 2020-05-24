@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.icu.text.DateFormat;
 import android.os.AsyncTask;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
+import com.example.pkuscheduler.Activities.EventDescriptionActivity;
 import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
@@ -81,16 +84,29 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
                         dateFormat.format( items.get(position).getEndTime())
                                 +"  " +timeFormat.format( items.get(position).getEndTime())
         );
-        holder.mEventTypeView.setText(
-                items.get(position).getScheduleDescription()
-        );
+        if(items.get(position).getScheduleDescription()!=null&&items.get(position).getScheduleDescription().length()>0){
+            holder.mEventTypeView.setText(
+                    items.get(position).getScheduleDescription()
+            );
+        }else{
+            holder.mEventTypeView.setText(
+                    "没有描述"
+            );
+        }
+        if(items.get(position).getScheduleCourseSource()!=null&&items.get(position).getScheduleCourseSource().length()>0){
         holder.mCourseSourceView.setText(
                 items.get(position).getScheduleCourseSource()
         );
+        }else{
+            holder.mCourseSourceView.setVisibility(View.GONE);
+        }
         //holder.mCheckBox.setChecked(items.get(position).getIsDone());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent eventDescIntent = new Intent(mContext, EventDescriptionActivity.class);
+                eventDescIntent.putExtra("SCHEDULE", JSON.toJSONString(items.get(position)));
+                mContext.startActivity(eventDescIntent);
 /*                if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.

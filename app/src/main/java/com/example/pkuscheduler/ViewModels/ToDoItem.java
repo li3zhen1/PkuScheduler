@@ -62,6 +62,9 @@ public class ToDoItem implements ISchedulable {
             ScheduleReminderTime = scheduleReminderTime;
         }
     }
+    public boolean getHasReminder(){
+        return HasReminder;
+    }
 
     //从教学网
     public ToDoItem(@NonNull CourseRawToDoItemsRootObject courseRawToDoItemsRootObject, @Nullable Date scheduleReminderTime){
