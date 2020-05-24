@@ -3,6 +3,7 @@ package com.example.pkuscheduler.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -17,12 +18,14 @@ import com.example.pkuscheduler.ViewModels.ToDoItem;
 public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager = getSupportFragmentManager();
     private ScheduleListFragment ScheduleListFrag;
+    private LinearLayout mSyncingIndicatorConatiner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
         ScheduleListFrag  = (ScheduleListFragment) fragmentManager.findFragmentById(R.id.schedule_list_fragment);
+        mSyncingIndicatorConatiner = findViewById(R.id.main_activity_sync_indicator);
     }
     public void setUpActionBar(){
         getSupportActionBar().hide();
@@ -45,5 +48,18 @@ public class MainActivity extends AppCompatActivity {
             ScheduleListFrag.addTodoItem(JSON.parseObject(data.getStringExtra("NEWSCHEDULE"), ToDoItem.class));
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+    public void RevealSyncingIndicator(boolean _isSyncing){
+        if(mSyncingIndicatorConatiner==null)return;
+        if(_isSyncing){
+            mSyncingIndicatorConatiner.animate()
+                .alpha(1f)
+                .setDuration(300);
+        }
+        else{
+            mSyncingIndicatorConatiner.animate()
+                    .alpha(0f)
+                    .setDuration(600);
+        }
     }
 }

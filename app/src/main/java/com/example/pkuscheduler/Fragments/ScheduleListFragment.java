@@ -3,18 +3,18 @@ package com.example.pkuscheduler.Fragments;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.alibaba.fastjson.JSON;
+import com.example.pkuscheduler.Activities.MainActivity;
 import com.example.pkuscheduler.Components.EmptySpecifiedRecyclerView;
 import com.example.pkuscheduler.Components.ItemTouchHelperClass;
 import com.example.pkuscheduler.Components.ToDoItemRecyclerViewAdapter;
@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.pkuscheduler.ViewModels.ToDoItem.saveListInstance;
 
@@ -49,6 +48,7 @@ public class ScheduleListFragment extends Fragment {
     private CourseLoginInfoModel courseLoginInfoModel;
     private final Long MILLISECONDS_OF_A_WEEK = Long.valueOf(604800000);
     public ItemTouchHelper itemTouchHelper;
+    private MainActivity mMainActivity;
 
     public void addTodoItem(ToDoItem toDoItem){
         this.toDoItems.add(toDoItem);
@@ -67,9 +67,8 @@ public class ScheduleListFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
+        mMainActivity = (MainActivity)getActivity();
     }
 
     @Override
@@ -134,7 +133,7 @@ public class ScheduleListFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
     private class UpdateScheduleInfoFromWebApi extends AsyncTask<Void, Void, String>{
         UpdateScheduleInfoFromWebApi(){
-
+            mMainActivity.RevealSyncingIndicator(true);
         }
 
         @Override
@@ -145,7 +144,8 @@ public class ScheduleListFragment extends Fragment {
                 _courseRawToDoItemsRootObjects
                         = CourseRawToDoItemsRootObject.getInstanceFromWebApi(
                         getContext(),
-                        String.valueOf(System.currentTimeMillis()),
+                        String.valueOf(System.currentTimeMillis()
+                        -+MILLISECONDS_OF_A_WEEK*4),
                         String.valueOf(System.currentTimeMillis()
                                 +MILLISECONDS_OF_A_WEEK*4)
                 );
@@ -189,12 +189,19 @@ public class ScheduleListFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(final String returnStatus) {
+
+            mMainActivity.RevealSyncingIndicator(false);
             Log.e("!!!!!!",returnStatus);
             toDoItems.forEach(toDoItem -> Log.e("!!!",toDoItem.getScheduleTitle()+toDoItem.getIsDone()));
             adapter.notifyDataSetChanged();
             //TODO:Handle Excpetion
         }
 
+        @Override
+        protected void onCancelled() {
+            mMainActivity.RevealSyncingIndicator(false);
+            super.onCancelled();
+        }
     }
 
     @Override

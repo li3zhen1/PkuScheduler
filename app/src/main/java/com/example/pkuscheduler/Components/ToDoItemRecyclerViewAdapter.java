@@ -4,13 +4,18 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.icu.text.DateFormat;
 import android.os.AsyncTask;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +31,7 @@ import java.util.Locale;
 import ws.vinta.pangu.Pangu;
 
 public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRecyclerViewAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter  {
+    private boolean isSyncing_Global = false;
     private final List<ToDoItem> items;
     private Pangu pangu = new Pangu();
     private Context mContext;
@@ -73,7 +79,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         );
         holder.mEventTypeView.setText(items.get(position).getScheduleDescription());
         holder.mCourseSourceView.setText(items.get(position).getScheduleCourseSource());
-
+        //holder.mCheckBox.setChecked(items.get(position).getIsDone());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,8 +93,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
 
         holder.mCheckBox.setOnCheckedChangeListener(
                 (buttonView, isChecked) -> {
-                    holder.mItem.setIsDone(isChecked);
-                    notifyItemChanged(position);
+                    onItemCompleted(position);
                 }
 
         );
@@ -122,6 +127,11 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
 
     @Override
     public void onItemRemoved(final int position) {
+        if(isSyncing_Global){
+            notifyItemChanged(position);
+            Toast.makeText(mContext,"正在和教学网同步，请稍后操作",Toast.LENGTH_LONG).show();
+            return;
+        }
         if(items.get(position).getFromCourse()){
             items.get(position).isSyncing = true;
             notifyItemChanged(position);
@@ -139,6 +149,12 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
 
     @Override
     public void onItemCompleted(int position) {
+        if(isSyncing_Global){
+            notifyItemChanged(position);
+
+            Toast.makeText(mContext,"正在和教学网同步，请稍后操作",Toast.LENGTH_LONG).show();
+            return;
+        }
         if(items.get(position).getFromCourse()){
             items.get(position).isSyncing = true;
             notifyItemChanged(position);
@@ -147,8 +163,10 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
             return;
         }
         else
-        {items.get(position).setIsDone(true);
-            notifyItemChanged(position);}
+        {
+            items.get(position).setIsDone(true);
+            notifyItemChanged(position);
+        }
     }
 
     public int getIncompletedCount() {
@@ -194,6 +212,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         @Override
         protected Integer doInBackground(Void... params) {
             try {
+                isSyncing_Global =true;
                 CourseLoginInfoModel courseLoginInfoModel;
                 if(mContext!=null) {
                     courseLoginInfoModel = CourseLoginInfoModel.getCookie(mContext);
@@ -216,6 +235,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         @Override
         protected void onPostExecute(final Integer returnStatus) {
 
+            isSyncing_Global=false;
             items.get(pos).isSyncing=false;
                 switch (returnStatus){
                     case 0:
@@ -235,7 +255,15 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         View contentView = View.inflate(mContext, R.layout.alertdialog_red, null);
         TextView etName = (TextView) contentView.findViewById(R.id.alert_dialog_desc_no_submission);
-        etName.setText(pangu.spacingText("确认完成了"+items.get(pos).getScheduleCourseSource()+"的"+items.get(pos).getScheduleDescription()+items.get(pos).getScheduleTitle()+"吗？"));
+
+
+        String desc = pangu.spacingText("确认完成了"+items.get(pos).getScheduleCourseSource()+"的"+items.get(pos).getScheduleDescription()+"「"+items.get(pos).getScheduleTitle()+"」吗？");
+
+        final SpannableStringBuilder mSpannableStringBuilder = new SpannableStringBuilder(desc);
+        mSpannableStringBuilder.setSpan(new StyleSpan(Typeface.BOLD),desc.indexOf("「")
+                , desc.indexOf("」")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        etName.setText(mSpannableStringBuilder);
         builder.setView(contentView);
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override

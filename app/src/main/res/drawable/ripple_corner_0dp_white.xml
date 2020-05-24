@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/uifabric_gray_200">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/colorInputField">
     <item>
         <shape>
-            <corners android:radius="8dp"/>
+            <corners android:radius="0dp"/>
             <solid android:color="@color/colorWhite"/>
         </shape>
     </item>
