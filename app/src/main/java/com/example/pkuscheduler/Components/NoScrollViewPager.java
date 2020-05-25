@@ -8,7 +8,8 @@ import androidx.viewpager.widget.ViewPager;
 
 public class NoScrollViewPager extends ViewPager {
 
-    private boolean noScroll = true;
+    private boolean noScroll = false;
+
 
     public NoScrollViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);

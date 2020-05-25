@@ -1,7 +1,6 @@
 package com.example.pkuscheduler.Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.fastjson.JSON;
-import com.example.pkuscheduler.Activities.AddEventActivity;
 import com.example.pkuscheduler.Activities.MainActivity;
 import com.example.pkuscheduler.Components.EmptySpecifiedRecyclerView;
 import com.example.pkuscheduler.Components.ItemTouchHelperClass;
@@ -31,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
 import static com.example.pkuscheduler.ViewModels.ToDoItem.saveListInstance;
 
 /**
@@ -147,7 +143,7 @@ public class ScheduleListFragment extends Fragment {
                         = CourseRawToDoItemsRootObject.getInstanceFromWebApi(
                         getContext(),
                         String.valueOf(System.currentTimeMillis()
-                        -+MILLISECONDS_OF_A_WEEK*4),
+                        -MILLISECONDS_OF_A_WEEK*2),
                         String.valueOf(System.currentTimeMillis()
                                 +MILLISECONDS_OF_A_WEEK*4)
                 );

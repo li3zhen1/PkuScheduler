@@ -2,9 +2,7 @@ package com.example.pkuscheduler.Components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -19,7 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.pkuscheduler.R;
-import com.example.pkuscheduler.Utils.UI.CustomTypefaceSpan;
+
+import java.util.Objects;
 
 public class ScheduleCourseGrid extends FrameLayout {
     private Context mContext;
@@ -99,7 +98,7 @@ public class ScheduleCourseGrid extends FrameLayout {
     private void init(Context context, AttributeSet attrs) {
         mContext = context;
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mView = inflater.inflate(R.layout.schedule_course_grid, this, true);
+        mView = Objects.requireNonNull(inflater).inflate(R.layout.schedule_course_grid, this, true);
         textView = mView.findViewById(R.id.display_title);
         button = mView.findViewById(R.id.display_background);
         //mLayout = mView.findViewById(R.id.course_grid_parent_container);
@@ -120,7 +119,7 @@ public class ScheduleCourseGrid extends FrameLayout {
     public int getDisplayHeight(){return displayHeight;}
     public void setDisplayHeight(int _height){
         displayHeight=_height;
-        button.setHeight((_height));
-        textView.setHeight((_height));
+        button.setHeight(_height);
+        textView.setHeight(_height);
     }
 }

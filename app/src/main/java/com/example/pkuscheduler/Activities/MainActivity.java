@@ -1,13 +1,14 @@
 package com.example.pkuscheduler.Activities;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,26 +18,21 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.FragmentManager;
 
 import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.Components.MainPagerAdapter;
 import com.example.pkuscheduler.Components.NoScrollViewPager;
 import com.example.pkuscheduler.Fragments.ScheduleListFragment;
+import com.example.pkuscheduler.Interfaces.IActionBarHeightGettable;
+import com.example.pkuscheduler.Interfaces.IPageSwitcherAnimatable;
 import com.example.pkuscheduler.R;
-import com.example.pkuscheduler.Receiver.AlarmReceiver;
 import com.example.pkuscheduler.Services.SetLongTermAlarmServices;
 import com.example.pkuscheduler.Utils.UI.LengthConveter;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
-import java.util.Calendar;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
-    FragmentManager fragmentManager = getSupportFragmentManager();
-
-
-
+public class MainActivity extends AppCompatActivity implements IActionBarHeightGettable, IPageSwitcherAnimatable {
     private ImageButton mButton;
     private TextView switcherText_ddl;
     private TextView switcherText_table;
@@ -58,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).setElevation(0);
-        //ScheduleListFrag  = (ScheduleListFragment) fragmentManager.findFragmentById(R.id.schedule_list_fragment);
         swicherButton = findViewById(R.id.switcher_float_button);
         switcherText_ddl = findViewById(R.id.switcher_text_ddl);
         switcherText_table = findViewById(R.id.switcher_text_table);
@@ -72,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel(channelId_fg, channelName_fg, NotificationManager.IMPORTANCE_DEFAULT);
         //setAlarmManagerForDeadlines();
         swicherButton.setOnTouchListener(new View.OnTouchListener() {
-            public float mPosX,mPosY,mCurPosX,mCurPosY;
+            float mPosX,mPosY,mCurPosX,mCurPosY;
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -142,22 +138,8 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(manager).notify(2, notification);
     }
 
-    public void setAlarmManagerForDeadlines(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 22);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,0);
-        mAlarmManagerSingleShotIdleAvailable = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
-        mAlarmManagerSingleShotIdleAvailable.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pi);
-
-    }
-
-
     public void SwitchPage(View view) {
-        switcherUiUpdate(mPager.getCurrentItem());
+        startSwitchAnimation(mPager.getCurrentItem());
         mPager.setCurrentItem(1-mPager.getCurrentItem(),true);
     }
 
@@ -172,30 +154,34 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode==1&&resultCode==RESULT_OK){
             //Toast.makeText(getApplicationContext(),data.getStringExtra("NEWSCHEDULE"),Toast.LENGTH_LONG).show();
-            ((ScheduleListFragment)mPagerAdapter.getItem(0)).addTodoItem(JSON.parseObject(data.getStringExtra("NEWSCHEDULE"), ToDoItem.class));
+            ((ScheduleListFragment)mPagerAdapter.getItem(0)).addTodoItem(JSON.parseObject(Objects.requireNonNull(data).getStringExtra("NEWSCHEDULE"), ToDoItem.class));
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void switcherUiUpdate(int id){
+    public void startSwitchAnimation(int id){
         if(id==0){
             ObjectAnimator animation = ObjectAnimator.ofFloat(swicherButton, "translationX", (float) LengthConveter.DpToPx(108,this));
             mButton.animate().alpha(0).setDuration(160).start();
             mButton.setClickable(false);
             switcherText_ddl.setTextColor(0xffffffff);
             switcherText_table.setTextColor(0xff757575);
-            animation.setDuration(160);
-            animation.start();
+            animation.setDuration(160).start();
         }
         else{
             ObjectAnimator animation = ObjectAnimator.ofFloat(swicherButton, "translationX", (float) LengthConveter.DpToPx(0,this));
-
             mButton.animate().alpha(1).setDuration(160).start();
             mButton.setClickable(true);
             switcherText_ddl.setTextColor(0xff757575);
             switcherText_table.setTextColor(0xffffffff);
-            animation.setDuration(160);
-            animation.start();
+            animation.setDuration(160).start();
         }
+    }
+
+    public int getActionBarHeight(){
+        TypedValue typedValue = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true))
+            return TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
+        return 144;
     }
 }
