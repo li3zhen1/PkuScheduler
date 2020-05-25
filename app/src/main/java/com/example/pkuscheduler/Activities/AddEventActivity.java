@@ -1,28 +1,21 @@
 package com.example.pkuscheduler.Activities;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.microsoft.officeuifabric.datetimepicker.DateTimePickerDialog;
@@ -34,12 +27,8 @@ import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-
-import ws.vinta.pangu.Pangu;
 
 public class AddEventActivity extends AppCompatActivity {
 

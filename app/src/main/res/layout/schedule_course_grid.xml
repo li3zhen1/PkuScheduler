@@ -18,20 +18,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/display_background"
-        android:background="@drawable/ripple_corner_8dp_accent_red"
+        android:elevation="0dp"
+        style="?android:attr/borderlessButtonStyle"
         />
     <TextView
         android:focusable="false"
         android:clickable="false"
         android:longClickable="false"
-        android:textSize="@dimen/GridTitleTextSize"
         android:textColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/display_title"
         android:fontFamily="@font/inter"
         android:textFontWeight="700"
-        android:padding="12dp"
-        android:elevation="12dp"/>
+        android:elevation="2dp"
+        android:padding="6dp"/>
 
 </FrameLayout>

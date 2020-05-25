@@ -1,11 +1,5 @@
 package com.example.pkuscheduler.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.alibaba.fastjson.JSON;
-import com.example.pkuscheduler.Models.CourseLoginInfoModel;
-import com.microsoft.officeuifabric.drawer.Drawer;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +8,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,9 +15,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.pkuscheduler.Models.CourseLoginInfoModel;
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
+import com.microsoft.officeuifabric.drawer.Drawer;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -156,7 +154,6 @@ public class LoginActivity extends AppCompatActivity {
     public void ShowPrivacyPolicyDrawer(View view){
         Drawer drawer = Drawer.newInstance(R.layout.drawer_privacy_policy);
         drawer.show(getSupportFragmentManager(),null);
-
     }
 
     public void TransitionToVerificationActivity(){

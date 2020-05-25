@@ -112,14 +112,14 @@ public class ScheduleCourseGrid extends FrameLayout {
 
     public void setDisplayWidth(int _width) {
         displayWidth=_width;
-        button.setWidth(_width);
-        textView.setWidth(_width);
+        button.getLayoutParams().width = LayoutParams.MATCH_PARENT;
+        button.getLayoutParams().width = LayoutParams.MATCH_PARENT;
     }
     public int getDisplayWidth(){return displayWidth;}
     public int getDisplayHeight(){return displayHeight;}
     public void setDisplayHeight(int _height){
         displayHeight=_height;
-        button.setHeight(_height);
-        textView.setHeight(_height);
+        button.getLayoutParams().height = displayHeight;
+        textView.getLayoutParams().height = displayHeight;
     }
 }
