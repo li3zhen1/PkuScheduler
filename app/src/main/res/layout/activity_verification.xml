@@ -41,7 +41,6 @@
         android:text=""
         android:textColor="@color/colorBlack"
         android:textFontWeight="700"
-        android:fontFamily="@font/source"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

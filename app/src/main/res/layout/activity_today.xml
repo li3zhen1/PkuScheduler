@@ -46,7 +46,7 @@
             android:id="@+id/today_schedule_horizontal_scroll_view"
             android:scrollbars="none"
             >
-            <fragment android:name="com.example.pkuscheduler.Fragments.CourseListFragment"
+            <fragment android:name="com.engrave.pkuscheduler.Fragments.CourseListFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
         </HorizontalScrollView>
@@ -105,7 +105,7 @@
             android:id="@+id/today_schedule_vertical_scroll_view"
             android:scrollbars="none"
             >
-            <fragment android:name="com.example.pkuscheduler.Fragments.ScheduleListFragment"
+            <fragment android:name="com.engrave.pkuscheduler.Fragments.ScheduleListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/schedule_list_fragment"/>

@@ -119,11 +119,11 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:id="@+id/schedule_list_fragment"/>-->
-        <com.example.pkuscheduler.Components.NoScrollViewPager
+        <com.engrave.pkuscheduler.Components.NoScrollViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/main_activity_ViewPager"/>
-        <com.example.pkuscheduler.Components.CircularCoverView
+        <com.engrave.pkuscheduler.Components.CircularCoverView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cover_color="@color/colorBrandingBlue"

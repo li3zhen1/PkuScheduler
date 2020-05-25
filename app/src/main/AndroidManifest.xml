@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.pkuscheduler">
+    package="com.engrave.pkuscheduler">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <receiver
-            android:name=".Receiver.AlarmReceiver"
+            android:name="com.engrave.pkuscheduler.Receiver.AlarmReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -23,20 +23,20 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Activities.EventDescriptionActivity" />
-        <activity android:name=".Activities.AddEventActivity" />
-        <activity android:name=".Activities.TodayActivity" />
-        <activity android:name=".Activities.VerificationActivity" />
-        <activity android:name=".Activities.SplashActivity">
+        <activity android:name="com.engrave.pkuscheduler.Activities.EventDescriptionActivity" />
+        <activity android:name="com.engrave.pkuscheduler.Activities.AddEventActivity" />
+        <activity android:name="com.engrave.pkuscheduler.Activities.TodayActivity" />
+        <activity android:name="com.engrave.pkuscheduler.Activities.VerificationActivity" />
+        <activity android:name="com.engrave.pkuscheduler.Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.MainActivity" />
-        <service android:name=".Services.SetLongTermAlarmServices"/>
+        <activity android:name="com.engrave.pkuscheduler.Activities.LoginActivity" />
+        <activity android:name="com.engrave.pkuscheduler.Activities.MainActivity" />
+        <service android:name="com.engrave.pkuscheduler.Services.SetLongTermAlarmServices"/>
     </application>
 
 </manifest>
