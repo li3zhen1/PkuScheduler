@@ -2,12 +2,14 @@ package com.example.pkuscheduler.Receiver;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.pkuscheduler.Activities.MainActivity;
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
@@ -23,6 +25,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     private int importance= NotificationManager.IMPORTANCE_HIGH;
     @Override
     public void onReceive(Context context, Intent intent) {
+
+
+
         try {
             List<ToDoItem> toDoItems = ToDoItem.getListInstanceFromStorage(context);
             int cnt=0;
@@ -45,6 +50,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     }
     public void sendCourseSyncMsg(Context context, String NotificationTitle, String NotificationDesc,String DetailDesc) {
+        Intent mainAcIntent = new Intent(context, MainActivity.class);
+        mainAcIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, mainAcIntent, PendingIntent.FLAG_NO_CREATE);
         NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         Notification notification = new NotificationCompat.Builder(context, "CourceSync")
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
@@ -57,6 +65,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .bigText(DetailDesc))
                 .setColor(0xff486df1)
                 .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
                 .build();
         Objects.requireNonNull(manager).notify(1, notification);
     }

@@ -1,5 +1,6 @@
 package com.example.pkuscheduler.Activities;
 
+import android.animation.ObjectAnimator;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -7,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import com.example.pkuscheduler.Fragments.ScheduleListFragment;
 import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.Receiver.AlarmReceiver;
 import com.example.pkuscheduler.Services.SetLongTermAlarmServices;
+import com.example.pkuscheduler.Utils.UI.LengthConveter;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
 import java.util.Calendar;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView switcherText_ddl;
     private TextView switcherText_table;
     private View swicherButton;
+    private View swicherBackground;
 
     private NoScrollViewPager mPager;
     private MainPagerAdapter mPagerAdapter;
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         swicherButton = findViewById(R.id.switcher_float_button);
         switcherText_ddl = findViewById(R.id.switcher_text_ddl);
         switcherText_table = findViewById(R.id.switcher_text_table);
+        swicherBackground = findViewById(R.id.switcher_bakground);
         mPager = findViewById(R.id.main_activity_ViewPager);
         mPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -63,6 +68,32 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel(channelId, channelName, importance);
         createNotificationChannel(channelId_fg, channelName_fg, NotificationManager.IMPORTANCE_DEFAULT);
         //setAlarmManagerForDeadlines();
+        swicherButton.setOnTouchListener(new View.OnTouchListener() {
+            public float mPosX,mPosY,mCurPosX,mCurPosY;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mPosX = event.getX();
+                        mPosY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        mCurPosX = event.getX();
+                        mCurPosY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_OUTSIDE:
+                    case MotionEvent.ACTION_UP:
+                        if (mCurPosX - mPosX > 20&&mPager.getCurrentItem()==0) {
+                            SwitchPage(null);
+                        } else
+                            if(mCurPosX - mPosX < -20&&mPager.getCurrentItem()==1){
+                                SwitchPage(null);
+                        }
+                        break;
+                }
+                return true;
+            }
+        });
         startService(
                 new Intent(this, SetLongTermAlarmServices.class)
         );
@@ -121,8 +152,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void SwitchPage(View view) {
 
+    public void SwitchPage(View view) {
+        switcherUiUpdate(mPager.getCurrentItem());
         mPager.setCurrentItem(1-mPager.getCurrentItem(),true);
     }
 
@@ -144,6 +176,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void switcherUiUpdate(int id){
         if(id==0){
+            ObjectAnimator animation = ObjectAnimator.ofFloat(swicherButton, "translationX", (float) LengthConveter.DpToPx(108,this));
+            switcherText_ddl.setTextColor(0xffffffff);
+            switcherText_table.setTextColor(0xff757575);
+            animation.setDuration(160);
+            animation.start();
+        }
+        else{
+            ObjectAnimator animation = ObjectAnimator.ofFloat(swicherButton, "translationX", (float) LengthConveter.DpToPx(0,this));
+            switcherText_ddl.setTextColor(0xff757575);
+            switcherText_table.setTextColor(0xffffffff);
+            animation.setDuration(160);
+            animation.start();
         }
     }
 }

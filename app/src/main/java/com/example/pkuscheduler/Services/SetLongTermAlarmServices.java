@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
@@ -43,10 +44,12 @@ public class SetLongTermAlarmServices extends Service {
     }
 
     public void setAlarmManagerForDeadlines(){
+
+        SharedPreferences sp = this.getSharedPreferences("loginInfo", this.MODE_PRIVATE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 21);
-        calendar.set(Calendar.MINUTE,30);
+        calendar.set(Calendar.HOUR_OF_DAY, sp.getInt("PushNotificationHour",21));
+        calendar.set(Calendar.MINUTE,sp.getInt("PushNotificationHour",30));
         calendar.set(Calendar.SECOND,0);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
