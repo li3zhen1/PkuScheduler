@@ -84,8 +84,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
                 )
         );
         holder.mDueTimeView.setText(
-                        dateFormat.format( items.get(position).getEndTime())
-                                +"  " +timeFormat.format( items.get(position).getEndTime())
+                pangu.spacingText(dateFormat.format( items.get(position).getEndTime())
+                                +"  " +timeFormat.format( items.get(position).getEndTime()))
         );
         if(items.get(position).getScheduleDescription()!=null&&items.get(position).getScheduleDescription().length()>0){
             holder.mEventTypeView.setText(
@@ -110,7 +110,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         }
         else{
             if(items.get(position).getEndTime().getTime()<new Date().getTime()+86400000*3){
-                holder.mDueTimeView.setTextColor(0xfffd9846);
+                holder.mDueTimeView.setTextColor(0xfffbaa61);
                 holder.ddlIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_date_time_orange_24));
             }
         }
