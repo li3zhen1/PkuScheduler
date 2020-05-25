@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.example.pkuscheduler.R;
 import com.example.pkuscheduler.ViewModels.ToDoItem;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -101,6 +103,18 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         }else{
             holder.mCourseSourceView.setVisibility(View.GONE);
         }
+
+        if(items.get(position).getEndTime().getTime()<new Date().getTime()){
+            holder.mDueTimeView.setTextColor(0xfffa4c4b);
+            holder.ddlIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_date_time_red_24));
+        }
+        else{
+            if(items.get(position).getEndTime().getTime()<new Date().getTime()+86400000*3){
+                holder.mDueTimeView.setTextColor(0xfffd9846);
+                holder.ddlIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_date_time_orange_24));
+            }
+        }
+
         //holder.mCheckBox.setChecked(items.get(position).getIsDone());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +142,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         else{
             holder.mSyncIndicator.setVisibility(View.GONE);
         }
+
+
     }
 
     @Override
@@ -214,6 +230,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         public ImageButton mCheckBox;
         public ToDoItem mItem;
         public final ConstraintLayout mLinearLayout;
+        public ImageView ddlIcon;
 
         public ViewHolder(View view) {
             super(view);
@@ -225,6 +242,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
             mCheckBox =(ImageButton) view.findViewById(R.id.todo_item_checkbox);
             mLinearLayout = (ConstraintLayout)view.findViewById(R.id.todo_item_container);
             mSyncIndicator = (ConstraintLayout)view.findViewById(R.id.submit_status_sync_indicator);
+            ddlIcon = view.findViewById(R.id.todo_item_duetime_icon);
         }
 
     }

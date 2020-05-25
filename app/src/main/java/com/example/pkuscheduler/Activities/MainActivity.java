@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    private ImageButton mButton;
     private TextView switcherText_ddl;
     private TextView switcherText_table;
     private View swicherButton;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mPager = findViewById(R.id.main_activity_ViewPager);
         mPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mButton = findViewById(R.id.create_new_item_imagebutton);
         mSyncingIndicatorConatiner = findViewById(R.id.main_activity_sync_indicator);
         createNotificationChannel(channelId, channelName, importance);
         createNotificationChannel(channelId_fg, channelName_fg, NotificationManager.IMPORTANCE_DEFAULT);
@@ -177,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
     public void switcherUiUpdate(int id){
         if(id==0){
             ObjectAnimator animation = ObjectAnimator.ofFloat(swicherButton, "translationX", (float) LengthConveter.DpToPx(108,this));
+            mButton.animate().alpha(0).setDuration(160).start();
+            mButton.setClickable(false);
             switcherText_ddl.setTextColor(0xffffffff);
             switcherText_table.setTextColor(0xff757575);
             animation.setDuration(160);
@@ -184,6 +189,9 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             ObjectAnimator animation = ObjectAnimator.ofFloat(swicherButton, "translationX", (float) LengthConveter.DpToPx(0,this));
+
+            mButton.animate().alpha(1).setDuration(160).start();
+            mButton.setClickable(true);
             switcherText_ddl.setTextColor(0xff757575);
             switcherText_table.setTextColor(0xffffffff);
             animation.setDuration(160);
