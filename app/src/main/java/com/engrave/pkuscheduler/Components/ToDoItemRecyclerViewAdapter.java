@@ -25,16 +25,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.engrave.pkuscheduler.Activities.EventDescriptionActivity;
+import com.engrave.pkuscheduler.Activities.MainActivity;
 import com.engrave.pkuscheduler.Models.CourseLoginInfoModel;
 import com.engrave.pkuscheduler.R;
 import com.engrave.pkuscheduler.ViewModels.ToDoItem;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import ws.vinta.pangu.Pangu;
+
+import static com.engrave.pkuscheduler.ViewModels.ToDoItem.saveListInstance;
 
 public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRecyclerViewAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter  {
     private boolean isSyncing_Global = false;
@@ -52,6 +56,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         root_view = rootview;
         mContext = rootview.getContext();
     }
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -146,6 +152,25 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
 
     }
 
+    @SuppressLint("StaticFieldLeak")
+    public class WriteNewScheduleInfoTask extends AsyncTask<Void, Void, String>{
+        WriteNewScheduleInfoTask(){}
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try{
+                saveListInstance(items,mContext);
+            } catch (IOException e) {
+                return "获取存储的TODO项失败";
+            }
+            return "成功";
+        }
+        @Override
+        protected void onPostExecute(final String returnStatus) {
+            ((MainActivity)mContext).broadcastDatasetChanged();
+        }
+
+    }
     @Override
     public int getItemCount() {
         return items.size();
@@ -181,8 +206,11 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
             return;
         }
         else{
+
             mJustDeletedToDoItem = items.remove(position);
             mIndexOfDeletedToDoItem = position;
+            WriteNewScheduleInfoTask writeNewScheduleInfoTask = new WriteNewScheduleInfoTask();
+            writeNewScheduleInfoTask.execute();
             notifyItemRemoved(position);
         }
         //TODO: wakeup Snackbar to Withdraw
@@ -205,6 +233,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         }
         else
         {
+            WriteNewScheduleInfoTask writeNewScheduleInfoTask = new WriteNewScheduleInfoTask();
+            writeNewScheduleInfoTask.execute();
             items.get(position).setIsDone(true);
             notifyItemChanged(position);
         }

@@ -22,6 +22,7 @@ import androidx.core.app.NotificationCompat;
 import com.alibaba.fastjson.JSON;
 import com.engrave.pkuscheduler.Components.MainPagerAdapter;
 import com.engrave.pkuscheduler.Components.NoScrollViewPager;
+import com.engrave.pkuscheduler.Fragments.CourseListFragment;
 import com.engrave.pkuscheduler.Fragments.ScheduleListFragment;
 import com.engrave.pkuscheduler.Interfaces.IActionBarHeightGettable;
 import com.engrave.pkuscheduler.Interfaces.IPageSwitcherAnimatable;
@@ -183,5 +184,12 @@ public class MainActivity extends AppCompatActivity implements IActionBarHeightG
         if (getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true))
             return TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
         return 144;
+    }
+    public void broadcastDatasetChanged(){
+        if(mPagerAdapter!=null){
+            if(mPagerAdapter.getItem(1) instanceof CourseListFragment){
+                ((CourseListFragment)mPagerAdapter.getItem(1)).startUpdateViewAsyncTask();
+            }
+        }
     }
 }

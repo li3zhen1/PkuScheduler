@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,6 +32,7 @@ import com.engrave.pkuscheduler.ViewModels.ToDoItem;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -180,10 +180,10 @@ public class CourseListFragment extends Fragment {
 
     private void clearDeadlineIndicator(){
         if(firstColumnForDDL!=null)
-            firstColumn.removeAllViews();
+            firstColumnForDDL.removeAllViews();
         if(secondColumnForDDL!=null)
             secondColumnForDDL.removeAllViews();
-        if(thirdColumn!=null)
+        if(thirdColumnForDDL!=null)
             thirdColumnForDDL.removeAllViews();
     }
     private void updateCourseBlocks(){
@@ -199,7 +199,6 @@ public class CourseListFragment extends Fragment {
                                             -CourseTimeRepository.getStartTimeMinute(jsap.kssj))
                                     /60*hourCorrespondingHeight),
                             0,
-
                             hourCorrespondingHeight*(CourseTimeRepository.getStartTimeMinute(jsap.kssj)-420)/60,
                             firstColumn
                     );
@@ -242,7 +241,6 @@ public class CourseListFragment extends Fragment {
 
 
     private ScheduleCourseGrid getCourseGrid(String courseTitle,int blockHeight,float offsetX,float offsetY,FrameLayout parentLayout){
-        Log.e("height",""+blockHeight+","+offsetY+"，"+courseTitle);
         ScheduleCourseGrid courseBlockButton = new ScheduleCourseGrid(this.getContext());
         courseBlockButton.setDisplayButtonBackground(getResources().getDrawable(R.drawable.ripple_course_grid));
         courseBlockButton.setDisplayTitleText(courseTitle);
@@ -280,8 +278,15 @@ public class CourseListFragment extends Fragment {
         }
     }
 
+    public void startUpdateViewAsyncTask(){
 
-    private void updateDeadlineIndicators(){
+        FetchScheduleInfoFromStorage fetchScheduleInfoFromStorage = new FetchScheduleInfoFromStorage();
+        fetchScheduleInfoFromStorage.execute();
+    }
+
+    public void updateDeadlineIndicators(){
+        clearDeadlineIndicator();
+
         Calendar bacon = Calendar.getInstance();
         Calendar baconEnd = Calendar.getInstance();
         bacon.set(Calendar.HOUR_OF_DAY,8);
@@ -500,7 +505,8 @@ public class CourseListFragment extends Fragment {
             }
             if(_toDoItems!=null)
             {
-                toDoItems.addAll(_toDoItems);
+                toDoItems=_toDoItems;
+                toDoItems.sort(Comparator.comparing(toDoItem -> {return toDoItem.getEndTime();}));
             }
             return "成功";
         }
@@ -508,7 +514,6 @@ public class CourseListFragment extends Fragment {
         protected void onPostExecute(final String returnStatus) {
             updateDeadlineIndicators();
         }
-
     }
 
 }

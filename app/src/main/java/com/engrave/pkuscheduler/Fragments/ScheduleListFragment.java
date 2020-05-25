@@ -1,6 +1,7 @@
 package com.engrave.pkuscheduler.Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,8 +55,28 @@ public class ScheduleListFragment extends Fragment {
     public void addTodoItem(ToDoItem toDoItem){
         this.toDoItems.add(toDoItem);
         adapter.notifyDataSetChanged();
+        WriteNewScheduleInfoTask writeNewScheduleInfoTask = new WriteNewScheduleInfoTask();
+        writeNewScheduleInfoTask.execute();
     }
+    @SuppressLint("StaticFieldLeak")
+    public class WriteNewScheduleInfoTask extends AsyncTask<Void, Void, String>{
+        WriteNewScheduleInfoTask(){}
 
+        @Override
+        protected String doInBackground(Void... voids) {
+            try{
+                saveListInstance(toDoItems,getContext());
+            } catch (IOException e) {
+                return "获取存储的TODO项失败";
+            }
+            return "成功";
+        }
+        @Override
+        protected void onPostExecute(final String returnStatus) {
+            sendBroadcastDataChanged();
+        }
+
+    }
     public ScheduleListFragment() {
     }
 
@@ -197,6 +218,7 @@ public class ScheduleListFragment extends Fragment {
             }
             mMainActivity.RevealSyncingIndicator(false);
             adapter.notifyDataSetChanged();
+            sendBroadcastDataChanged();
             //TODO:Handle Excpetion
         }
 
@@ -219,5 +241,11 @@ public class ScheduleListFragment extends Fragment {
         super.onPause();
     }
 
-
+    public void sendBroadcastDataChanged(){
+        Intent i = new Intent("com.engrave.DATA_CHANGED");
+        getActivity().sendBroadcast(i);
+        if(mMainActivity!=null){
+            mMainActivity.broadcastDatasetChanged();
+        }
+    }
 }

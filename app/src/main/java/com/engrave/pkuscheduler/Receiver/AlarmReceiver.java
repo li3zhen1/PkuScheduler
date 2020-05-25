@@ -25,9 +25,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     private int importance= NotificationManager.IMPORTANCE_HIGH;
     @Override
     public void onReceive(Context context, Intent intent) {
-
-
-
         try {
             List<ToDoItem> toDoItems = ToDoItem.getListInstanceFromStorage(context);
             int cnt=0;

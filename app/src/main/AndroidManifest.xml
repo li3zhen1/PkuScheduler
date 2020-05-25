@@ -22,7 +22,14 @@
                 <action android:name="intent_alarm_log"/>
             </intent-filter>
         </receiver>
-
+        <receiver
+            android:name="com.engrave.pkuscheduler.Receiver.DataChangedReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="engrave.pkuscheduler.DATA_CHANGED"/>
+            </intent-filter>
+        </receiver>
         <activity android:name="com.engrave.pkuscheduler.Activities.EventDescriptionActivity" />
         <activity android:name="com.engrave.pkuscheduler.Activities.AddEventActivity" />
         <activity android:name="com.engrave.pkuscheduler.Activities.TodayActivity" />
@@ -30,12 +37,13 @@
         <activity android:name="com.engrave.pkuscheduler.Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name="com.engrave.pkuscheduler.Activities.LoginActivity" />
-        <activity android:name="com.engrave.pkuscheduler.Activities.MainActivity" />
+        <activity android:name="com.engrave.pkuscheduler.Activities.MainActivity">
+
+        </activity>
         <service android:name="com.engrave.pkuscheduler.Services.SetLongTermAlarmServices"/>
     </application>
 
