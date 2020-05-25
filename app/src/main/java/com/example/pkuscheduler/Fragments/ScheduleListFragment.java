@@ -1,6 +1,7 @@
 package com.example.pkuscheduler.Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.fastjson.JSON;
+import com.example.pkuscheduler.Activities.AddEventActivity;
 import com.example.pkuscheduler.Activities.MainActivity;
 import com.example.pkuscheduler.Components.EmptySpecifiedRecyclerView;
 import com.example.pkuscheduler.Components.ItemTouchHelperClass;
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.example.pkuscheduler.ViewModels.ToDoItem.saveListInstance;
 
 /**
@@ -40,6 +44,7 @@ public class ScheduleListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private View mView;
+    private boolean isAltered = false;
     public List<ToDoItem> toDoItems =new ArrayList<>();
     private ToDoItemRecyclerViewAdapter adapter;
     private EmptySpecifiedRecyclerView mRecyclerView;
@@ -101,6 +106,7 @@ public class ScheduleListFragment extends Fragment {
 
         @Override
         protected String doInBackground(Void... voids) {
+            isAltered=true;
             List<ToDoItem> _toDoItems = new ArrayList<ToDoItem>();
 
             try{
@@ -112,11 +118,6 @@ public class ScheduleListFragment extends Fragment {
             {
                 toDoItems.addAll(_toDoItems);
                 toDoItems.sort(Comparator.comparing(toDoItem -> {return toDoItem.getEndTime();}));
-            }
-            try {
-                saveListInstance(toDoItems,getContext());
-            } catch (IOException e) {
-                return "更新存储TODO项失败";
             }
             return "成功";
         }
@@ -138,6 +139,7 @@ public class ScheduleListFragment extends Fragment {
 
         @Override
         protected Integer doInBackground(Void... voids) {
+            isAltered=true;
             List<ToDoItem> _toDoItems = new ArrayList<ToDoItem>();
             List<CourseRawToDoItemsRootObject> _courseRawToDoItemsRootObjects;
             try{
@@ -211,6 +213,7 @@ public class ScheduleListFragment extends Fragment {
 
     @Override
     public void onPause() {
+        if(isAltered)
         try {
             saveListInstance(toDoItems,getContext());
         } catch (IOException e) {
@@ -219,4 +222,6 @@ public class ScheduleListFragment extends Fragment {
         }
         super.onPause();
     }
+
+
 }

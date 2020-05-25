@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="SwitchPage">
 
         <View
             android:layout_width="216dp"
@@ -26,10 +27,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="SwitchPage"/>
 
         <View
-            android:id="@+id/view2"
+            android:id="@+id/switcher_float_button"
             android:layout_width="108dp"
             android:layout_height="36dp"
             android:layout_marginVertical="12dp"
@@ -38,9 +40,11 @@
             android:clickable="true"
             android:elevation="2dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="SwitchPage" />
 
         <TextView
+            android:id="@+id/switcher_text_ddl"
             android:layout_width="108dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -49,9 +53,11 @@
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="SwitchPage"/>
 
         <TextView
+            android:id="@+id/switcher_text_table"
             android:layout_width="108dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="132dp"
@@ -61,7 +67,8 @@
             android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="SwitchPage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -93,7 +100,7 @@
     </LinearLayout>
 
 
-    <LinearLayout
+    <FrameLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -101,16 +108,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:elevation="2dp"
+        android:elevation="4dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/shape_uppercorner_24dp_white">
-        <fragment android:name="com.example.pkuscheduler.Fragments.ScheduleListFragment"
+<!--        <fragment android:name="com.example.pkuscheduler.Fragments.ScheduleListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/schedule_list_fragment"/>-->
+        <com.example.pkuscheduler.Components.NoScrollViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/schedule_list_fragment"/>
-    </LinearLayout>
+            android:id="@+id/main_activity_ViewPager"/>
+        <com.example.pkuscheduler.Components.CircularCoverView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cover_color="@color/colorBrandingBlue"
+            app:left_top_radius="8dp"
+            app:right_top_radius="8dp"
+            android:layout_marginBottom="0dp"
+            app:left_bottom_radius="0dp"
+            app:right_bottom_radius="0dp"
+            />
+    </FrameLayout>
     <ImageButton
-        android:id="@+id/login_button"
+        android:id="@+id/create_new_item_imagebutton"
         android:layout_width="84dp"
         android:layout_height="84dp"
         android:layout_marginEnd="14dp"
@@ -122,7 +143,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:elevation="4dp"
+        android:elevation="8dp"
         android:onClick="CreateNewToDoItem"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

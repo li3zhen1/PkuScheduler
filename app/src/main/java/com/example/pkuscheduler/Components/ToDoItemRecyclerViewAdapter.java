@@ -256,7 +256,6 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
                 return 3;
             }
         }
-
         @Override
         protected void onPostExecute(final Integer returnStatus) {
 
@@ -271,8 +270,15 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
                         RaiseDialogIncompleteDeadline(pos);
                         break;
                     default:
+                        notifyItemChanged(pos);
                         break;
                 }
+        }
+
+        @Override
+        protected void onCancelled() {
+            notifyItemChanged(pos);
+            super.onCancelled();
         }
     }
     private AlertDialog dialog ;
