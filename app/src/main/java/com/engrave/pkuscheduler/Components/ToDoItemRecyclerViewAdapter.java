@@ -30,15 +30,12 @@ import com.engrave.pkuscheduler.Models.CourseLoginInfoModel;
 import com.engrave.pkuscheduler.R;
 import com.engrave.pkuscheduler.ViewModels.ToDoItem;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import ws.vinta.pangu.Pangu;
-
-import static com.engrave.pkuscheduler.ViewModels.ToDoItem.saveListInstance;
 
 public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRecyclerViewAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter  {
     private boolean isSyncing_Global = false;
@@ -106,6 +103,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         holder.mCourseSourceView.setText(
                 items.get(position).getScheduleCourseSource()
         );
+            holder.mCourseSourceView.setVisibility(View.VISIBLE);
         }else{
             holder.mCourseSourceView.setVisibility(View.GONE);
         }
@@ -114,11 +112,13 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
             holder.mDueTimeView.setTextColor(0xfffa4c4b);
             holder.ddlIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_date_time_red_24));
         }
-        else{
-            if(items.get(position).getEndTime().getTime()<new Date().getTime()+86400000*3){
+        else if(items.get(position).getEndTime().getTime()<new Date().getTime()+86400000*3){
                 holder.mDueTimeView.setTextColor(0xfffbaa61);
                 holder.ddlIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_date_time_orange_24));
             }
+        else{
+            holder.mDueTimeView.setTextColor(0xff757575);
+            holder.ddlIcon.setImageDrawable(mContext.getDrawable(R.drawable.ic_date_time_grey_24));
         }
 
         //holder.mCheckBox.setChecked(items.get(position).getIsDone());
@@ -152,25 +152,6 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
 
     }
 
-    @SuppressLint("StaticFieldLeak")
-    public class WriteNewScheduleInfoTask extends AsyncTask<Void, Void, String>{
-        WriteNewScheduleInfoTask(){}
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            try{
-                saveListInstance(items,mContext);
-            } catch (IOException e) {
-                return "获取存储的TODO项失败";
-            }
-            return "成功";
-        }
-        @Override
-        protected void onPostExecute(final String returnStatus) {
-            ((MainActivity)mContext).broadcastDatasetChanged();
-        }
-
-    }
     @Override
     public int getItemCount() {
         return items.size();
@@ -209,8 +190,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
 
             mJustDeletedToDoItem = items.remove(position);
             mIndexOfDeletedToDoItem = position;
-            WriteNewScheduleInfoTask writeNewScheduleInfoTask = new WriteNewScheduleInfoTask();
-            writeNewScheduleInfoTask.execute();
+            if(mContext instanceof  MainActivity)
+                ((MainActivity)mContext).broadcastDatasetChanged(items);
             notifyItemRemoved(position);
         }
         //TODO: wakeup Snackbar to Withdraw
@@ -233,8 +214,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         }
         else
         {
-            WriteNewScheduleInfoTask writeNewScheduleInfoTask = new WriteNewScheduleInfoTask();
-            writeNewScheduleInfoTask.execute();
+            if(mContext instanceof MainActivity)
+                ((MainActivity)mContext).broadcastDatasetChanged(items);
             items.get(position).setIsDone(true);
             notifyItemChanged(position);
         }

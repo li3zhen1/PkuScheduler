@@ -22,14 +22,6 @@
                 <action android:name="intent_alarm_log"/>
             </intent-filter>
         </receiver>
-        <receiver
-            android:name="com.engrave.pkuscheduler.Receiver.DataChangedReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="engrave.pkuscheduler.DATA_CHANGED"/>
-            </intent-filter>
-        </receiver>
         <activity android:name="com.engrave.pkuscheduler.Activities.EventDescriptionActivity" />
         <activity android:name="com.engrave.pkuscheduler.Activities.AddEventActivity" />
         <activity android:name="com.engrave.pkuscheduler.Activities.TodayActivity" />

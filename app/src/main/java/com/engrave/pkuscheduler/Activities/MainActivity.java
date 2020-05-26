@@ -31,6 +31,7 @@ import com.engrave.pkuscheduler.Services.SetLongTermAlarmServices;
 import com.engrave.pkuscheduler.Utils.UI.LengthConveter;
 import com.engrave.pkuscheduler.ViewModels.ToDoItem;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements IActionBarHeightGettable, IPageSwitcherAnimatable {
@@ -190,10 +191,11 @@ public class MainActivity extends AppCompatActivity implements IActionBarHeightG
             return TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
         return 144;
     }
-    public void broadcastDatasetChanged(){
+
+    public void broadcastDatasetChanged(List<ToDoItem> tds){
         if(mPagerAdapter!=null){
             if(mPagerAdapter.getItem(1) instanceof CourseListFragment){
-                ((CourseListFragment)mPagerAdapter.getItem(1)).startUpdateViewAsyncTask();
+                ((CourseListFragment)mPagerAdapter.getItem(1)).startUpdateViewAsyncTask(tds);
             }
         }
     }

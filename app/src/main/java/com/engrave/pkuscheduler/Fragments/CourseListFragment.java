@@ -39,7 +39,6 @@ import java.util.stream.Collectors;
 import static com.engrave.pkuscheduler.Utils.UI.LengthConveter.DpToPx;
 
 public class CourseListFragment extends Fragment {
-
     private List<ToDoItem> toDoItems = new ArrayList<>();
     private int DP12;
     private int hourCorrespondingHeight;
@@ -278,10 +277,10 @@ public class CourseListFragment extends Fragment {
         }
     }
 
-    public void startUpdateViewAsyncTask(){
-
-        FetchScheduleInfoFromStorage fetchScheduleInfoFromStorage = new FetchScheduleInfoFromStorage();
-        fetchScheduleInfoFromStorage.execute();
+    public void startUpdateViewAsyncTask(List<ToDoItem> tds){
+        toDoItems = tds;
+        toDoItems.sort(Comparator.comparing(toDoItem -> {return toDoItem.getEndTime();}));
+        updateDeadlineIndicators();
     }
 
     public void updateDeadlineIndicators(){
