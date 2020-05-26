@@ -329,6 +329,8 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 items.get(pos).setIsDone(true);
+                if(mContext instanceof MainActivity)
+                    ((MainActivity)mContext).broadcastDatasetChanged(items);
                 notifyItemChanged(pos);
             }
         });
