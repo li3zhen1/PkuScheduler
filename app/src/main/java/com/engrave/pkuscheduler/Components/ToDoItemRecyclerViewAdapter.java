@@ -190,7 +190,7 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
 
             mJustDeletedToDoItem = items.remove(position);
             mIndexOfDeletedToDoItem = position;
-            if(mContext instanceof  MainActivity)
+            if(mContext instanceof MainActivity)
                 ((MainActivity)mContext).broadcastDatasetChanged(items);
             notifyItemRemoved(position);
         }
@@ -214,9 +214,9 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
         }
         else
         {
+            items.get(position).setIsDone(true);
             if(mContext instanceof MainActivity)
                 ((MainActivity)mContext).broadcastDatasetChanged(items);
-            items.get(position).setIsDone(true);
             notifyItemChanged(position);
         }
     }
