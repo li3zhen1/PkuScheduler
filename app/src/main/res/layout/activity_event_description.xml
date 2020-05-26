@@ -107,12 +107,12 @@
             android:padding="12dp"
             android:textColor="@color/colorBrandingGrey"
             android:textSize="16sp"
-            android:drawableLeft="@drawable/ic_date_time_24"
+            android:drawableStart="@drawable/ic_date_time_24"
             />
         <View android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/shape_corner_24dp_gray_50"
             android:layout_marginVertical="4dp"/>
         <TextView android:layout_width="match_parent"
@@ -125,14 +125,14 @@
             android:padding="12dp"
             android:textColor="@color/colorBrandingGrey"
             android:textSize="16sp"
-            android:drawableLeft="@drawable/ic_reminder_24"
+            android:drawableStart="@drawable/ic_reminder_24"
             android:id="@+id/event_reminder"
             />
 
         <View android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/shape_corner_24dp_gray_50"
             android:layout_marginVertical="4dp"/>
         <TextView android:layout_width="match_parent"
@@ -145,13 +145,13 @@
             android:padding="12dp"
             android:textColor="@color/colorBrandingGrey"
             android:textSize="16sp"
-            android:drawableLeft="@drawable/ic_shortcut_24"
+            android:drawableStart="@drawable/ic_shortcut_24"
             android:id="@+id/event_link_to_course"
             />
         <View android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/shape_corner_24dp_gray_50"
             android:layout_marginVertical="4dp"/>
         <TextView android:layout_width="match_parent"
@@ -165,14 +165,13 @@
             android:padding="12dp"
             android:textColor="@color/colorBrandingGrey"
             android:textSize="16sp"
-            android:drawableLeft="@drawable/ic_add_file_24"
+            android:drawableStart="@drawable/ic_add_file_24"
             android:id="@+id/event_todo_description"
-            android:inputType="textMultiLine"
             />
         <View android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/shape_corner_24dp_gray_50"
             android:layout_marginVertical="4dp"/>
     </LinearLayout>

@@ -295,6 +295,9 @@ public class ToDoItemRecyclerViewAdapter extends RecyclerView.Adapter<ToDoItemRe
                 switch (returnStatus){
                     case 0:
                         items.get(pos).setIsDone(true);
+                        if(mContext instanceof MainActivity){
+                            ((MainActivity)mContext).broadcastDatasetChanged(items);
+                            ((MainActivity) mContext).broadcaseNoDDL();}
                         notifyItemChanged(pos);
                         break;
                     case 1:

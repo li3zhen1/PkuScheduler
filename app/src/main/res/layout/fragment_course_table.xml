@@ -141,14 +141,14 @@
         android:layout_marginTop="47dp"
         app:layout_constraintTop_toTopOf="parent"/>
     <TextView
-
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="6dp"
         android:minWidth="28dp"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:background="@drawable/shape_now"
         android:id="@+id/now_indicator"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:text="NOW"
         android:paddingHorizontal="12dp"
         android:textColor="@color/colorWhite"

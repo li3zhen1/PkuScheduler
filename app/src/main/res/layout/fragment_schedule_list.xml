@@ -22,7 +22,7 @@
                 android:layout_height="320dp"
                 android:src="@drawable/ic_nodeadlines"
                 android:alpha="0.2"
-                />
+                android:contentDescription="IllustrationForRelaxation" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
