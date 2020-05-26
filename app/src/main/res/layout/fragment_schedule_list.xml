@@ -12,9 +12,23 @@
             android:id="@+id/schedule_list_empty_view_container"
             android:orientation="vertical"
             android:gravity="center"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <!--Decoration-->
+            <ImageView
+                android:layout_width="320dp"
+                android:layout_height="320dp"
+                android:src="@drawable/ic_nodeadlines"
+                android:alpha="0.25"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="目前没有 Deadline"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="#20000000"/>
         </LinearLayout>
 
         <com.engrave.pkuscheduler.Components.EmptySpecifiedRecyclerView

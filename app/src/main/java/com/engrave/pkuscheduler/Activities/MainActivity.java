@@ -199,4 +199,12 @@ public class MainActivity extends AppCompatActivity implements IActionBarHeightG
             }
         }
     }
+
+    public void broadcaseNoDDL(){
+        if(mPagerAdapter!=null){
+            if(mPagerAdapter.getItem(0) instanceof ScheduleListFragment){
+                ((ScheduleListFragment)mPagerAdapter.getItem(0)).broadcastRecyclerViewToShowEmpty();
+            }
+        }
+    }
 }

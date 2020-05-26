@@ -12,7 +12,7 @@ public class EmptySpecifiedRecyclerView extends RecyclerView {
     private RecyclerView.AdapterDataObserver observer = new AdapterDataObserver() {
         @Override
         public void onChanged() {
-
+            super.onChanged();
             showEmptyView();
         }
 
@@ -27,7 +27,6 @@ public class EmptySpecifiedRecyclerView extends RecyclerView {
             super.onItemRangeRemoved(positionStart, itemCount);
             showEmptyView();
         }
-
     };
 
 

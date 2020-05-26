@@ -97,6 +97,9 @@ public class ScheduleListFragment extends Fragment {
         return mView;
     }
 
+    public void broadcastRecyclerViewToShowEmpty(){
+        mRecyclerView.showEmptyView();
+    }
     @SuppressLint("StaticFieldLeak")
     private class FetchScheduleInfoFromStorage extends AsyncTask<Void, Void, String>{
         FetchScheduleInfoFromStorage(){}
