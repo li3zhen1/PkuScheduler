@@ -164,7 +164,7 @@ public class ScheduleListFragment extends Fragment {
                         = CourseRawToDoItemsRootObject.getInstanceFromWebApi(
                         getContext(),
                         String.valueOf(System.currentTimeMillis()
-                        -MILLISECONDS_OF_A_WEEK*2),
+                        -MILLISECONDS_OF_A_WEEK*1),
                         String.valueOf(System.currentTimeMillis()
                                 +MILLISECONDS_OF_A_WEEK*4)
                 );

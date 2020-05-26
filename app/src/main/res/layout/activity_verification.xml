@@ -120,7 +120,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="40dp"
                 android:layout_marginBottom="72dp"
-                app:layout_constraintBottom_toTopOf="@+id/sendCode_button"
+                app:layout_constraintBottom_toTopOf="@id/sendCode_button"
                 android:visibility="invisible"
                 >
                 <TextView
@@ -240,7 +240,7 @@
                 android:layout_marginBottom="0dp"
                 android:background="@drawable/ripple_corner_24dp_accent_red"
                 android:fontFamily="@font/inter"
-                android:hint="@string/VerificationActivity_SendVerificationCode"
+                android:text="@string/VerificationActivity_SendVerificationCode"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:textColor="@color/colorWhite"

@@ -94,9 +94,14 @@ public class MainActivity extends AppCompatActivity implements IActionBarHeightG
                 return true;
             }
         });
-        startService(
-                new Intent(this, SetLongTermAlarmServices.class)
-        );
+        try{
+            startService(
+                    new Intent(this, SetLongTermAlarmServices.class)
+            );
+        }
+        catch (Exception e){
+
+        }
     }
 
 

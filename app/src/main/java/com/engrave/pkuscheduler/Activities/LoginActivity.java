@@ -132,6 +132,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void AttemptLogin(View view){
+        LoginSubmitButton.setElevation(0);
+        LoginSubmitButton.setBackground(getDrawable(R.drawable.disabled_button));
+        LoginSubmitButton.setClickable(false);
         UserLoginTask userLoginTask = new UserLoginTask(
                 LoginStudentIdView.getText().toString(),
                 LoginPasswordView.getText().toString()
@@ -142,6 +145,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void ResetLottieButton(){
+        LoginSubmitButton.setElevation(16);
+        LoginSubmitButton.setBackground(getDrawable(R.drawable.ripple_corner_24dp_accent_red));
+        LoginSubmitButton.setClickable(true);
         LottieButton.pauseAnimation();
         LottieButton.setFrame(0);
         LottieButtonLoading.pauseAnimation();
