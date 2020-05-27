@@ -122,18 +122,7 @@ public class VerificationActivity extends AppCompatActivity {
         PkuHelperAskPinTask pkuHelperAskPinTask = new PkuHelperAskPinTask(studentId);
         pkuHelperAskPinTask.execute();
     }
-    Runnable runnable = new Runnable() {
-        private int leftSeconds = 60;
-        public void run() {
-            this.update();
-            if(leftSeconds>0)
-                handler.postDelayed(this, 1000);
-            leftSeconds--;
-        }
-        void update() {
-            updateVerificationButton(leftSeconds);
-        }
-    };
+
 
     @SuppressLint("StaticFieldLeak")
     private class PkuHelperAskPinTask extends AsyncTask<Void, Void, String>{
@@ -163,6 +152,18 @@ public class VerificationActivity extends AppCompatActivity {
         protected void onPostExecute(final String str){
             CodeCoreText.setVisibility(View.VISIBLE);
             findViewById(R.id.verification_form).setVisibility(View.VISIBLE);
+            Runnable runnable = new Runnable() {
+                private int leftSeconds = 60;
+                public void run() {
+                    this.update();
+                    if(leftSeconds>0)
+                        handler.postDelayed(this, 1000);
+                    leftSeconds--;
+                }
+                void update() {
+                    updateVerificationButton(leftSeconds);
+                }
+            };
             runnable.run();
             CodeCoreText.requestFocus();
             CodeCoreText.requestFocusFromTouch();

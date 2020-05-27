@@ -24,6 +24,8 @@ import com.engrave.pkuscheduler.R;
 import com.engrave.pkuscheduler.Utils.PkuCourse.PkuCourseLoginClient;
 import com.microsoft.officeuifabric.drawer.Drawer;
 
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity {
 
     private TextView LoginStudentIdView;
@@ -46,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setUpActionBar(){
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(0x00ffffff);
@@ -115,19 +117,17 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Integer returnStatus) {
 
-            switch (returnStatus){
-                case 0:
-                    TransitionToVerificationActivity();
-                    break;
-                default:
-                    Toast.makeText(getApplicationContext(),"Something went wrong...",Toast.LENGTH_LONG).show();
-                    ResetLottieButton();
+            if (returnStatus == 0) {
+                TransitionToVerificationActivity();
+            } else {
+                Toast.makeText(getApplicationContext(), "Something went wrong...", Toast.LENGTH_LONG).show();
+                ResetLottieButton();
             }
         }
 
         @Override
         protected void onCancelled() {
-            Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_LONG).show();
         }
     }
 
