@@ -50,8 +50,10 @@
                 android:id="@+id/filtered_todo_item_description"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:gravity="center"
-                style="@style/InterText"/>
+                android:gravity="center_vertical"
+                style="@style/InterText"
+                android:ellipsize = "end"
+                android:maxWidth="260dp"/>
             <ImageView
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -68,8 +70,10 @@
                 app:layout_constraintStart_toEndOf="@id/filtered_todo_item_hashtag_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:id="@+id/filtered_todo_item_eventtype"
+                android:ellipsize = "end"
+                android:maxWidth="80dp"
                 />
             <TextView
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -77,6 +81,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:id="@+id/filtered_todo_item_coursesource"
+                android:ellipsize = "end"
+                android:maxWidth="220dp"
                 style="@style/GreyTag"
                 />
 

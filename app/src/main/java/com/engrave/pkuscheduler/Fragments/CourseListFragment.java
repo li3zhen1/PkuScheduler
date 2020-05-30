@@ -186,9 +186,10 @@ public class CourseListFragment extends Fragment {
             thirdColumnForDDL.removeAllViews();
     }
     private void updateCourseBlocks(){
-        String dayOfWeek = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1);
-        String _dayOfWeek = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
-        String __dayOfWeek = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)+1);
+        int wkd = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        String dayOfWeek = String.valueOf(wkd>1?wkd:7);
+        String _dayOfWeek = String.valueOf(wkd);
+        String __dayOfWeek = String.valueOf(wkd==7?1:wkd);
         for(Coursetableroom coursetableroom: scheduleRootObject.courseTableRoom){
             for(Jsap jsap:coursetableroom.jsap){
                 if(jsap.xq.equals(dayOfWeek)){;
