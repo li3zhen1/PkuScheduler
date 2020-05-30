@@ -187,9 +187,9 @@ public class CourseListFragment extends Fragment {
     }
     private void updateCourseBlocks(){
         int wkd = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-        String dayOfWeek = String.valueOf(wkd>1?wkd:7);
+        String dayOfWeek = String.valueOf(wkd<2?7:wkd-1);
         String _dayOfWeek = String.valueOf(wkd);
-        String __dayOfWeek = String.valueOf(wkd==7?1:wkd);
+        String __dayOfWeek = String.valueOf(wkd>6?1:wkd+1);
         for(Coursetableroom coursetableroom: scheduleRootObject.courseTableRoom){
             for(Jsap jsap:coursetableroom.jsap){
                 if(jsap.xq.equals(dayOfWeek)){;
