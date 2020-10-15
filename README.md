@@ -1,6 +1,6 @@
 # PkuScheduler
 
-Archived. see (Scheduler)[https://github.com/HereIsLz/Scheduler]
+Archived. see [Scheduler](https://github.com/HereIsLz/Scheduler)
 
 连接到北京大学教学网进行日程管理，基于爬虫。
 minSDK: Android 26
